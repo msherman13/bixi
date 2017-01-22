@@ -21,42 +21,6 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, NEO_GRB + NE
 bool oldState = HIGH;
 int showType = 0;
 
-void setup() {
-
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
-}
-
-void loop()
-{
-    startShow(6);
-}
-
-void startShow(int i) {
-  switch(i){
-    case 0: colorWipe(strip.Color(0, 0, 0), 50);    // Black/off
-            break;
-    case 1: colorWipe(strip.Color(255, 0, 0), 50);  // Red
-            break;
-    case 2: colorWipe(strip.Color(0, 255, 0), 50);  // Green
-            break;
-    case 3: colorWipe(strip.Color(0, 0, 255), 50);  // Blue
-            break;
-    case 4: theaterChase(strip.Color(127, 127, 127), 50); // White
-            break;
-    case 5: theaterChase(strip.Color(127,   0,   0), 50); // Red
-            break;
-    case 6: theaterChase(strip.Color(  50,   0, 130), 100); // Blue
-            break;
-    case 7: rainbow(20);
-            break;
-    case 8: rainbowCycle(50);
-            break;
-    case 9: theaterChaseRainbow(10);
-            break;
-  }
-}
-
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
   for(uint16_t i=0; i<strip.numPixels(); i++) {
@@ -64,6 +28,21 @@ void colorWipe(uint32_t c, uint8_t wait) {
     strip.show();
     delay(wait);
   }
+}
+
+// Input a value 0 to 255 to get a color value.
+// The colours are a transition r - g - b - back to r.
+uint32_t Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 void rainbow(uint8_t wait) {
@@ -127,17 +106,38 @@ void theaterChaseRainbow(uint8_t wait) {
   }
 }
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
-uint32_t Wheel(byte WheelPos) {
-  WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+void startShow(int i) {
+  switch(i){
+    case 0: colorWipe(strip.Color(0, 0, 0), 50);    // Black/off
+            break;
+    case 1: colorWipe(strip.Color(255, 0, 0), 50);  // Red
+            break;
+    case 2: colorWipe(strip.Color(0, 255, 0), 50);  // Green
+            break;
+    case 3: colorWipe(strip.Color(0, 0, 255), 50);  // Blue
+            break;
+    case 4: theaterChase(strip.Color(127, 127, 127), 50); // White
+            break;
+    case 5: theaterChase(strip.Color(127,   0,   0), 50); // Red
+            break;
+    case 6: theaterChase(strip.Color(  50,   0, 130), 100); // Blue
+            break;
+    case 7: rainbow(20);
+            break;
+    case 8: rainbowCycle(50);
+            break;
+    case 9: theaterChaseRainbow(10);
+            break;
   }
-  if(WheelPos < 170) {
-    WheelPos -= 85;
-    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-  }
-  WheelPos -= 170;
-  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+}
+
+void setup() {
+
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+}
+
+void loop()
+{
+    startShow(6);
 }
