@@ -30,19 +30,11 @@ void CRoutineHoldRainbow::Start()
     {
         hsv.hue = i * multiplier;
         m_pPixelArray->SetPixel(i, CRGB(hsv));
-
-        char logString[256];
-        sprintf(logString, "MILES_DEBUG: Pixel %d val %u", i, hsv.hue);
-        CLogging::log(logString);
     }
     for(size_t i=0;i<GetSize()/2;i++)
     {
         hsv.hue = 255 - i * (double)(255.0 / (GetSize()/2-1));
         m_pPixelArray->SetPixel(i + GetSize()/2, CRGB(hsv));
-
-        char logString[256];
-        sprintf(logString, "MILES_DEBUG: Pixel %d val %u", i + GetSize()/2, hsv.hue);
-        CLogging::log(logString);
     }
 }
 

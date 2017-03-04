@@ -103,7 +103,6 @@ bool CBixi::ExitCurrRoutine()
             CRoutine::sRoutineType(m_currRoutine->GetType()));
     CLogging::log(logString);
 
-    delete m_currRoutine;
     m_currRoutine = nullptr;
 
     return true;
