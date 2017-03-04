@@ -6,8 +6,10 @@
 class CBixi
 {
     public:
-        static constexpr size_t c_numLeds = 210;
-        static constexpr size_t c_dataPin = 3;
+        static constexpr size_t c_maxNumPins = 4; // don't exceed this
+        static constexpr size_t c_numLeds = 120;
+        static constexpr size_t c_numPins = 4;
+        static constexpr size_t c_dataPins[c_maxNumPins] = { 2, 3, 4, 5 };
 
     public: // singleton
         static CBixi& Instance();
@@ -27,7 +29,7 @@ class CBixi
         void SetAllBlack();
         bool ShowCurrRoutine();
         void Show();
-        CRoutine* ConstructRoutine(CRoutine::RoutineType type);
+        CRoutine* GetRoutine(CRoutine::RoutineType type);
 
     private:
         CRGB m_leds[c_numLeds];

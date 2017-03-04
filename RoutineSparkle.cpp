@@ -39,8 +39,10 @@ void CRoutineSparkle::SetRandomPixels()
     m_pPixelArray->Reset();
     for(size_t i=0;i<GetSize();i++)
     {
-        bool setThisPixel = rand() % 10 == 0;
+        bool setThisPixel = rand() % 30 == 0;
         if(setThisPixel)
             m_pPixelArray->SetPixel(i, GetColor());
+        else
+            m_pPixelArray->SetPixel(i, CRGB::Black);
     }
 }

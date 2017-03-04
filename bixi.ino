@@ -22,7 +22,7 @@ void runRoutine(CRoutine::RoutineType type, unsigned long durationSec)
 
 void loop()
 { 
-    runRoutine(CRoutine::Sparkle, 600);
+    runRoutine(CRoutine::RainbowSparkle, 600);
     while(true)
     {
         for(int i=0;i<CRoutine::RoutineQty;i++)

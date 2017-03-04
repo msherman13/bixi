@@ -1,5 +1,4 @@
 #include "Bixi.h"
-#include "Strip.h"
 #include "RoutineHoldRainbow.h"
 #include "RoutineCycleRainbow.h"
 #include "RoutineSparkle.h"
@@ -20,8 +19,43 @@ CBixi::CBixi() :
 {
     CLogging::log("CBixi::CBixi: Initializing Bixi");
 
+    // construct routines
+    m_routines[CRoutine::HoldRainbow]    = new CRoutineHoldRainbow(c_numLeds);
+    m_routines[CRoutine::CycleRainbow]   = new CRoutineCycleRainbow(c_numLeds);
+    m_routines[CRoutine::Sparkle]        = new CRoutineSparkle(c_numLeds);
+    m_routines[CRoutine::RainbowSparkle] = new CRoutineRainbowSparkle(c_numLeds);
+
     // init FastLED for static strip
-    FastLED.addLeds<DRIVER, c_dataPin, ORDER>(m_leds, c_numLeds);
+    for(size_t i=0;i<c_numPins;i++)
+    {
+        const size_t start = i * c_numLeds / c_numPins;
+        const size_t len = i < c_numPins - 1 ?
+                           c_numLeds / c_numPins :
+                           c_numLeds - start;
+
+        char logString[128];
+        sprintf(logString,
+                "CBixi::CBixi: Pin %u will drive %u pixels starting at index %u",
+                i, len, start);
+        CLogging::log(logString);
+
+        // TODO: there's gotta be a better way to do this
+        switch(i)
+        {
+            case 0:
+                FastLED.addLeds<DRIVER, c_dataPins[0], ORDER>(&m_leds[start], len); 
+                break;
+            case 1:
+                FastLED.addLeds<DRIVER, c_dataPins[1], ORDER>(&m_leds[start], len); 
+                break;
+            case 2:
+                FastLED.addLeds<DRIVER, c_dataPins[2], ORDER>(&m_leds[start], len); 
+                break;
+            case 3:
+                FastLED.addLeds<DRIVER, c_dataPins[3], ORDER>(&m_leds[start], len); 
+                break;
+        }
+    }
     SetAllBlack();
     Show();
 }
@@ -31,16 +65,9 @@ CBixi::~CBixi()
     delete m_currRoutine;
 }
 
-CRoutine* CBixi::ConstructRoutine(CRoutine::RoutineType type)
+CRoutine* CBixi::GetRoutine(CRoutine::RoutineType type)
 {
-    switch(type)
-    {
-        case CRoutine::HoldRainbow:    return new CRoutineHoldRainbow(c_numLeds);
-        case CRoutine::CycleRainbow:   return new CRoutineCycleRainbow(c_numLeds);
-        case CRoutine::Sparkle:        return new CRoutineSparkle(c_numLeds);
-        case CRoutine::RainbowSparkle: return new CRoutineRainbowSparkle(c_numLeds);
-        default:                       return nullptr;
-    }
+    return m_routines[type];
 }
 
 bool CBixi::StartRoutine(CRoutine::RoutineType type)
@@ -58,7 +85,7 @@ bool CBixi::StartRoutine(CRoutine::RoutineType type)
             CRoutine::sRoutineType(type));
     CLogging::log(logString);
 
-    m_currRoutine = ConstructRoutine(type);
+    m_currRoutine = GetRoutine(type);
     m_currRoutine->Start();
 
     return true;
@@ -119,7 +146,6 @@ bool CBixi::Continue()
         return false;
     }
 
-    SetAllBlack();
     m_currRoutine->Continue();
     ShowCurrRoutine();
 
