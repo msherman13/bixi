@@ -5,18 +5,19 @@
 class CRoutineRainbowSparkle : public CRoutineSparkle
 {
     public:
-        static const int c_iterationsPerColor = 5;
+        static const size_t c_iterationsPerColor = 5;
     public:
-        CRoutineRainbowSparkle(int size);
+        CRoutineRainbowSparkle(size_t size);
         ~CRoutineRainbowSparkle();
 
     public:
         virtual CRGB GetColor() { return CRGB(m_currHsv); }
+        virtual RoutineType GetType() override { return RainbowSparkle; }
 
     protected:
         virtual void SetRandomPixels() override;
 
     private:
         CHSV m_currHsv;
-        int m_numIterationsSinceChange;
+        size_t m_numIterationsSinceChange;
 };

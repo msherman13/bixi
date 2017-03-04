@@ -6,12 +6,12 @@
 class CRoutineCycleRainbow : public CRoutineHoldRainbow
 {
     public:
-        CRoutineCycleRainbow(int size);
+        CRoutineCycleRainbow(size_t size);
         ~CRoutineCycleRainbow();
 
     public:
         virtual void Continue() override;
-        virtual RoutineType GetType() override { return ROUTINE_CYCLE_RAINBOW; }
+        virtual RoutineType GetType() override { return CycleRainbow; }
 
     private:
         uint32_t m_lastMove;

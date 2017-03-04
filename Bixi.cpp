@@ -35,17 +35,17 @@ CRoutine* CBixi::ConstructRoutine(CRoutine::RoutineType type)
 {
     switch(type)
     {
-        case CRoutine::ROUTINE_HOLD_RAINBOW:    return new CRoutineHoldRainbow(c_numLeds);
-        case CRoutine::ROUTINE_CYCLE_RAINBOW:   return new CRoutineCycleRainbow(c_numLeds);
-        case CRoutine::ROUTINE_SPARKLE:         return new CRoutineSparkle(c_numLeds);
-        case CRoutine::ROUTINE_RAINBOW_SPARKLE: return new CRoutineRainbowSparkle(c_numLeds);
-        default: return nullptr;
+        case CRoutine::HoldRainbow:    return new CRoutineHoldRainbow(c_numLeds);
+        case CRoutine::CycleRainbow:   return new CRoutineCycleRainbow(c_numLeds);
+        case CRoutine::Sparkle:        return new CRoutineSparkle(c_numLeds);
+        case CRoutine::RainbowSparkle: return new CRoutineRainbowSparkle(c_numLeds);
+        default:                       return nullptr;
     }
 }
 
 bool CBixi::StartRoutine(CRoutine::RoutineType type)
 {
-    if(type >= CRoutine::ROUTINE_QTY)
+    if(type >= CRoutine::RoutineQty)
         return false;
 
     if(m_currRoutine)
@@ -84,7 +84,7 @@ bool CBixi::ExitCurrRoutine()
 
 void CBixi::SetAllBlack()
 {
-    for(int i=0;i<c_numLeds;i++)
+    for(size_t i=0;i<c_numLeds;i++)
     {
         m_leds[i] = CRGB::Black;
     }
@@ -97,7 +97,7 @@ bool CBixi::ShowCurrRoutine()
         return false;
     }
 
-    for(int i=0;i<m_currRoutine->GetSize();i++)
+    for(size_t i=0;i<m_currRoutine->GetSize();i++)
     {
         m_currRoutine->GetRGB(i, m_leds[i]);
     }

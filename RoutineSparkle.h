@@ -7,16 +7,16 @@
 class CRoutineSparkle : public CRoutine
 {
     public:
-        static const CRGB::HTMLColorCode c_color = CRGB::WhiteSmoke;
+        static constexpr CRGB::HTMLColorCode c_color = CRGB::WhiteSmoke;
 
     public:
-        CRoutineSparkle(int size);
+        CRoutineSparkle(size_t size);
         ~CRoutineSparkle();
 
     public:
         virtual void Start() override;
         virtual void Continue() override;
-        virtual RoutineType GetType() override { return ROUTINE_SPARKLE; }
+        virtual RoutineType GetType() override { return Sparkle; }
         virtual CRGB GetColor() { return c_color; }
 
     protected:

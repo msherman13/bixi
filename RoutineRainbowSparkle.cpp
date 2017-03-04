@@ -2,7 +2,7 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineRainbowSparkle::CRoutineRainbowSparkle(int size) :
+CRoutineRainbowSparkle::CRoutineRainbowSparkle(size_t size) :
     CRoutineSparkle(size),
     m_currHsv(0, 240, 128),
     m_numIterationsSinceChange(0)

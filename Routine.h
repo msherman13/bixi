@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdlib.h>
+
 class CPixel;
 class CPixelArray;
 struct CRGB;
@@ -9,18 +11,18 @@ class CRoutine
     public:
         enum RoutineType
         {
-            ROUTINE_HOLD_RAINBOW,
-            ROUTINE_CYCLE_RAINBOW,
-            ROUTINE_SPARKLE,
-            ROUTINE_RAINBOW_SPARKLE,
+            HoldRainbow,
+            CycleRainbow,
+            Sparkle,
+            RainbowSparkle,
 
-            ROUTINE_QTY,
-            ROUTINE_UNDEF,
+            RoutineQty,
+            RoutineUndef,
         };
         static const char* sRoutineType(RoutineType type);
 
     public:
-        CRoutine(int size);
+        CRoutine(size_t size);
         virtual ~CRoutine();
 
     public:
@@ -30,8 +32,8 @@ class CRoutine
         virtual RoutineType GetType() = 0;
 
     public:
-        int GetSize();
-        bool GetRGB(int index, CRGB& dest);
+        size_t GetSize();
+        bool GetRGB(size_t index, CRGB& dest);
 
     protected:
         CPixelArray* m_pPixelArray;

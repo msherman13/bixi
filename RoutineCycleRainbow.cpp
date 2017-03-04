@@ -2,7 +2,7 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineCycleRainbow::CRoutineCycleRainbow(int size) :
+CRoutineCycleRainbow::CRoutineCycleRainbow(size_t size) :
     CRoutineHoldRainbow(size),
     m_lastMove(0)
 {

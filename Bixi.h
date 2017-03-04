@@ -6,8 +6,8 @@
 class CBixi
 {
     public:
-        static const int c_numLeds = 60;
-        static const int c_dataPin = 6;
+        static constexpr size_t c_numLeds = 210;
+        static constexpr size_t c_dataPin = 3;
 
     public: // singleton
         static CBixi& Instance();
@@ -31,7 +31,7 @@ class CBixi
 
     private:
         CRGB m_leds[c_numLeds];
-        CRoutine* m_routines[CRoutine::ROUTINE_QTY];
+        CRoutine* m_routines[CRoutine::RoutineQty];
         CRoutine* m_currRoutine;
 
 };

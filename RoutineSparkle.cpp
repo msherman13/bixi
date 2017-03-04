@@ -2,7 +2,7 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineSparkle::CRoutineSparkle(int size) :
+CRoutineSparkle::CRoutineSparkle(size_t size) :
     CRoutine(size),
     m_lastRun(0)
 {
@@ -37,7 +37,7 @@ void CRoutineSparkle::Continue()
 void CRoutineSparkle::SetRandomPixels()
 {
     m_pPixelArray->Reset();
-    for(int i=0;i<GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
         bool setThisPixel = rand() % 10 == 0;
         if(setThisPixel)

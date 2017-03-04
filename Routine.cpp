@@ -7,15 +7,15 @@ const char* CRoutine::sRoutineType(RoutineType type)
 {
     switch(type)
     {
-        case ROUTINE_HOLD_RAINBOW: return "ROUTINE_HOLD_RAINBOW";
-        case ROUTINE_CYCLE_RAINBOW: return "ROUTINE_CYCLE_RAINBOW";
-        case ROUTINE_SPARKLE: return "ROUTINE_SPARKLE";
-        case ROUTINE_RAINBOW_SPARKLE: return "ROUTINE_RAINBOW_SPARKLE";
-        default: return "ROUTINE_UNKNOWN";
+        case HoldRainbow: return "HoldRainbow";
+        case CycleRainbow: return "CycleRainbow";
+        case Sparkle: return "Sparkle";
+        case RainbowSparkle: return "RainbowSparkle";
+        default: return "RoutineUnknown";
     }
 }
 
-CRoutine::CRoutine(int size) :
+CRoutine::CRoutine(size_t size) :
     m_pPixelArray(new CPixelArray(size))
 {
 }
@@ -25,7 +25,7 @@ CRoutine::~CRoutine()
     Exit();
 }
 
-bool CRoutine::GetRGB(int index, CRGB& dest)
+bool CRoutine::GetRGB(size_t index, CRGB& dest)
 {
     CPixel* pPixel = m_pPixelArray->GetPixel(index);
     if(!pPixel)
@@ -34,14 +34,14 @@ bool CRoutine::GetRGB(int index, CRGB& dest)
     return pPixel->GetRGB(dest);
 }
 
-int CRoutine::GetSize()
+size_t CRoutine::GetSize()
 {
     return m_pPixelArray->GetSize();
 }
 
 void CRoutine::Exit()
 {
-    for(int i=0;i<GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
         m_pPixelArray->Reset();
     }
