@@ -15,6 +15,7 @@ class CRoutine
             CycleRainbow,
             Sparkle,
             RainbowSparkle,
+            Grow,
 
             RoutineQty,
             RoutineUndef,

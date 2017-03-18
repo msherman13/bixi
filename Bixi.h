@@ -6,10 +6,11 @@
 class CBixi
 {
     public:
-        static constexpr size_t c_maxNumPins = 4; // don't exceed this
-        static constexpr size_t c_numLeds = 120;
+        static constexpr size_t c_maxNumPins = 8; // don't exceed this
+        static constexpr size_t c_numLedsPerPin = 30;
         static constexpr size_t c_numPins = 4;
-        static constexpr size_t c_dataPins[c_maxNumPins] = { 2, 3, 4, 5 };
+        static constexpr size_t c_numLeds = c_numLedsPerPin * c_numPins;
+        static constexpr size_t c_dataPins[c_maxNumPins] = { 2, 3, 4, 5, 6, 7, 8, 9 };
 
     public: // singleton
         static CBixi& Instance();

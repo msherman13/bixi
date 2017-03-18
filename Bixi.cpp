@@ -3,10 +3,12 @@
 #include "RoutineCycleRainbow.h"
 #include "RoutineSparkle.h"
 #include "RoutineRainbowSparkle.h"
+#include "RoutineGrow.h"
 #include "Logging.h"
 
 #define DRIVER WS2812B
 #define ORDER GRB
+#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
 {
@@ -14,6 +16,8 @@ CBixi& CBixi::Instance()
     return bixi;
 }
 
+// FastLED::ParallelOutput:
+//     Pins 2, 14, 7, 8, 6, 20, 21, 5
 CBixi::CBixi() :
     m_currRoutine(nullptr)
 {
@@ -24,8 +28,13 @@ CBixi::CBixi() :
     m_routines[CRoutine::CycleRainbow]   = new CRoutineCycleRainbow(c_numLeds);
     m_routines[CRoutine::Sparkle]        = new CRoutineSparkle(c_numLeds);
     m_routines[CRoutine::RainbowSparkle] = new CRoutineRainbowSparkle(c_numLeds);
+    m_routines[CRoutine::Grow]           = new CRoutineGrow(c_numLeds);
+
+    // Parallel Output
+    FastLED.addLeds<WS2811_PORTD, c_numPins>(m_leds, c_numLedsPerPin);
 
     // init FastLED for static strip
+    /*
     for(size_t i=0;i<c_numPins;i++)
     {
         const size_t start = i * c_numLeds / c_numPins;
@@ -56,6 +65,7 @@ CBixi::CBixi() :
                 break;
         }
     }
+    */
     SetAllBlack();
     Show();
 }
@@ -145,8 +155,19 @@ bool CBixi::Continue()
         return false;
     }
 
+#ifdef LOG_REFRESH_RATE
+    unsigned long timer = millis();
+#endif
+
     m_currRoutine->Continue();
     ShowCurrRoutine();
+
+#ifdef LOG_REFRESH_RATE
+    timer = millis() - timer;
+    char logString[128];
+    sprintf(logString, "CBixi::Continue: This iteration took %lu ms", timer);
+    CLogging::log(logString);
+#endif
 
     return true;
 }

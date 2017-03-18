@@ -11,6 +11,7 @@ const char* CRoutine::sRoutineType(RoutineType type)
         case CycleRainbow: return "CycleRainbow";
         case Sparkle: return "Sparkle";
         case RainbowSparkle: return "RainbowSparkle";
+        case Grow: return "Grow";
         default: return "RoutineUnknown";
     }
 }
