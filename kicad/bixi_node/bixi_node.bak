@@ -1,1 +1,220 @@
 EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:bixi_node-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L RJ45 J?
+U 1 1 58CDFC74
+P 3950 3350
+F 0 "J?" H 4150 3850 50  0000 C CNN
+F 1 "RJ45" H 3800 3850 50  0000 C CNN
+F 2 "" H 3950 3350 50  0000 C CNN
+F 3 "" H 3950 3350 50  0000 C CNN
+	1    3950 3350
+	1    0    0    -1  
+$EndComp
+$Comp
+L SP3485CN U?
+U 1 1 58CE0617
+P 5800 3300
+F 0 "U?" H 5500 3650 50  0000 L CNN
+F 1 "SP3485CN" H 5900 3650 50  0000 L CNN
+F 2 "Housings_SOIC:SOIC-8_3.9x4.9mm_Pitch1.27mm" H 6850 2950 50  0001 C CIN
+F 3 "" H 5800 3300 50  0000 C CNN
+	1    5800 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 58CE067C
+P 5800 3700
+F 0 "#PWR?" H 5800 3450 50  0001 C CNN
+F 1 "GND" H 5800 3550 50  0000 C CNN
+F 2 "" H 5800 3700 50  0000 C CNN
+F 3 "" H 5800 3700 50  0000 C CNN
+	1    5800 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 58CE0696
+P 4200 3800
+F 0 "#PWR?" H 4200 3550 50  0001 C CNN
+F 1 "GND" H 4200 3650 50  0000 C CNN
+F 2 "" H 4200 3800 50  0000 C CNN
+F 3 "" H 4200 3800 50  0000 C CNN
+	1    4200 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 58CE06B0
+P 4300 3800
+F 0 "#PWR?" H 4300 3550 50  0001 C CNN
+F 1 "GND" H 4300 3650 50  0000 C CNN
+F 2 "" H 4300 3800 50  0000 C CNN
+F 3 "" H 4300 3800 50  0000 C CNN
+	1    4300 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR?
+U 1 1 58CE06CA
+P 5800 2900
+F 0 "#PWR?" H 5800 2750 50  0001 C CNN
+F 1 "VCC" H 5800 3050 50  0000 C CNN
+F 2 "" H 5800 2900 50  0000 C CNN
+F 3 "" H 5800 2900 50  0000 C CNN
+	1    5800 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R?
+U 1 1 58CE071A
+P 3850 4200
+F 0 "R?" V 3930 4200 50  0000 C CNN
+F 1 "R" V 3850 4200 50  0000 C CNN
+F 2 "" V 3780 4200 50  0000 C CNN
+F 3 "" H 3850 4200 50  0000 C CNN
+	1    3850 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C?
+U 1 1 58CE0786
+P 4350 4850
+F 0 "C?" H 4375 4950 50  0000 L CNN
+F 1 "C" H 4375 4750 50  0000 L CNN
+F 2 "" H 4388 4700 50  0000 C CNN
+F 3 "" H 4350 4850 50  0000 C CNN
+	1    4350 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR?
+U 1 1 58CE07F1
+P 4350 4700
+F 0 "#PWR?" H 4350 4550 50  0001 C CNN
+F 1 "VCC" H 4350 4850 50  0000 C CNN
+F 2 "" H 4350 4700 50  0000 C CNN
+F 3 "" H 4350 4700 50  0000 C CNN
+	1    4350 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 58CE0C7F
+P 4350 5000
+F 0 "#PWR?" H 4350 4750 50  0001 C CNN
+F 1 "GND" H 4350 4850 50  0000 C CNN
+F 2 "" H 4350 5000 50  0000 C CNN
+F 3 "" H 4350 5000 50  0000 C CNN
+	1    4350 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Jumper_NC_Dual JP?
+U 1 1 58CE0E18
+P 4850 3300
+F 0 "JP?" H 4900 3200 50  0000 L CNN
+F 1 "Jumper_NC_Dual" H 4850 3400 50  0000 C BNN
+F 2 "" H 4850 3300 50  0000 C CNN
+F 3 "" H 4850 3300 50  0000 C CNN
+	1    4850 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3700 3800 3700 4050
+Wire Wire Line
+	3700 4050 6450 4050
+Wire Wire Line
+	6450 4050 6450 3400
+Wire Wire Line
+	6450 3400 6200 3400
+Wire Wire Line
+	3600 3800 3600 4350
+Wire Wire Line
+	3600 4350 6600 4350
+Wire Wire Line
+	6600 4350 6600 3200
+Wire Wire Line
+	6600 3200 6200 3200
+Wire Wire Line
+	5400 3400 5300 3400
+Wire Wire Line
+	5300 3400 5300 3200
+Wire Wire Line
+	5300 3200 5400 3200
+Wire Wire Line
+	5300 3300 5200 3300
+Wire Wire Line
+	5200 3300 5200 3500
+Wire Wire Line
+	5200 3500 4850 3500
+Wire Wire Line
+	4850 3500 4850 3400
+Connection ~ 5300 3300
+$Comp
+L GND #PWR?
+U 1 1 58CE0E7E
+P 4600 3300
+F 0 "#PWR?" H 4600 3050 50  0001 C CNN
+F 1 "GND" H 4600 3150 50  0000 C CNN
+F 2 "" H 4600 3300 50  0000 C CNN
+F 3 "" H 4600 3300 50  0000 C CNN
+	1    4600 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR?
+U 1 1 58CE0EA1
+P 5100 3300
+F 0 "#PWR?" H 5100 3150 50  0001 C CNN
+F 1 "VCC" H 5100 3450 50  0000 C CNN
+F 2 "" H 5100 3300 50  0000 C CNN
+F 3 "" H 5100 3300 50  0000 C CNN
+	1    5100 3300
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
