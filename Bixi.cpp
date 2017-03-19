@@ -8,7 +8,7 @@
 
 #define DRIVER WS2812B
 #define ORDER GRB
-#define LOG_REFRESH_RATE
+//#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
 {
@@ -18,10 +18,14 @@ CBixi& CBixi::Instance()
 
 // FastLED::ParallelOutput:
 //     Pins 2, 14, 7, 8, 6, 20, 21, 5
-CBixi::CBixi() :
-    m_currRoutine(nullptr)
+CBixi::CBixi()
 {
     CLogging::log("CBixi::CBixi: Initializing Bixi");
+
+    SetState(State::Initializing);
+
+    // indicator
+    pinMode(c_indicatorPin, OUTPUT);
 
     // construct routines
     m_routines[CRoutine::HoldRainbow]    = new CRoutineHoldRainbow(c_numLeds);
@@ -33,46 +37,34 @@ CBixi::CBixi() :
     // Parallel Output
     FastLED.addLeds<WS2811_PORTD, c_numPins>(m_leds, c_numLedsPerPin);
 
-    // init FastLED for static strip
-    /*
-    for(size_t i=0;i<c_numPins;i++)
-    {
-        const size_t start = i * c_numLeds / c_numPins;
-        const size_t len = i < c_numPins - 1 ?
-                           c_numLeds / c_numPins :
-                           c_numLeds - start;
-
-        char logString[128];
-        sprintf(logString,
-                "CBixi::CBixi: Pin %u will drive %u pixels starting at index %u",
-                i, len, start);
-        CLogging::log(logString);
-
-        // TODO: there's gotta be a better way to do this
-        switch(i)
-        {
-            case 0:
-                FastLED.addLeds<DRIVER, c_dataPins[0], ORDER>(&m_leds[start], len); 
-                break;
-            case 1:
-                FastLED.addLeds<DRIVER, c_dataPins[1], ORDER>(&m_leds[start], len); 
-                break;
-            case 2:
-                FastLED.addLeds<DRIVER, c_dataPins[2], ORDER>(&m_leds[start], len); 
-                break;
-            case 3:
-                FastLED.addLeds<DRIVER, c_dataPins[3], ORDER>(&m_leds[start], len); 
-                break;
-        }
-    }
-    */
     SetAllBlack();
     Show();
+
+    SetState(State::Running);
 }
 
 CBixi::~CBixi()
 {
     delete m_currRoutine;
+}
+
+const char* CBixi::sState(State state)
+{
+    switch(state)
+    {
+        case State::Stopped: return "Stopped";
+        case State::Running: return "Running";
+        default: return "Undef";
+    }
+}
+
+void CBixi::SetState(State state)
+{
+    m_state = state;
+
+    char logString[128];
+    sprintf(logString, "CBixi::SetState: %s", sState(state));
+    CLogging::log(logString);
 }
 
 CRoutine* CBixi::GetRoutine(CRoutine::RoutineType type)
@@ -150,24 +142,33 @@ void CBixi::Show()
 
 bool CBixi::Continue()
 {
-    if(!m_currRoutine)
+    if(!m_currRoutine || GetState() == State::Stopped)
     {
         return false;
     }
 
-#ifdef LOG_REFRESH_RATE
-    unsigned long timer = millis();
-#endif
+    size_t now = millis();
 
     m_currRoutine->Continue();
     ShowCurrRoutine();
 
 #ifdef LOG_REFRESH_RATE
-    timer = millis() - timer;
+    size_t timer = millis() - now;
     char logString[128];
     sprintf(logString, "CBixi::Continue: This iteration took %lu ms", timer);
     CLogging::log(logString);
 #endif
+
+    if(now - m_lastIndicator >= c_indicatorDelayMs)
+    {
+        m_indicatorOn = !m_indicatorOn;
+        if(GetState() != State::Running)
+        {
+            m_indicatorOn = false;
+        }
+        m_lastIndicator = now;
+        digitalWrite(c_indicatorPin, m_indicatorOn ? HIGH : LOW);
+    }
 
     return true;
 }

@@ -22,7 +22,6 @@ void runRoutine(CRoutine::RoutineType type, unsigned long durationSec)
 
 void loop()
 { 
-    runRoutine(CRoutine::Sparkle, 3600);
     while(true)
     {
         for(int i=0;i<CRoutine::RoutineQty;i++)
