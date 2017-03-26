@@ -1,4 +1,4 @@
-update=Tuesday, March 07, 2017 'PMt' 01:04:19 PM
+update=Sat 25 Mar 2017 04:29:39 PM EDT
 version=1
 last_client=kicad
 [pcbnew]
@@ -27,7 +27,7 @@ NetIExt=net
 version=1
 [eeschema]
 version=1
-LibDir=
+LibDir=/home/msherman/development/bixi/kicad/logos;/home/msherman/development/bixi/kicad/kicad_teensy-master
 [eeschema/libraries]
 LibName1=power
 LibName2=device

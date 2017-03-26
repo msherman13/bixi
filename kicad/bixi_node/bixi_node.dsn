@@ -1,0 +1,242 @@
+(pcb /home/msherman/development/bixi/kicad/bixi_node/bixi_node.dsn
+  (parser
+    (string_quote ")
+    (space_in_quoted_tokens on)
+    (host_cad "KiCad's Pcbnew")
+    (host_version "4.0.5")
+  )
+  (resolution um 10)
+  (unit um)
+  (structure
+    (layer F.Cu
+      (type signal)
+      (property
+        (index 0)
+      )
+    )
+    (layer B.Cu
+      (type signal)
+      (property
+        (index 1)
+      )
+    )
+    (boundary
+      (path pcb 0  90805 -86360  90805 -96520  90862.9 -97181.6  91034.8 -97823.1
+            91315.4 -98425  91696.4 -98969  92166 -99438.6  92710 -99819.6
+            93311.9 -100100  93953.4 -100272  94615 -100330  127635 -100330
+            128297 -100272  128938 -100100  129540 -99819.6  130084 -99438.6
+            130554 -98969  130935 -98425  131215 -97823.1  131387 -97181.6
+            131445 -96520  131445 -86360  131387 -85698.4  131215 -85056.9
+            130935 -84455  130554 -83911  130084 -83441.4  129540 -83060.4
+            128938 -82779.8  128297 -82607.9  127635 -82550  94615 -82550
+            93953.4 -82607.9  93311.9 -82779.8  92710 -83060.4  92166 -83441.4
+            91696.4 -83911  91315.4 -84455  91034.8 -85056.9  90862.9 -85698.4
+            90805 -86360  90805 -86360)
+    )
+    (plane GND (polygon B.Cu 0  131445 -100330  90805 -100330  90805 -82550  131445 -82550))
+    (via "Via[0-1]_600:400_um")
+    (rule
+      (width 250)
+      (clearance 200.1)
+      (clearance 200.1 (type default_smd))
+      (clearance 50 (type smd_smd))
+    )
+  )
+  (placement
+    (component Resistors_THT:Resistor_Horizontal_RM7mm
+      (place C1 121920 -94615 front 180 (PN C))
+    )
+    (component Connectors:RJ45_8
+      (place J1 101600 -91440 front 270 (PN RJ45))
+    )
+    (component custom:PAD_3X_OVAL
+      (place P1 128270 -91440 front 180 (PN CONN_01X03))
+    )
+    (component Discret:R1
+      (place R1 118110 -97790 front 180 (PN R))
+    )
+    (component "Housings_DIP:DIP-8_W7.62mm"
+      (place U1 123190 -84455 front 270 (PN SP3485CN))
+    )
+    (component custom:BARREL_JACK_2PIN
+      (place CON1 98425 -91440 back 180 (PN BARREL_JACK))
+    )
+  )
+  (library
+    (image Resistors_THT:Resistor_Horizontal_RM7mm
+      (outline (path signal 50  -1250 1500  8850 1500))
+      (outline (path signal 50  -1250 -1500  -1250 1500))
+      (outline (path signal 50  8850 1500  8850 -1500))
+      (outline (path signal 50  -1250 -1500  8850 -1500))
+      (outline (path signal 150  1270 1270  6350 1270))
+      (outline (path signal 150  6350 1270  6350 -1270))
+      (outline (path signal 150  6350 -1270  1270 -1270))
+      (outline (path signal 150  1270 -1270  1270 1270))
+      (pin Round[A]Pad_1998.98_um 1 0 0)
+      (pin Round[A]Pad_1998.98_um 2 7620 0)
+    )
+    (image Connectors:RJ45_8
+      (outline (path signal 150  -7620 -7874  7620 -7874))
+      (outline (path signal 150  7620 -7874  7620 10160))
+      (outline (path signal 150  7620 10160  -7620 10160))
+      (outline (path signal 150  -7620 10160  -7620 -7874))
+      (pin Round[A]Pad_3649.98_um Hole 5938.52 0)
+      (pin Round[A]Pad_3649.98_um Hole@1 -5930.9 0)
+      (pin Rect[A]Pad_1501.14x1501.14_um 1 -4445 6350)
+      (pin Round[A]Pad_1501.14_um 2 -3175 8890)
+      (pin Round[A]Pad_1501.14_um 3 -1905 6350)
+      (pin Round[A]Pad_1501.14_um 4 -635 8890)
+      (pin Round[A]Pad_1501.14_um 5 635 6350)
+      (pin Round[A]Pad_1501.14_um 6 1905 8890)
+      (pin Round[A]Pad_1501.14_um 7 3175 6350)
+      (pin Round[A]Pad_1501.14_um 8 4445 8890)
+    )
+    (image custom:PAD_3X_OVAL
+      (pin Oval[T]Pad_4000x1500_um 3 -250 -2000)
+      (pin Oval[T]Pad_4000x1500_um 1 -250 2000)
+      (pin Oval[T]Pad_4000x1500_um 2 -250 0)
+    )
+    (image Discret:R1
+      (outline (path signal 150  -1270 0  1270 0))
+      (outline (path signal 150  149.903 0  80.408 -438.774  -121.274 -834.598  -435.402 -1148.73
+            -831.226 -1350.41  -1270 -1419.9  -1708.77 -1350.41  -2104.6 -1148.73
+            -2418.73 -834.598  -2620.41 -438.774  -2689.9 0  -2620.41 438.774
+            -2418.73 834.598  -2104.6 1148.73  -1708.77 1350.41  -1270 1419.9
+            -831.226 1350.41  -435.402 1148.73  -121.274 834.598  80.408 438.774))
+      (pin Round[A]Pad_1397_um 1 -1270 0)
+      (pin Round[A]Pad_1397_um 2 1270 0)
+    )
+    (image "Housings_DIP:DIP-8_W7.62mm"
+      (outline (path signal 50  -1050 2450  -1050 -10100))
+      (outline (path signal 50  8650 2450  8650 -10100))
+      (outline (path signal 50  -1050 2450  8650 2450))
+      (outline (path signal 50  -1050 -10100  8650 -10100))
+      (outline (path signal 150  135 2295  135 1025))
+      (outline (path signal 150  7485 2295  7485 1025))
+      (outline (path signal 150  7485 -9915  7485 -8645))
+      (outline (path signal 150  135 -9915  135 -8645))
+      (outline (path signal 150  135 2295  7485 2295))
+      (outline (path signal 150  135 -9915  7485 -9915))
+      (outline (path signal 150  135 1025  -800 1025))
+      (pin Oval[A]Pad_1600x1600_um 1 0 0)
+      (pin Oval[A]Pad_1600x1600_um 2 0 -2540)
+      (pin Oval[A]Pad_1600x1600_um 3 0 -5080)
+      (pin Oval[A]Pad_1600x1600_um 4 0 -7620)
+      (pin Oval[A]Pad_1600x1600_um 5 7620 -7620)
+      (pin Oval[A]Pad_1600x1600_um 6 7620 -5080)
+      (pin Oval[A]Pad_1600x1600_um 7 7620 -2540)
+      (pin Oval[A]Pad_1600x1600_um 8 7620 0)
+    )
+    (image custom:BARREL_JACK_2PIN
+      (outline (path signal 150  -4000.5 4500.88  -4000.5 -4500.88))
+      (outline (path signal 150  -7500.62 4500.88  -7500.62 -4500.88))
+      (outline (path signal 150  -7500.62 -4500.88  7000.24 -4500.88))
+      (outline (path signal 150  7000.24 -4500.88  7000.24 4500.88))
+      (outline (path signal 150  7000.24 4500.88  -7500.62 4500.88))
+      (pin Rect[A]Pad_3500.12x3500.12_um 1 6200.14 0)
+      (pin Rect[A]Pad_3500.12x3500.12_um 2 200.66 0)
+    )
+    (padstack Round[A]Pad_1397_um
+      (shape (circle F.Cu 1397))
+      (shape (circle B.Cu 1397))
+      (attach off)
+    )
+    (padstack Round[A]Pad_1501.14_um
+      (shape (circle F.Cu 1501.14))
+      (shape (circle B.Cu 1501.14))
+      (attach off)
+    )
+    (padstack Round[A]Pad_1998.98_um
+      (shape (circle F.Cu 1998.98))
+      (shape (circle B.Cu 1998.98))
+      (attach off)
+    )
+    (padstack Round[A]Pad_3649.98_um
+      (shape (circle F.Cu 3649.98))
+      (shape (circle B.Cu 3649.98))
+      (attach off)
+    )
+    (padstack Oval[T]Pad_4000x1500_um
+      (shape (path F.Cu 1500  -1250 0  1250 0))
+      (attach off)
+    )
+    (padstack Oval[A]Pad_1600x1600_um
+      (shape (path F.Cu 1600  0 0  0 0))
+      (shape (path B.Cu 1600  0 0  0 0))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_3500.12x3500.12_um
+      (shape (rect F.Cu -1750.06 -1750.06 1750.06 1750.06))
+      (shape (rect B.Cu -1750.06 -1750.06 1750.06 1750.06))
+      (attach off)
+    )
+    (padstack Rect[A]Pad_1501.14x1501.14_um
+      (shape (rect F.Cu -750.57 -750.57 750.57 750.57))
+      (shape (rect B.Cu -750.57 -750.57 750.57 750.57))
+      (attach off)
+    )
+    (padstack "Via[0-1]_600:400_um"
+      (shape (circle F.Cu 600))
+      (shape (circle B.Cu 600))
+      (attach off)
+    )
+  )
+  (network
+    (net VCC
+      (pins C1-1 P1-1 U1-8 CON1-1)
+    )
+    (net GND
+      (pins C1-2 J1-7 J1-8 P1-3 U1-2 U1-3 U1-5 CON1-2)
+    )
+    (net "Net-(J1-Pad1)"
+      (pins J1-1 R1-2 U1-6)
+    )
+    (net "Net-(J1-Pad2)"
+      (pins J1-2 R1-1 U1-7)
+    )
+    (net "Net-(J1-Pad3)"
+      (pins J1-3)
+    )
+    (net "Net-(J1-Pad4)"
+      (pins J1-4)
+    )
+    (net "Net-(J1-Pad5)"
+      (pins J1-5)
+    )
+    (net "Net-(J1-Pad6)"
+      (pins J1-6)
+    )
+    (net "Net-(P1-Pad2)"
+      (pins P1-2 U1-1)
+    )
+    (net "Net-(U1-Pad4)"
+      (pins U1-4)
+    )
+    (class kicad_default "" GND "Net-(J1-Pad1)" "Net-(J1-Pad2)" "Net-(J1-Pad3)"
+      "Net-(J1-Pad4)" "Net-(J1-Pad5)" "Net-(J1-Pad6)" "Net-(P1-Pad2)" "Net-(U1-Pad4)"
+      VCC
+      (circuit
+        (use_via Via[0-1]_600:400_um)
+      )
+      (rule
+        (width 250)
+        (clearance 200.1)
+      )
+    )
+  )
+  (wiring
+    (wire (path F.Cu 2000  121920 -94615  123380 -94615  124555 -93440)(net VCC)(type protect))
+    (wire (path F.Cu 2000  128520 -93440  124555 -93440  123190 -92075)(net VCC)(type protect))
+    (wire (path F.Cu 2000  104625 -91440  104625 -87779.9)(net VCC)(type protect))
+    (wire (path F.Cu 2000  123190 -90170  123190 -92075)(net VCC)(type protect))
+    (wire (path F.Cu 2000  121285 -88265  123190 -90170)(net VCC)(type protect))
+    (wire (path F.Cu 2000  114935 -88265  121285 -88265)(net VCC)(type protect))
+    (wire (path F.Cu 2000  110490 -83820  114935 -88265)(net VCC)(type protect))
+    (wire (path F.Cu 2000  105410 -83820  110490 -83820)(net VCC)(type protect))
+    (wire (path F.Cu 2000  105410 -86995  105410 -83820)(net VCC)(type protect))
+    (wire (path F.Cu 2000  104625 -87779.9  105410 -86995)(net VCC)(type protect))
+    (wire (path F.Cu 2000  114300 -94615  114300 -93345  115570 -92075)(net GND)(type protect))
+    (wire (path F.Cu 2000  128520 -89440  126270 -89440  124460 -87630)(net GND)(type protect))
+    (via "Via[0-1]_600:400_um"  124460 -87630 (net GND)(type protect))
+  )
+)
