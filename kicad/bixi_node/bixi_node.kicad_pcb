@@ -3,7 +3,7 @@
   (general
     (links 15)
     (no_connects 0)
-    (area 90.649379 80.350238 133.303334 100.405001)
+    (area 89 78 134.000001 103.000001)
     (thickness 1.6)
     (drawings 5)
     (tracks 26)
@@ -423,13 +423,13 @@
       )
     )
   )
-  (zone (net 1) (net_name VCC) (layer F.Cu) (tstamp 58D805F8) (hatch edge 0.508)
+  (zone (net 1) (net_name VCC) (layer F.Cu) (tstamp 58D81D10) (hatch edge 0.508)
     (connect_pads (clearance 0.508))
     (min_thickness 0.254)
     (fill yes (arc_segments 16) (thermal_gap 0.508) (thermal_bridge_width 0.508))
     (polygon
       (pts
-        (xy 134 103) (xy 89 103) (xy 89 78) (xy 134 78)
+        (xy 131.5 100.25) (xy 90.75 100.25) (xy 90.75 82.5) (xy 131.5 82.5)
       )
     )
     (filled_polygon
