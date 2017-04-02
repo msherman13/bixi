@@ -21,19 +21,11 @@
       )
     )
     (boundary
-      (path pcb 0  90805 -86360  90805 -96520  90862.9 -97181.6  91034.8 -97823.1
-            91315.4 -98425  91696.4 -98969  92166 -99438.6  92710 -99819.6
-            93311.9 -100100  93953.4 -100272  94615 -100330  127635 -100330
-            128297 -100272  128938 -100100  129540 -99819.6  130084 -99438.6
-            130554 -98969  130935 -98425  131215 -97823.1  131387 -97181.6
-            131445 -96520  131445 -86360  131387 -85698.4  131215 -85056.9
-            130935 -84455  130554 -83911  130084 -83441.4  129540 -83060.4
-            128938 -82779.8  128297 -82607.9  127635 -82550  94615 -82550
-            93953.4 -82607.9  93311.9 -82779.8  92710 -83060.4  92166 -83441.4
-            91696.4 -83911  91315.4 -84455  91034.8 -85056.9  90862.9 -85698.4
-            90805 -86360  90805 -86360)
+      (path pcb 0  140000 -121000  93000 -121000  93000 -83000  140000 -83000
+            140000 -121000  140000 -121000)
     )
-    (plane GND (polygon B.Cu 0  131445 -100330  90805 -100330  90805 -82550  131445 -82550))
+    (plane GND (polygon B.Cu 0  140000 -121000  93000 -121000  93000 -83000  140000 -83000))
+    (plane VCC (polygon F.Cu 0  140000 -121000  93000 -121000  93000 -83000  140000 -83000))
     (via "Via[0-1]_600:400_um")
     (rule
       (width 250)
@@ -44,22 +36,22 @@
   )
   (placement
     (component Resistors_THT:Resistor_Horizontal_RM7mm
-      (place C1 121920 -94615 front 180 (PN C))
+      (place C1 122000 -98000 front 180 (PN C))
     )
     (component Connectors:RJ45_8
-      (place J1 101600 -91440 front 270 (PN RJ45))
+      (place J1 102000 -92000 front 270 (PN RJ45))
     )
     (component custom:PAD_3X_OVAL
-      (place P1 128270 -91440 front 180 (PN CONN_01X03))
+      (place P1 130000 -101000 front 180 (PN CONN_01X03))
     )
     (component Discret:R1
-      (place R1 118110 -97790 front 180 (PN R))
+      (place R1 118000 -94000 front 0 (PN R))
     )
     (component "Housings_DIP:DIP-8_W7.62mm"
-      (place U1 123190 -84455 front 270 (PN SP3485CN))
+      (place U1 114000 -109000 front 90 (PN SP3485CN))
     )
-    (component custom:BARREL_JACK_2PIN
-      (place CON1 98425 -91440 back 180 (PN BARREL_JACK))
+    (component "custom:HB9500-2P"
+      (place J2 102000 -110000 front 90 (PN Screw_Terminal_1x02))
     )
   )
   (library
@@ -127,14 +119,13 @@
       (pin Oval[A]Pad_1600x1600_um 7 7620 -2540)
       (pin Oval[A]Pad_1600x1600_um 8 7620 0)
     )
-    (image custom:BARREL_JACK_2PIN
-      (outline (path signal 150  -4000.5 4500.88  -4000.5 -4500.88))
-      (outline (path signal 150  -7500.62 4500.88  -7500.62 -4500.88))
-      (outline (path signal 150  -7500.62 -4500.88  7000.24 -4500.88))
-      (outline (path signal 150  7000.24 -4500.88  7000.24 4500.88))
-      (outline (path signal 150  7000.24 4500.88  -7500.62 4500.88))
-      (pin Rect[A]Pad_3500.12x3500.12_um 1 6200.14 0)
-      (pin Rect[A]Pad_3500.12x3500.12_um 2 200.66 0)
+    (image "custom:HB9500-2P"
+      (outline (path signal 150  -9500 8000  9500 8000))
+      (outline (path signal 150  9500 8000  9500 -8000))
+      (outline (path signal 150  9500 -8000  -9500 -8000))
+      (outline (path signal 150  -9500 -8000  -9500 8000))
+      (pin Round[A]Pad_1524_um 1 -4750 0)
+      (pin Round[A]Pad_1524_um 2 4750 0)
     )
     (padstack Round[A]Pad_1397_um
       (shape (circle F.Cu 1397))
@@ -144,6 +135,11 @@
     (padstack Round[A]Pad_1501.14_um
       (shape (circle F.Cu 1501.14))
       (shape (circle B.Cu 1501.14))
+      (attach off)
+    )
+    (padstack Round[A]Pad_1524_um
+      (shape (circle F.Cu 1524))
+      (shape (circle B.Cu 1524))
       (attach off)
     )
     (padstack Round[A]Pad_1998.98_um
@@ -165,11 +161,6 @@
       (shape (path B.Cu 1600  0 0  0 0))
       (attach off)
     )
-    (padstack Rect[A]Pad_3500.12x3500.12_um
-      (shape (rect F.Cu -1750.06 -1750.06 1750.06 1750.06))
-      (shape (rect B.Cu -1750.06 -1750.06 1750.06 1750.06))
-      (attach off)
-    )
     (padstack Rect[A]Pad_1501.14x1501.14_um
       (shape (rect F.Cu -750.57 -750.57 750.57 750.57))
       (shape (rect B.Cu -750.57 -750.57 750.57 750.57))
@@ -183,10 +174,10 @@
   )
   (network
     (net VCC
-      (pins C1-1 P1-1 U1-8 CON1-1)
+      (pins C1-1 P1-1 U1-8 J2-1)
     )
     (net GND
-      (pins C1-2 J1-7 J1-8 P1-3 U1-2 U1-3 U1-5 CON1-2)
+      (pins C1-2 J1-7 J1-8 P1-3 U1-2 U1-3 U1-5 J2-2)
     )
     (net "Net-(J1-Pad1)"
       (pins J1-1 R1-2 U1-6)
@@ -225,18 +216,5 @@
     )
   )
   (wiring
-    (wire (path F.Cu 2000  121920 -94615  123380 -94615  124555 -93440)(net VCC)(type protect))
-    (wire (path F.Cu 2000  128520 -93440  124555 -93440  123190 -92075)(net VCC)(type protect))
-    (wire (path F.Cu 2000  104625 -91440  104625 -87779.9)(net VCC)(type protect))
-    (wire (path F.Cu 2000  123190 -90170  123190 -92075)(net VCC)(type protect))
-    (wire (path F.Cu 2000  121285 -88265  123190 -90170)(net VCC)(type protect))
-    (wire (path F.Cu 2000  114935 -88265  121285 -88265)(net VCC)(type protect))
-    (wire (path F.Cu 2000  110490 -83820  114935 -88265)(net VCC)(type protect))
-    (wire (path F.Cu 2000  105410 -83820  110490 -83820)(net VCC)(type protect))
-    (wire (path F.Cu 2000  105410 -86995  105410 -83820)(net VCC)(type protect))
-    (wire (path F.Cu 2000  104625 -87779.9  105410 -86995)(net VCC)(type protect))
-    (wire (path F.Cu 2000  114300 -94615  114300 -93345  115570 -92075)(net GND)(type protect))
-    (wire (path F.Cu 2000  128520 -89440  126270 -89440  124460 -87630)(net GND)(type protect))
-    (via "Via[0-1]_600:400_um"  124460 -87630 (net GND)(type protect))
   )
 )

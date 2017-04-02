@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/msherman/development/bixi/kicad/bixi.sch)
-    (date "Sun 02 Apr 2017 03:00:18 PM EDT")
+    (date "Sun 02 Apr 2017 03:40:47 PM EDT")
     (tool "Eeschema 4.0.5")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -387,14 +387,14 @@
         (pin (num 85) (name 56) (type BiDi))
         (pin (num 86) (name 57) (type BiDi)))))
   (libraries
-    (library (logical interface)
-      (uri /usr/share/kicad/library/interface.lib))
     (library (logical conn)
       (uri /usr/share/kicad/library/conn.lib))
-    (library (logical device)
-      (uri /usr/share/kicad/library/device.lib))
     (library (logical teensy)
-      (uri /home/msherman/development/bixi/kicad/kicad_teensy-master/teensy.lib)))
+      (uri /home/msherman/development/bixi/kicad/kicad_teensy-master/teensy.lib))
+    (library (logical interface)
+      (uri /usr/share/kicad/library/interface.lib))
+    (library (logical device)
+      (uri /usr/share/kicad/library/device.lib)))
   (nets
     (net (code 1) (name "Net-(J3-Pad5)")
       (node (ref J3) (pin 5)))
