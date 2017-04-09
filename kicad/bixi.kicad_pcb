@@ -3,7 +3,7 @@
   (general
     (links 106)
     (no_connects 0)
-    (area 89.6582 -33.415001 185.152382 147.500001)
+    (area 90.085714 42.5 185.152382 149.368571)
     (thickness 1.6)
     (drawings 8)
     (tracks 115)
@@ -20,7 +20,7 @@
     (33 F.Adhes user)
     (34 B.Paste user)
     (35 F.Paste user)
-    (36 B.SilkS user hide)
+    (36 B.SilkS user)
     (37 F.SilkS user)
     (38 B.Mask user)
     (39 F.Mask user)
@@ -1826,7 +1826,7 @@
   )
 
   (module logos:bm_streets (layer F.Cu) (tedit 0) (tstamp 58F26795)
-    (at 91 54 90)
+    (at 98 143 90)
     (fp_text reference bm_streets (at 0 5 90) (layer B.SilkS) hide
       (effects (font (thickness 0.3)))
     )
