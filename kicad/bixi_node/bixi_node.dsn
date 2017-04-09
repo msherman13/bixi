@@ -21,14 +21,16 @@
       )
     )
     (boundary
-      (path pcb 0  140000 -121000  93000 -121000  93000 -83000  140000 -83000
-            140000 -121000  140000 -121000)
+      (path pcb 0  93000 -83000  93000 -105500  113000 -105500  115000 -103500
+            125000 -103500  127000 -105500  140000 -105500  140000 -83000
+            127000 -83000  125000 -85000  115000 -85000  113000 -83000  93000 -83000
+            93000 -83000)
     )
     (plane GND (polygon B.Cu 0  140000 -121000  93000 -121000  93000 -83000  140000 -83000))
     (plane VCC (polygon F.Cu 0  140000 -121000  93000 -121000  93000 -83000  140000 -83000))
-    (via "Via[0-1]_600:400_um")
+    (via "Via[0-1]_2000:400_um")
     (rule
-      (width 250)
+      (width 500)
       (clearance 200.1)
       (clearance 200.1 (type default_smd))
       (clearance 50 (type smd_smd))
@@ -36,22 +38,24 @@
   )
   (placement
     (component Resistors_THT:Resistor_Horizontal_RM7mm
-      (place C1 122000 -98000 front 180 (PN C))
+      (place C1 125000 -88000 front 270 (PN C))
+      (place R1 114500 -100000 front 0 (PN R))
     )
     (component Connectors:RJ45_8
-      (place J1 102000 -92000 front 270 (PN RJ45))
+      (place J1 102000 -91000 front 270 (PN RJ45))
     )
     (component custom:PAD_3X_OVAL
-      (place P1 130000 -101000 front 180 (PN CONN_01X03))
-    )
-    (component Discret:R1
-      (place R1 118000 -94000 front 0 (PN R))
+      (place P1 130000 -93000 front 180 (PN CONN_01X03))
     )
     (component "Housings_DIP:DIP-8_W7.62mm"
-      (place U1 114000 -109000 front 90 (PN SP3485CN))
+      (place U1 114500 -88000 front 0 (PN SP3485CN))
     )
-    (component "custom:HB9500-2P"
-      (place J2 102000 -110000 front 90 (PN Screw_Terminal_1x02))
+    (component custom:A116169CT_SPADE_CONNECTOR
+      (place J2 98500 -100500 front 0 (PN Screw_Terminal_1x01))
+      (place J3 98500 -103000 front 0 (PN Screw_Terminal_1x01))
+    )
+    (component custom:jumper_3_pin_fixed
+      (place JP1 129500 -100000 front 0 (PN Jumper_NC_Dual))
     )
   )
   (library
@@ -88,16 +92,6 @@
       (pin Oval[T]Pad_4000x1500_um 1 -250 2000)
       (pin Oval[T]Pad_4000x1500_um 2 -250 0)
     )
-    (image Discret:R1
-      (outline (path signal 150  -1270 0  1270 0))
-      (outline (path signal 150  149.903 0  80.408 -438.774  -121.274 -834.598  -435.402 -1148.73
-            -831.226 -1350.41  -1270 -1419.9  -1708.77 -1350.41  -2104.6 -1148.73
-            -2418.73 -834.598  -2620.41 -438.774  -2689.9 0  -2620.41 438.774
-            -2418.73 834.598  -2104.6 1148.73  -1708.77 1350.41  -1270 1419.9
-            -831.226 1350.41  -435.402 1148.73  -121.274 834.598  80.408 438.774))
-      (pin Round[A]Pad_1397_um 1 -1270 0)
-      (pin Round[A]Pad_1397_um 2 1270 0)
-    )
     (image "Housings_DIP:DIP-8_W7.62mm"
       (outline (path signal 50  -1050 2450  -1050 -10100))
       (outline (path signal 50  8650 2450  8650 -10100))
@@ -119,18 +113,14 @@
       (pin Oval[A]Pad_1600x1600_um 7 7620 -2540)
       (pin Oval[A]Pad_1600x1600_um 8 7620 0)
     )
-    (image "custom:HB9500-2P"
-      (outline (path signal 150  -9500 8000  9500 8000))
-      (outline (path signal 150  9500 8000  9500 -8000))
-      (outline (path signal 150  9500 -8000  -9500 -8000))
-      (outline (path signal 150  -9500 -8000  -9500 8000))
-      (pin Round[A]Pad_1524_um 1 -4750 0)
-      (pin Round[A]Pad_1524_um 2 4750 0)
+    (image custom:A116169CT_SPADE_CONNECTOR
+      (pin Round[A]Pad_1524_um 1 -2500 0)
+      (pin Round[A]Pad_1524_um 2 2500 0)
     )
-    (padstack Round[A]Pad_1397_um
-      (shape (circle F.Cu 1397))
-      (shape (circle B.Cu 1397))
-      (attach off)
+    (image custom:jumper_3_pin_fixed
+      (pin Round[A]Pad_1524_um 1 -2540 0)
+      (pin Round[A]Pad_1524_um 2 0 0)
+      (pin Round[A]Pad_1524_um 3 2540 0)
     )
     (padstack Round[A]Pad_1501.14_um
       (shape (circle F.Cu 1501.14))
@@ -166,24 +156,24 @@
       (shape (rect B.Cu -750.57 -750.57 750.57 750.57))
       (attach off)
     )
-    (padstack "Via[0-1]_600:400_um"
-      (shape (circle F.Cu 600))
-      (shape (circle B.Cu 600))
+    (padstack "Via[0-1]_2000:400_um"
+      (shape (circle F.Cu 2000))
+      (shape (circle B.Cu 2000))
       (attach off)
     )
   )
   (network
     (net VCC
-      (pins C1-1 P1-1 U1-8 J2-1)
+      (pins C1-1 P1-1 U1-8 J2-1 JP1-1)
     )
     (net GND
-      (pins C1-2 J1-7 J1-8 P1-3 U1-2 U1-3 U1-5 J2-2)
+      (pins C1-2 J1-7 J1-8 P1-3 U1-5 J3-1 JP1-3)
     )
     (net "Net-(J1-Pad1)"
-      (pins J1-1 R1-2 U1-6)
+      (pins J1-1 U1-6 R1-2)
     )
     (net "Net-(J1-Pad2)"
-      (pins J1-2 R1-1 U1-7)
+      (pins J1-2 U1-7 R1-1)
     )
     (net "Net-(J1-Pad3)"
       (pins J1-3)
@@ -197,20 +187,19 @@
     (net "Net-(J1-Pad6)"
       (pins J1-6)
     )
-    (net "Net-(P1-Pad2)"
-      (pins P1-2 U1-1)
+    (net /DATA
+      (pins P1-2 U1-1 U1-4)
     )
-    (net "Net-(U1-Pad4)"
-      (pins U1-4)
+    (net "Net-(JP1-Pad2)"
+      (pins U1-2 U1-3 JP1-2)
     )
-    (class kicad_default "" GND "Net-(J1-Pad1)" "Net-(J1-Pad2)" "Net-(J1-Pad3)"
-      "Net-(J1-Pad4)" "Net-(J1-Pad5)" "Net-(J1-Pad6)" "Net-(P1-Pad2)" "Net-(U1-Pad4)"
-      VCC
+    (class kicad_default "" /DATA GND "Net-(J1-Pad1)" "Net-(J1-Pad2)" "Net-(J1-Pad3)"
+      "Net-(J1-Pad4)" "Net-(J1-Pad5)" "Net-(J1-Pad6)" "Net-(JP1-Pad2)" VCC
       (circuit
-        (use_via Via[0-1]_600:400_um)
+        (use_via Via[0-1]_2000:400_um)
       )
       (rule
-        (width 250)
+        (width 500)
         (clearance 200.1)
       )
     )
