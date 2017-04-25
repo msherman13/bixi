@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /home/msherman/development/bixi/kicad/bixi_node/bixi_node.sch)
-    (date "Sun 09 Apr 2017 01:57:06 PM EDT")
-    (tool "Eeschema 4.0.5")
+    (date "Wed 19 Apr 2017 10:18:09 PM EDT")
+    (tool "Eeschema 4.0.6")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -35,7 +35,7 @@
       (tstamp 58CE071A))
     (comp (ref C1)
       (value C)
-      (footprint Resistors_THT:Resistor_Horizontal_RM7mm)
+      (footprint Capacitors_THT:C_Disc_D3.0mm_W2.0mm_P2.50mm)
       (libsource (lib device) (part C))
       (sheetpath (names /) (tstamps /))
       (tstamp 58CE0786))
@@ -67,11 +67,7 @@
     (libpart (lib device) (part C)
       (description "Unpolarized capacitor")
       (footprints
-        (fp C?)
-        (fp C_????_*)
-        (fp C_????)
-        (fp SMD*_c)
-        (fp Capacitor*))
+        (fp C_*))
       (fields
         (field (name Reference) C)
         (field (name Value) C))
@@ -79,14 +75,14 @@
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
     (libpart (lib conn) (part CONN_01X03)
-      (description "Connector, single row, 01x03")
+      (description "Connector, single row, 01x03, pin header")
       (footprints
-        (fp Pin_Header_Straight_1X03)
-        (fp Pin_Header_Angled_1X03)
-        (fp Socket_Strip_Straight_1X03)
-        (fp Socket_Strip_Angled_1X03))
+        (fp Pin_Header_Straight_1X*)
+        (fp Pin_Header_Angled_1X*)
+        (fp Socket_Strip_Straight_1X*)
+        (fp Socket_Strip_Angled_1X*))
       (fields
-        (field (name Reference) P)
+        (field (name Reference) J)
         (field (name Value) CONN_01X03))
       (pins
         (pin (num 1) (name P1) (type passive))
@@ -105,7 +101,7 @@
       (description Resistor)
       (footprints
         (fp R_*)
-        (fp Resistor_*))
+        (fp R_*))
       (fields
         (field (name Reference) R)
         (field (name Value) R))
@@ -113,6 +109,7 @@
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
     (libpart (lib conn) (part RJ45)
+      (description "RJ45 connector with shield")
       (fields
         (field (name Reference) J)
         (field (name Value) RJ45))
@@ -137,7 +134,7 @@
       (description "3.3V Low Power Half-Duplex RS-485 Transceiver 10Mbps, SO8")
       (docs http://www.icbase.com/pdf/SPX/SPX00480106.pdf)
       (footprints
-        (fp SOIC*))
+        (fp SOIC*3.9x4.9mm*Pitch1.27mm*))
       (fields
         (field (name Reference) U)
         (field (name Value) SP3481CN)
@@ -161,12 +158,12 @@
       (pins
         (pin (num 1) (name ~) (type passive)))))
   (libraries
-    (library (logical device)
-      (uri /usr/share/kicad/library/device.lib))
+    (library (logical conn)
+      (uri /usr/share/kicad/library/conn.lib))
     (library (logical interface)
       (uri /usr/share/kicad/library/interface.lib))
-    (library (logical conn)
-      (uri /usr/share/kicad/library/conn.lib)))
+    (library (logical device)
+      (uri /usr/share/kicad/library/device.lib)))
   (nets
     (net (code 1) (name VCC)
       (node (ref U1) (pin 8))
