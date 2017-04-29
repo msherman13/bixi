@@ -27,7 +27,7 @@ void loop()
         for(int i=0;i<CRoutine::RoutineQty;i++)
         {
             CRoutine::RoutineType type = (CRoutine::RoutineType)i;
-            runRoutine(type, 10);
+            runRoutine(type, 100);
         }
     }
 }
