@@ -1,4 +1,4 @@
-update=Sat 25 Mar 2017 04:29:39 PM EDT
+update=Sat 29 Apr 2017 11:34:28 AM EDT
 version=1
 last_client=kicad
 [pcbnew]
@@ -27,7 +27,7 @@ NetIExt=net
 version=1
 [eeschema]
 version=1
-LibDir=/home/msherman/development/bixi/kicad/logos;/home/msherman/development/bixi/kicad/kicad_teensy-master
+LibDir=/home/msherman/development/bixi/kicad/logos;/home/msherman/development/bixi/kicad/kicad_teensy-master;/home/msherman/development/kicad;/home/msherman/development/kicad/custom_lib
 [eeschema/libraries]
 LibName1=power
 LibName2=device
@@ -59,3 +59,4 @@ LibName27=atmel
 LibName28=contrib
 LibName29=valves
 LibName30=kicad_teensy-master/teensy
+LibName31=custom_lib/custom
