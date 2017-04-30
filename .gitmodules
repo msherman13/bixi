@@ -1,0 +1,3 @@
+[submodule "paul_bixi"]
+	path = paul_bixi
+	url = git@github.com:paulkiernan/bixi.git
