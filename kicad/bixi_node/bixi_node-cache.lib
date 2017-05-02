@@ -147,25 +147,6 @@ X VCC 8 0 400 100 D 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# Screw_Terminal_1x01
-#
-DEF Screw_Terminal_1x01 J 0 30 Y N 1 F N
-F0 "J" 0 150 50 H V C TNN
-F1 "Screw_Terminal_1x01" -150 0 50 V V C TNN
-F2 "" 0 -125 50 H I C CNN
-F3 "" 0 -100 50 H I C CNN
-$FPLIST
- TerminalBlock*1pol
-$ENDFPLIST
-DRAW
-C 25 0 50 0 1 10 N
-S -50 75 100 -75 0 1 10 f
-P 2 0 1 10 0 40 65 -25 N
-P 2 0 1 10 50 -40 -15 25 N
-X ~ 1 200 0 100 L 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
 # VCC
 #
 DEF VCC #PWR 0 0 Y Y 1 F P

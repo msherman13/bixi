@@ -244,9 +244,9 @@ $EndComp
 Connection ~ 5550 4850
 Connection ~ 5050 4850
 Text Label 5400 3100 2    60   ~ 0
-DATA_XCVR
+DATA
 Text Label 5400 3500 2    60   ~ 0
-DATA_XCVR
+DATA
 $Comp
 L Jumper_NC_Dual JP1
 U 1 1 58EA59A3
@@ -259,7 +259,7 @@ F 3 "" H 6400 4800 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 Text Label 8050 3300 2    60   ~ 0
-DATA_STRIP
+DATA
 $Comp
 L R R1
 U 1 1 5901DDA4
@@ -272,42 +272,25 @@ F 3 "" H 2450 3350 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 Text Label 3600 3800 3    60   ~ 0
-DATA_RJ45_A
+DATA_DIFF_A
 Text Label 3700 3800 3    60   ~ 0
-DATA_RJ45_B
+DATA_DIFF_B
 Text Label 3800 3800 3    60   ~ 0
-DATA_RJ45_PT
+DATA
 Text Label 2300 3350 2    60   ~ 0
-DATA_RJ45_A
+DATA_DIFF_A
 Text Label 2600 3350 0    60   ~ 0
-DATA_RJ45_B
-$Comp
-L Jumper_NC_Dual JP2
-U 1 1 5901E154
-P 8100 4600
-F 0 "JP2" H 8150 4500 50  0000 L CNN
-F 1 "Jumper_NC_Dual" H 8100 4700 50  0000 C BNN
-F 2 "custom:jumper_3_pin_fixed" H 8100 4600 50  0001 C CNN
-F 3 "" H 8100 4600 50  0000 C CNN
-	1    8100 4600
-	1    0    0    -1  
-$EndComp
+DATA_DIFF_B
 Text Label 6200 3200 0    60   ~ 0
-DATA_RJ45_A
+DATA_DIFF_A
 Text Label 6200 3400 0    60   ~ 0
-DATA_RJ45_B
-Text Label 8100 4700 3    60   ~ 0
-DATA_STRIP
+DATA_DIFF_B
 Text Label 5400 3200 2    60   ~ 0
-XCVR_MODE
+MODE
 Text Label 5400 3400 2    60   ~ 0
-XCVR_MODE
+MODE
 Text Label 6300 4800 2    60   ~ 0
-XCVR_MODE
-Text Label 7850 4600 2    60   ~ 0
-DATA_RJ45_PT
-Text Label 8350 4600 0    60   ~ 0
-DATA_XCVR
+MODE
 $Comp
 L VCC #PWR2
 U 1 1 5902A84B
