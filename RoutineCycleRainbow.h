@@ -1,17 +1,18 @@
 #pragma once
 
-#include "RoutineHoldRainbow.h"
 #include <stdint.h>
+#include <string>
+
+#include "RoutineHoldRainbow.h"
 
 class CRoutineCycleRainbow : public CRoutineHoldRainbow
 {
     public:
-        CRoutineCycleRainbow(size_t size);
+        CRoutineCycleRainbow(std::string name);
         ~CRoutineCycleRainbow();
 
     public:
         virtual void Continue() override;
-        virtual RoutineType GetType() override { return CycleRainbow; }
 
     private:
         uint32_t m_lastMove;

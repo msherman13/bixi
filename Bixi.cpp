@@ -28,11 +28,11 @@ CBixi::CBixi()
     pinMode(c_indicatorPin, OUTPUT);
 
     // construct routines
-    m_routines[CRoutine::HoldRainbow]    = new CRoutineHoldRainbow(c_numLeds);
-    m_routines[CRoutine::CycleRainbow]   = new CRoutineCycleRainbow(c_numLeds);
-    m_routines[CRoutine::Sparkle]        = new CRoutineSparkle(c_numLeds);
-    m_routines[CRoutine::RainbowSparkle] = new CRoutineRainbowSparkle(c_numLeds);
-    m_routines[CRoutine::Grow]           = new CRoutineGrow(c_numLeds);
+    m_routines[HoldRainbow]    = new CRoutineHoldRainbow("HoldRainbow");
+    m_routines[CycleRainbow]   = new CRoutineCycleRainbow("CycleRainbow");
+    m_routines[Sparkle]        = new CRoutineSparkle("Sparkle");
+    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle("RainbowSparkle");
+    m_routines[Grow]           = new CRoutineGrow("Grow");
 
     // Parallel Output
     FastLED.addLeds<WS2811_PORTD, c_numPins>(m_leds, c_numLedsPerPin);
@@ -48,13 +48,26 @@ CBixi::~CBixi()
     delete m_currRoutine;
 }
 
+const char* CBixi::sRoutineType(RoutineType type)
+{
+    switch(type)
+    {
+        case HoldRainbow:    return "HoldRainbow";
+        case CycleRainbow:   return "CycleRainbow";
+        case Sparkle:        return "Sparkle";
+        case RainbowSparkle: return "RainbowSparkle";
+        case Grow:           return "Grow";
+        default:             return "RoutineUnknown";
+    }
+}
+
 const char* CBixi::sState(State state)
 {
     switch(state)
     {
         case State::Stopped: return "Stopped";
         case State::Running: return "Running";
-        default: return "Undef";
+        default:             return "Undef";
     }
 }
 
@@ -67,14 +80,14 @@ void CBixi::SetState(State state)
     CLogging::log(logString);
 }
 
-CRoutine* CBixi::GetRoutine(CRoutine::RoutineType type)
+CRoutine* CBixi::GetRoutine(RoutineType type)
 {
     return m_routines[type];
 }
 
-bool CBixi::StartRoutine(CRoutine::RoutineType type)
+bool CBixi::StartRoutine(RoutineType type)
 {
-    if(type >= CRoutine::RoutineQty)
+    if(type >= RoutineQty)
         return false;
 
     if(m_currRoutine)
@@ -83,8 +96,7 @@ bool CBixi::StartRoutine(CRoutine::RoutineType type)
     }
 
     char logString[256];
-    sprintf(logString, "CBixi::StartRoutine: Starting [%s]",
-            CRoutine::sRoutineType(type));
+    sprintf(logString, "CBixi::StartRoutine: Starting [%s]", sRoutineType(type));
     CLogging::log(logString);
 
     m_currRoutine = GetRoutine(type);
@@ -101,8 +113,7 @@ bool CBixi::ExitCurrRoutine()
     }
 
     char logString[256];
-    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]",
-            CRoutine::sRoutineType(m_currRoutine->GetType()));
+    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]", m_currRoutine->GetName().c_str());
     CLogging::log(logString);
 
     m_currRoutine = nullptr;

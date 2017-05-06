@@ -1,5 +1,4 @@
 #include "Bixi.h"
-#include "Routine.h"
 #include "Logging.h"
 
 void setup()
@@ -7,7 +6,7 @@ void setup()
     CLogging::Init();
 }
 
-void runRoutine(CRoutine::RoutineType type, unsigned long durationSec)
+void runRoutine(CBixi::RoutineType type, unsigned long durationSec)
 {
     unsigned long startTimeUs = millis();
     CBixi::Instance().StartRoutine(type);
@@ -24,10 +23,10 @@ void loop()
 { 
     while(true)
     {
-        for(int i=0;i<CRoutine::RoutineQty;i++)
+        for(int i=0;i<CBixi::RoutineQty;i++)
         {
-            CRoutine::RoutineType type = (CRoutine::RoutineType)i;
-            runRoutine(CRoutine::CycleRainbow, 1000);
+            (CBixi::RoutineType)i;
+            runRoutine(CBixi::CycleRainbow, 1000);
         }
     }
 }

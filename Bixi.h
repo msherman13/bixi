@@ -17,6 +17,21 @@ class CBixi
         static constexpr size_t c_numPins = 8;
         static constexpr size_t c_numLeds = c_numLedsPerPin * c_numPins;
 
+    public:
+        enum RoutineType
+        {
+            HoldRainbow,
+            CycleRainbow,
+            Sparkle,
+            RainbowSparkle,
+            Grow,
+
+            RoutineQty,
+            RoutineUndef,
+        };
+        static const char* sRoutineType(RoutineType type);
+
+
     public: // singleton
         static CBixi& Instance();
 
@@ -39,7 +54,7 @@ class CBixi
         static const char* sState(State state);
 
     public:
-        bool StartRoutine(CRoutine::RoutineType type);
+        bool StartRoutine(RoutineType type);
         bool Continue();
         bool ExitCurrRoutine();
         State GetState() { return m_state; }
@@ -48,12 +63,12 @@ class CBixi
         void SetAllBlack();
         bool ShowCurrRoutine();
         void Show();
-        CRoutine* GetRoutine(CRoutine::RoutineType type);
+        CRoutine* GetRoutine(RoutineType type);
         void SetState(State state);
 
     private:
         CRGB m_leds[c_numLeds];
-        CRoutine* m_routines[CRoutine::RoutineQty];
+        CRoutine* m_routines[RoutineQty];
         CRoutine* m_currRoutine = nullptr;
         size_t m_lastIndicator = 0;
         bool m_indicatorOn = false;

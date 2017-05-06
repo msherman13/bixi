@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "RoutineSparkle.h"
 
 class CRoutineRainbowSparkle : public CRoutineSparkle
@@ -7,12 +9,11 @@ class CRoutineRainbowSparkle : public CRoutineSparkle
     public:
         static const size_t c_iterationsPerColor = 5;
     public:
-        CRoutineRainbowSparkle(size_t size);
+        CRoutineRainbowSparkle(std::string name);
         ~CRoutineRainbowSparkle();
 
     public:
         virtual CRGB GetColor() { return CRGB(m_currHsv); }
-        virtual RoutineType GetType() override { return RainbowSparkle; }
 
     protected:
         virtual void SetRandomPixels() override;

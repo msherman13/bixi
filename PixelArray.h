@@ -3,28 +3,65 @@
 #include "FastLED.h"
 #include "Pixel.h"
 
-class CPixelArray
+template <size_t SIZE> class CPixelArray
 {
     public:
-        CPixelArray(int size);
+        CPixelArray()
+        {
+            Reset();
+        }
         ~CPixelArray();
 
     public:
-        int GetSize() { return m_size; }
+        size_t GetSize() { return SIZE; }
 
     public:
-        CPixel* GetPixel(int index);
-        bool SetPixel(int index, CRGB rgb);
-        void Reset();
-        bool ValidateIndex(int index);
+        CPixel& GetPixel(size_t index)
+        {
+            return m_pixels[index];
+        }
+
+        void SetPixel(size_t index, CRGB rgb)
+        {
+            m_pixels[index].SetRGB(rgb);
+        }
+
+        void Reset()
+        {
+            for(size_t i=0;i<GetSize();i++)
+            {
+                m_pixels[i].SetRGB(CRGB::Black);
+                m_pixels[i].SetIsPopulated(false);
+            }
+        }
 
     public:
-        void Shift(bool forward, int amount);
+        void Shift(bool forward, size_t amount)
+        {
+            for(size_t it=0;it<amount;it++)
+            {
+                CPixel pixel = m_pixels[GetSize()-1];
+                CPixel buff;
+
+                for(size_t i=0;i<GetSize();i++)
+                {
+                    buff = m_pixels[i];
+                    m_pixels[i] = pixel;
+                    pixel = buff;
+                }
+            }
+        }
 
     public:
-        void SmartCopy(CPixelArray& rhs, int size, int offset=0);
+        void SmartCopy(CPixelArray& rhs, size_t size, size_t offset=0)
+        {
+            for(size_t i=0;i<size;i++)
+            {
+                size_t index = (i + offset) % GetSize();
+                m_pixels[index] = *rhs.GetPixel(i);
+            }
+        }
 
     private:
-        int m_size;
-        CPixel* m_pPixels;
+        CPixel m_pixels[SIZE];
 };

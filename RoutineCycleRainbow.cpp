@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineCycleRainbow::CRoutineCycleRainbow(size_t size) :
-    CRoutineHoldRainbow(size),
+CRoutineCycleRainbow::CRoutineCycleRainbow(std::string name) :
+    CRoutineHoldRainbow(name),
     m_lastMove(0)
 {
     char logString[256];
@@ -21,6 +21,6 @@ void CRoutineCycleRainbow::Continue()
     if(now - m_lastMove < 200)
         return;
 
-    m_pPixelArray->Shift(true, 1);
+    m_pixelArray.Shift(true, 1);
     m_lastMove = now;
 }

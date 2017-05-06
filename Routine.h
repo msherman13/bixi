@@ -1,41 +1,35 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string>
+
+#include "Addressing.h"
+#include "PixelArray.h"
 
 class CPixel;
-class CPixelArray;
 struct CRGB;
 
 class CRoutine
 {
     public:
-        enum RoutineType
-        {
-            HoldRainbow,
-            CycleRainbow,
-            Sparkle,
-            RainbowSparkle,
-            Grow,
-
-            RoutineQty,
-            RoutineUndef,
-        };
-        static const char* sRoutineType(RoutineType type);
-
-    public:
-        CRoutine(size_t size);
+        CRoutine(std::string name);
         virtual ~CRoutine();
 
     public:
         virtual void Start() = 0;
         virtual void Continue() = 0;
         virtual void Exit();
-        virtual RoutineType GetType() = 0;
+
+    public:
+        std::string& GetName() { return m_name; }
 
     public:
         size_t GetSize();
         bool GetRGB(size_t index, CRGB& dest);
 
     protected:
-        CPixelArray* m_pPixelArray;
+        CPixelArray<Addressing::c_length> m_pixelArray;
+
+    private:
+        std::string m_name;
 };
