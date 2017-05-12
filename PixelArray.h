@@ -10,7 +10,7 @@ template <size_t SIZE> class CPixelArray
         {
             Reset();
         }
-        ~CPixelArray();
+        ~CPixelArray() {}
 
     public:
         size_t GetSize() { return SIZE; }

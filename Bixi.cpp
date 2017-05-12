@@ -28,11 +28,11 @@ CBixi::CBixi()
     pinMode(c_indicatorPin, OUTPUT);
 
     // construct routines
-    m_routines[HoldRainbow]    = new CRoutineHoldRainbow("HoldRainbow");
-    m_routines[CycleRainbow]   = new CRoutineCycleRainbow("CycleRainbow");
-    m_routines[Sparkle]        = new CRoutineSparkle("Sparkle");
-    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle("RainbowSparkle");
-    m_routines[Grow]           = new CRoutineGrow("Grow");
+    m_routines[HoldRainbow]    = new CRoutineHoldRainbow();
+    m_routines[CycleRainbow]   = new CRoutineCycleRainbow();
+    m_routines[Sparkle]        = new CRoutineSparkle();
+    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle();
+    m_routines[Grow]           = new CRoutineGrow();
 
     // Parallel Output
     FastLED.addLeds<WS2811_PORTD, c_numPins>(m_leds, c_numLedsPerPin);
@@ -113,7 +113,7 @@ bool CBixi::ExitCurrRoutine()
     }
 
     char logString[256];
-    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]", m_currRoutine->GetName().c_str());
+    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]", m_currRoutine->GetName());
     CLogging::log(logString);
 
     m_currRoutine = nullptr;

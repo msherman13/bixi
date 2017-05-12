@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineSparkle::CRoutineSparkle(std::string name) :
-    CRoutine(name),
+CRoutineSparkle::CRoutineSparkle() :
+    CRoutine(),
     m_lastRun(0)
 {
     char logString[256];

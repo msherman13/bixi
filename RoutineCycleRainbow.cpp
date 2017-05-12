@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineCycleRainbow::CRoutineCycleRainbow(std::string name) :
-    CRoutineHoldRainbow(name),
+CRoutineCycleRainbow::CRoutineCycleRainbow() :
+    CRoutineHoldRainbow(),
     m_lastMove(0)
 {
     char logString[256];

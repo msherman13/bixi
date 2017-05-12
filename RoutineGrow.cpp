@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineGrow::CRoutineGrow(std::string name) :
-    CRoutine(name),
+CRoutineGrow::CRoutineGrow() :
+    CRoutine(),
     m_lastRun(0),
     m_head(0),
     m_up(true)

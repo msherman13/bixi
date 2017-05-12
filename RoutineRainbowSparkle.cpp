@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineRainbowSparkle::CRoutineRainbowSparkle(std::string name) :
-    CRoutineSparkle(name),
+CRoutineRainbowSparkle::CRoutineRainbowSparkle() :
+    CRoutineSparkle(),
     m_currHsv(0, 240, 128),
     m_numIterationsSinceChange(0)
 {

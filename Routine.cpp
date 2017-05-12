@@ -2,8 +2,7 @@
 #include "Logging.h"
 #include "FastLED.h"
 
-CRoutine::CRoutine(std::string name) :
-    m_name(name)
+CRoutine::CRoutine()
 {
 }
 

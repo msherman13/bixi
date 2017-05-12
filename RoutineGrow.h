@@ -1,19 +1,19 @@
 #pragma once
 
 #include "stdint.h"
-#include <string>
 
 #include "Routine.h"
 
 class CRoutineGrow : public CRoutine
 {
     public:
-        CRoutineGrow(std::string name);
+        CRoutineGrow();
         ~CRoutineGrow();
 
     public:
-        virtual void Start() override;
-        virtual void Continue() override;
+        virtual void        Start()    override;
+        virtual void        Continue() override;
+        virtual const char* GetName()  override { return "Grow"; }
 
     private:
         uint32_t m_lastRun;

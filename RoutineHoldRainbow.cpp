@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineHoldRainbow::CRoutineHoldRainbow(std::string name) :
-    CRoutine(name)
+CRoutineHoldRainbow::CRoutineHoldRainbow() :
+    CRoutine()
 {
     char logString[256];
     sprintf(logString, "CRoutineHoldRainbow::CRoutineHoldRainbow: Constructing routine");
