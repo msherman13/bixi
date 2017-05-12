@@ -17,10 +17,5 @@ CRoutineCycleRainbow::~CRoutineCycleRainbow()
 
 void CRoutineCycleRainbow::Continue()
 {
-    uint32_t now = millis();
-    if(now - m_lastMove < 200)
-        return;
-
-    m_pPixelArray->Shift(true, 1);
-    m_lastMove = now;
+    m_pPixelArray->Shift(true, 2);
 }

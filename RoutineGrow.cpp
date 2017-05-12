@@ -34,8 +34,8 @@ void CRoutineGrow::Start()
 void CRoutineGrow::Continue()
 {
     uint32_t now = millis();
-    if(now - m_lastRun < 100)
-        return;
+//    if(now - m_lastRun < 100)
+//        return;
     m_lastRun = now;
 
     if(m_head == GetSize()-1)
