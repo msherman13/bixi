@@ -1,6 +1,5 @@
 #include "Routine.h"
 #include "Logging.h"
-#include "FastLED.h"
 
 CRoutine::CRoutine()
 {

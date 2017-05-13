@@ -1,6 +1,5 @@
 #pragma once
 
-#include "FastLED.h"
 #include "Pixel.h"
 
 template <size_t SIZE> class CPixelArray

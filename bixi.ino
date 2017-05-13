@@ -25,8 +25,13 @@ void loop()
     {
         for(int i=0;i<CBixi::RoutineQty;i++)
         {
-            (CBixi::RoutineType)i;
             runRoutine(CBixi::CycleRainbow, 1000);
         }
     }
+}
+
+int main()
+{
+    loop();
+    return 0;
 }

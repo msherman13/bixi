@@ -1,5 +1,4 @@
 #include "Logging.h"
-#include "Arduino.h"
 
 void CLogging::Init()
 {

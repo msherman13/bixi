@@ -11,7 +11,7 @@ class CRoutineRainbowSparkle : public CRoutineSparkle
         ~CRoutineRainbowSparkle();
 
     public:
-        virtual CRGB GetColor() { return CRGB(m_currHsv); }
+        virtual CRGB GetColor() override { return CRGB(m_currHsv); }
 
     protected:
         virtual void        SetRandomPixels() override;

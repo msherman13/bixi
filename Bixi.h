@@ -67,7 +67,7 @@ class CBixi
         void SetState(State state);
 
     private:
-        CRGB m_leds[c_numLeds];
+        CRGB m_leds[c_numLeds] = {};
         CRoutine* m_routines[RoutineQty];
         CRoutine* m_currRoutine = nullptr;
         size_t m_lastIndicator = 0;

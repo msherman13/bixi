@@ -5,6 +5,7 @@
 #include "RoutineRainbowSparkle.h"
 #include "RoutineGrow.h"
 #include "Logging.h"
+#include "Arduino.h"
 
 #define DRIVER WS2812B
 #define ORDER GRB
