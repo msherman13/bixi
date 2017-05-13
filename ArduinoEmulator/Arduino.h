@@ -13,6 +13,8 @@ void digitalWrite(size_t, bool);
 
 size_t millis();
 
+void increment_time(size_t millis);
+
 class CSerial
 {
     public:

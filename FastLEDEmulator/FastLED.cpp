@@ -7,12 +7,11 @@
 CFastLED::CFastLED()
 {
     m_file.open("sim.csv");
-    m_start_time_ms = millis();
 }
 
 void CFastLED::show()
 {
-    m_file << millis() - m_start_time_ms << ",";
+    m_file << millis();
     for(size_t i=0;i<m_numLeds;i++)
     {
         char logstr[16];
@@ -22,7 +21,7 @@ void CFastLED::show()
     m_file << std::endl;
 
     // fake the refresh rate
-    usleep(c_sleep_time_ms * 1000);
+    increment_time(c_sleep_time_ms);
 }
 
 CFastLED FastLED;

@@ -22,7 +22,7 @@ class CFastLED
             m_numLeds = NUM_PINS * numLedsPerPin;
             m_leds = leds;
 
-            m_file << "time_ms,";
+            m_file << "time_ms";
             for(size_t i=0;i<m_numLeds;i++)
             {
                 m_file << ",pixel_" << i;
@@ -35,7 +35,6 @@ class CFastLED
         size_t m_numLeds = 0;
         CRGB* m_leds = nullptr;
         std::ofstream m_file;
-        size_t m_start_time_ms = 0;
 };
 
 extern CFastLED FastLED;

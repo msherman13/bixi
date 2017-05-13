@@ -8,13 +8,16 @@ void digitalWrite(size_t, bool)
 {
 }
 
+size_t curr_time_ms = 0;
+
 size_t millis()
 {
-	using namespace std::chrono;
-	milliseconds ms = duration_cast< milliseconds >(
-		system_clock::now().time_since_epoch()
-	);
-    return ms.count();
+    return curr_time_ms;
+}
+
+void increment_time(size_t millis)
+{
+    curr_time_ms += millis;
 }
 
 void CSerial::begin(int)
