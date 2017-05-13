@@ -36,7 +36,7 @@ CBixi::CBixi()
     m_routines[Grow]           = new CRoutineGrow();
 
     // Parallel Output
-    FastLED.addLeds<WS2811_PORTD, c_numPins>(m_leds, c_numLedsPerPin);
+    FastLED.addLeds<WS2811_PORTD, Addressing::c_num_strands>(m_leds, Addressing::c_effective_strand_length);
 
     SetAllBlack();
     Show();

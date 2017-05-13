@@ -1,5 +1,5 @@
 CC = /usr/bin/g++
-CXXFLAGS = -I. -std=c++11
+CXXFLAGS = -I. -std=c++11 -g
 OBJ = FastLEDEmulator/*.cpp ArduinoEmulator/*.cpp *.cpp
 SIM_DIR = build-sim
 INC += -IFastLEDEmulator
