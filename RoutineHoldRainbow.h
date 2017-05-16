@@ -5,7 +5,7 @@
 class CRoutineHoldRainbow : public CRoutine
 {
     public:
-        CRoutineHoldRainbow();
+        CRoutineHoldRainbow(CPixelArray& pixels);
         ~CRoutineHoldRainbow();
 
     public:

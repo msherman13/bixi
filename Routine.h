@@ -11,7 +11,7 @@ struct CRGB;
 class CRoutine
 {
     public:
-        CRoutine();
+        CRoutine(CPixelArray& pixels);
         virtual ~CRoutine();
 
     public:
@@ -25,5 +25,5 @@ class CRoutine
         void GetRGB(size_t index, CRGB& dest);
 
     protected:
-        CPixelArray m_pixelArray;
+        CPixelArray m_pixels;
 };

@@ -3,8 +3,8 @@
 #include "Logging.h"
 #include "FastLED.h"
 
-CRoutineGrow::CRoutineGrow() :
-    CRoutine(),
+CRoutineGrow::CRoutineGrow(CPixelArray& pixels) :
+    CRoutine(pixels),
     m_lastRun(0),
     m_head(0),
     m_up(true)
@@ -26,10 +26,10 @@ void CRoutineGrow::Start()
 
     for(size_t i=0;i<GetSize();i++)
     {
-        m_pixelArray.SetPixel(i, CRGB::Black);
+        m_pixels.SetPixel(i, CRGB::Black);
     }
 
-    m_pixelArray.SetPixel(m_head, CRGB::Blue);
+    m_pixels.SetPixel(m_head, CRGB::Blue);
 }
 
 void CRoutineGrow::Continue()
@@ -49,9 +49,9 @@ void CRoutineGrow::Continue()
     }
 
     m_head = m_up ? m_head + 1 : m_head - 1;
-    m_pixelArray.SetPixel(m_head, CRGB::Blue);
+    m_pixels.SetPixel(m_head, CRGB::Blue);
     if(!m_up)
     {
-        m_pixelArray.SetPixel(m_head + 1, CRGB::Black);
+        m_pixels.SetPixel(m_head + 1, CRGB::Black);
     }
 }

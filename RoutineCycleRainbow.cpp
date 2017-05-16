@@ -3,8 +3,8 @@
 #include "Logging.h"
 #include "FastLED.h"
 
-CRoutineCycleRainbow::CRoutineCycleRainbow() :
-    CRoutineHoldRainbow(),
+CRoutineCycleRainbow::CRoutineCycleRainbow(CPixelArray& pixels) :
+    CRoutineHoldRainbow(pixels),
     m_lastMove(0)
 {
     char logString[256];
@@ -22,6 +22,6 @@ void CRoutineCycleRainbow::Continue()
     if(now - m_lastMove < 200)
         return;
 
-    m_pixelArray.Shift(true, 1);
+    m_pixels.Shift(true, 1);
     m_lastMove = now;
 }

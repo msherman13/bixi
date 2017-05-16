@@ -60,7 +60,7 @@ class CBixi
         void SetState(State state);
 
     private:
-        CRGB m_leds[Addressing::c_effective_length] = {};
+        CPixelArray m_pixels;
         CRoutine* m_routines[RoutineQty];
         CRoutine* m_currRoutine = nullptr;
         size_t m_lastIndicator = 0;

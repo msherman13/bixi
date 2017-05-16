@@ -18,7 +18,8 @@ CBixi& CBixi::Instance()
 
 // FastLED::ParallelOutput:
 //     Pins 2, 14, 7, 8, 6, 20, 21, 5
-CBixi::CBixi()
+CBixi::CBixi() :
+    m_pixels(Addressing::c_effective_strand_length)
 {
     CLogging::log("CBixi::CBixi: Initializing Bixi");
 
@@ -28,16 +29,15 @@ CBixi::CBixi()
     pinMode(c_indicatorPin, OUTPUT);
 
     // construct routines
-    m_routines[HoldRainbow]    = new CRoutineHoldRainbow();
-    m_routines[CycleRainbow]   = new CRoutineCycleRainbow();
-    m_routines[Sparkle]        = new CRoutineSparkle();
-    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle();
-    m_routines[Grow]           = new CRoutineGrow();
+    m_routines[HoldRainbow]    = new CRoutineHoldRainbow(m_pixels);
+    m_routines[CycleRainbow]   = new CRoutineCycleRainbow(m_pixels);
+    m_routines[Sparkle]        = new CRoutineSparkle(m_pixels);
+    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle(m_pixels);
+    m_routines[Grow]           = new CRoutineGrow(m_pixels);
 
     // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_leds, Addressing::c_effective_strand_length);
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRawArray(), m_pixels.GetSize());
 
-    SetAllBlack();
     Show();
 
     SetState(State::Running);
@@ -121,24 +121,11 @@ bool CBixi::ExitCurrRoutine()
     return true;
 }
 
-void CBixi::SetAllBlack()
-{
-    for(size_t i=0;i<Addressing::c_effective_length;i++)
-    {
-        m_leds[i] = CRGB::Black;
-    }
-}
-
 bool CBixi::ShowCurrRoutine()
 {
     if(!m_currRoutine)
     {
         return false;
-    }
-
-    for(size_t i=0;i<m_currRoutine->GetSize();i++)
-    {
-        m_currRoutine->GetRGB(i, m_leds[i]);
     }
 
     Show();

@@ -7,7 +7,7 @@ class CRoutineRainbowSparkle : public CRoutineSparkle
     public:
         static const size_t c_iterationsPerColor = 5;
     public:
-        CRoutineRainbowSparkle();
+        CRoutineRainbowSparkle(CPixelArray& pixels);
         ~CRoutineRainbowSparkle();
 
     public:

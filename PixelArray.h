@@ -9,6 +9,7 @@ class CPixelArray
     public:
         CPixelArray(size_t len); // new underlying pixels
         CPixelArray(CRGB* rgb, size_t len); // reference to external pixels
+        CPixelArray(CPixelArray& rhs); // reference to external pixels (no copy!)
         ~CPixelArray();
 
     public:
@@ -17,6 +18,7 @@ class CPixelArray
     public:
         CRGB& GetPixel(size_t index);
         void  SetPixel(size_t index, CRGB rgb);
+        CRGB* GetRawArray() { return m_pixels; }
         void  Reset();
 
     public:

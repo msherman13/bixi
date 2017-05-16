@@ -14,6 +14,12 @@ CPixelArray::CPixelArray(CRGB* rgb, size_t len) :
 {
 }
 
+CPixelArray::CPixelArray(CPixelArray& rhs) :
+    m_pixels(rhs.GetRawArray()),
+    m_length(rhs.GetSize())
+{
+}
+
 CPixelArray::~CPixelArray()
 {
 }

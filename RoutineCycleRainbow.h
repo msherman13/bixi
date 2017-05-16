@@ -7,7 +7,7 @@
 class CRoutineCycleRainbow : public CRoutineHoldRainbow
 {
     public:
-        CRoutineCycleRainbow();
+        CRoutineCycleRainbow(CPixelArray& pixels);
         ~CRoutineCycleRainbow();
 
     public:

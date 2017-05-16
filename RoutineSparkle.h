@@ -11,7 +11,7 @@ class CRoutineSparkle : public CRoutine
         static constexpr CRGB::HTMLColorCode c_color = CRGB::WhiteSmoke;
 
     public:
-        CRoutineSparkle();
+        CRoutineSparkle(CPixelArray& pixels);
         ~CRoutineSparkle();
 
     public:

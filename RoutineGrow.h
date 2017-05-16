@@ -7,7 +7,7 @@
 class CRoutineGrow : public CRoutine
 {
     public:
-        CRoutineGrow();
+        CRoutineGrow(CPixelArray& pixels);
         ~CRoutineGrow();
 
     public:

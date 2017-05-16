@@ -5,6 +5,7 @@
 #include <fstream>
 
 #define WS2811_PORTD 1
+#define WS2813_PORTD 2
 
 class CFastLED
 {

@@ -3,8 +3,8 @@
 #include "Logging.h"
 #include "FastLED.h"
 
-CRoutineRainbowSparkle::CRoutineRainbowSparkle() :
-    CRoutineSparkle(),
+CRoutineRainbowSparkle::CRoutineRainbowSparkle(CPixelArray& pixels) :
+    CRoutineSparkle(pixels),
     m_currHsv(0, 240, 128),
     m_numIterationsSinceChange(0)
 {
