@@ -10,13 +10,6 @@ class CBixi
         static constexpr size_t c_indicatorPin = 13;
         static constexpr size_t c_indicatorDelayMs = 5000;
 
-        // data output
-        static constexpr size_t c_maxNumPins = 8;
-        static constexpr size_t c_numLedsPerPin = 29;
-        //static constexpr size_t c_numPins = 4;
-        static constexpr size_t c_numPins = 8;
-        static constexpr size_t c_numLeds = c_numLedsPerPin * c_numPins;
-
     public:
         enum RoutineType
         {

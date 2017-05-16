@@ -5,10 +5,9 @@
 #include "RoutineRainbowSparkle.h"
 #include "RoutineGrow.h"
 #include "Logging.h"
+#include "Addressing.h"
 #include "Arduino.h"
 
-#define DRIVER WS2812B
-#define ORDER GRB
 //#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
@@ -36,7 +35,7 @@ CBixi::CBixi()
     m_routines[Grow]           = new CRoutineGrow();
 
     // Parallel Output
-    FastLED.addLeds<WS2811_PORTD, Addressing::c_num_strands>(m_leds, Addressing::c_effective_strand_length);
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_leds, Addressing::c_effective_strand_length);
 
     SetAllBlack();
     Show();
@@ -124,7 +123,7 @@ bool CBixi::ExitCurrRoutine()
 
 void CBixi::SetAllBlack()
 {
-    for(size_t i=0;i<c_numLeds;i++)
+    for(size_t i=0;i<Addressing::c_effective_length;i++)
     {
         m_leds[i] = CRGB::Black;
     }
