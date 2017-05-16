@@ -22,8 +22,8 @@ class CRoutine
 
     public:
         size_t GetSize();
-        bool GetRGB(size_t index, CRGB& dest);
+        void GetRGB(size_t index, CRGB& dest);
 
     protected:
-        CPixelArray<Addressing::c_effective_length> m_pixelArray;
+        CPixelArray m_pixelArray;
 };

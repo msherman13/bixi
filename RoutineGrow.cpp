@@ -1,6 +1,7 @@
 #include "RoutineGrow.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
 CRoutineGrow::CRoutineGrow() :
     CRoutine(),

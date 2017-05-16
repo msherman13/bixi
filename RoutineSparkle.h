@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "Routine.h"
+#include "FastLED.h"
 
 class CRoutineSparkle : public CRoutine
 {

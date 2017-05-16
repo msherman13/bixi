@@ -1,7 +1,9 @@
 #include "Routine.h"
 #include "Logging.h"
+#include "FastLED.h"
 
-CRoutine::CRoutine()
+CRoutine::CRoutine() :
+    m_pixelArray(Addressing::c_effective_length)
 {
 }
 
@@ -10,11 +12,9 @@ CRoutine::~CRoutine()
     Exit();
 }
 
-bool CRoutine::GetRGB(size_t index, CRGB& dest)
+void CRoutine::GetRGB(size_t index, CRGB& dest)
 {
-    CPixel& pixel = m_pixelArray.GetPixel(index);
-
-    return pixel.GetRGB(dest);
+    dest = m_pixelArray.GetPixel(index);
 }
 
 size_t CRoutine::GetSize()

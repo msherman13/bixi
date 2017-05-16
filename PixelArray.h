@@ -1,66 +1,31 @@
 #pragma once
 
-#include "Pixel.h"
+#include <stdlib.h>
 
-template <size_t SIZE> class CPixelArray
+struct CRGB;
+
+class CPixelArray
 {
     public:
-        CPixelArray()
-        {
-            Reset();
-        }
-        ~CPixelArray() {}
+        CPixelArray(size_t len); // new underlying pixels
+        CPixelArray(CRGB* rgb, size_t len); // reference to external pixels
+        ~CPixelArray();
 
     public:
-        size_t GetSize() { return SIZE; }
+        size_t GetSize() { return m_length; }
 
     public:
-        CPixel& GetPixel(size_t index)
-        {
-            return m_pixels[index];
-        }
-
-        void SetPixel(size_t index, CRGB rgb)
-        {
-            m_pixels[index].SetRGB(rgb);
-        }
-
-        void Reset()
-        {
-            for(size_t i=0;i<GetSize();i++)
-            {
-                m_pixels[i].SetRGB(CRGB::Black);
-                m_pixels[i].SetIsPopulated(false);
-            }
-        }
+        CRGB& GetPixel(size_t index);
+        void  SetPixel(size_t index, CRGB rgb);
+        void  Reset();
 
     public:
-        void Shift(bool forward, size_t amount)
-        {
-            for(size_t it=0;it<amount;it++)
-            {
-                CPixel pixel = m_pixels[GetSize()-1];
-                CPixel buff;
-
-                for(size_t i=0;i<GetSize();i++)
-                {
-                    buff = m_pixels[i];
-                    m_pixels[i] = pixel;
-                    pixel = buff;
-                }
-            }
-        }
+        void Shift(bool forward, size_t amount);
 
     public:
-        void SmartCopy(CPixelArray& rhs, size_t size, size_t offset=0)
-        {
-            for(size_t i=0;i<size;i++)
-            {
-                size_t index = (i + offset) % GetSize();
-                m_pixels[index] = *rhs.GetPixel(i);
-            }
-        }
+        void SmartCopy(CPixelArray& rhs, size_t size, size_t offset=0);
 
     private:
-        CPixel m_pixels[SIZE];
+        CRGB*  m_pixels = nullptr;
+        size_t m_length = 0;
 };

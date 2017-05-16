@@ -1,6 +1,7 @@
 #include "RoutineCycleRainbow.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
 CRoutineCycleRainbow::CRoutineCycleRainbow() :
     CRoutineHoldRainbow(),

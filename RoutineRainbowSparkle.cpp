@@ -1,6 +1,7 @@
 #include "RoutineRainbowSparkle.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
 CRoutineRainbowSparkle::CRoutineRainbowSparkle() :
     CRoutineSparkle(),
