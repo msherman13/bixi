@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pixeltypes.h"
+#include "FastLED.h"
 
 class CPixel
 {

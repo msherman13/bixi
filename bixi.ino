@@ -23,10 +23,7 @@ void loop()
 { 
     while(true)
     {
-        for(int i=0;i<CBixi::RoutineQty;i++)
-        {
-            runRoutine(CBixi::CycleRainbow, 1000);
-        }
+        runRoutine(CBixi::Grow, 1000);
     }
 }
 
