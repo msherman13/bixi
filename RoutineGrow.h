@@ -1,18 +1,19 @@
 #pragma once
 
-#include "Routine.h"
 #include "stdint.h"
+
+#include "Routine.h"
 
 class CRoutineGrow : public CRoutine
 {
     public:
-        CRoutineGrow(size_t size);
+        CRoutineGrow(CPixelArray& pixels);
         ~CRoutineGrow();
 
     public:
-        virtual void Start() override;
-        virtual void Continue() override;
-        virtual RoutineType GetType() override { return Grow; }
+        virtual void        Start()    override;
+        virtual void        Continue() override;
+        virtual const char* GetName()  override { return "Grow"; }
 
     private:
         uint32_t m_lastRun;

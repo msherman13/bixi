@@ -4,10 +4,11 @@
 #include "RoutineSparkle.h"
 #include "RoutineRainbowSparkle.h"
 #include "RoutineGrow.h"
+#include "RoutinePlainTest.h"
 #include "Logging.h"
+#include "Addressing.h"
+#include "Arduino.h"
 
-#define DRIVER WS2812B
-#define ORDER GRB
 //#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
@@ -18,7 +19,8 @@ CBixi& CBixi::Instance()
 
 // FastLED::ParallelOutput:
 //     Pins 2, 14, 7, 8, 6, 20, 21, 5
-CBixi::CBixi()
+CBixi::CBixi() :
+    m_pixels(Addressing::c_effective_strand_length)
 {
     CLogging::log("CBixi::CBixi: Initializing Bixi");
 
@@ -28,16 +30,16 @@ CBixi::CBixi()
     pinMode(c_indicatorPin, OUTPUT);
 
     // construct routines
-    m_routines[CRoutine::HoldRainbow]    = new CRoutineHoldRainbow(c_numLeds);
-    m_routines[CRoutine::CycleRainbow]   = new CRoutineCycleRainbow(c_numLeds);
-    m_routines[CRoutine::Sparkle]        = new CRoutineSparkle(c_numLeds);
-    m_routines[CRoutine::RainbowSparkle] = new CRoutineRainbowSparkle(c_numLeds);
-    m_routines[CRoutine::Grow]           = new CRoutineGrow(c_numLeds);
+    m_routines[HoldRainbow]    = new CRoutineHoldRainbow(m_pixels);
+    m_routines[CycleRainbow]   = new CRoutineCycleRainbow(m_pixels);
+    m_routines[Sparkle]        = new CRoutineSparkle(m_pixels);
+    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle(m_pixels);
+    m_routines[Grow]           = new CRoutineGrow(m_pixels);
+    m_routines[PlainTest]      = new CRoutinePlainTest(m_pixels);
 
     // Parallel Output
-    FastLED.addLeds<WS2811_PORTD, c_numPins>(m_leds, c_numLedsPerPin);
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRawArray(), m_pixels.GetSize());
 
-    SetAllBlack();
     Show();
 
     SetState(State::Running);
@@ -48,13 +50,26 @@ CBixi::~CBixi()
     delete m_currRoutine;
 }
 
+const char* CBixi::sRoutineType(RoutineType type)
+{
+    switch(type)
+    {
+        case HoldRainbow:    return "HoldRainbow";
+        case CycleRainbow:   return "CycleRainbow";
+        case Sparkle:        return "Sparkle";
+        case RainbowSparkle: return "RainbowSparkle";
+        case Grow:           return "Grow";
+        default:             return "RoutineUnknown";
+    }
+}
+
 const char* CBixi::sState(State state)
 {
     switch(state)
     {
         case State::Stopped: return "Stopped";
         case State::Running: return "Running";
-        default: return "Undef";
+        default:             return "Undef";
     }
 }
 
@@ -67,14 +82,14 @@ void CBixi::SetState(State state)
     CLogging::log(logString);
 }
 
-CRoutine* CBixi::GetRoutine(CRoutine::RoutineType type)
+CRoutine* CBixi::GetRoutine(RoutineType type)
 {
     return m_routines[type];
 }
 
-bool CBixi::StartRoutine(CRoutine::RoutineType type)
+bool CBixi::StartRoutine(RoutineType type)
 {
-    if(type >= CRoutine::RoutineQty)
+    if(type >= RoutineQty)
         return false;
 
     if(m_currRoutine)
@@ -83,8 +98,7 @@ bool CBixi::StartRoutine(CRoutine::RoutineType type)
     }
 
     char logString[256];
-    sprintf(logString, "CBixi::StartRoutine: Starting [%s]",
-            CRoutine::sRoutineType(type));
+    sprintf(logString, "CBixi::StartRoutine: Starting [%s]", sRoutineType(type));
     CLogging::log(logString);
 
     m_currRoutine = GetRoutine(type);
@@ -101,8 +115,7 @@ bool CBixi::ExitCurrRoutine()
     }
 
     char logString[256];
-    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]",
-            CRoutine::sRoutineType(m_currRoutine->GetType()));
+    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]", m_currRoutine->GetName());
     CLogging::log(logString);
 
     m_currRoutine = nullptr;
@@ -110,24 +123,11 @@ bool CBixi::ExitCurrRoutine()
     return true;
 }
 
-void CBixi::SetAllBlack()
-{
-    for(size_t i=0;i<c_numLeds;i++)
-    {
-        m_leds[i] = CRGB::Black;
-    }
-}
-
 bool CBixi::ShowCurrRoutine()
 {
     if(!m_currRoutine)
     {
         return false;
-    }
-
-    for(size_t i=0;i<m_currRoutine->GetSize();i++)
-    {
-        m_currRoutine->GetRGB(i, m_leds[i]);
     }
 
     Show();

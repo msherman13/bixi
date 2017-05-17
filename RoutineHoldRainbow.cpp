@@ -1,9 +1,10 @@
 #include "RoutineHoldRainbow.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
-CRoutineHoldRainbow::CRoutineHoldRainbow(size_t size) :
-    CRoutine(size)
+CRoutineHoldRainbow::CRoutineHoldRainbow(CPixelArray& pixels) :
+    CRoutine(pixels)
 {
     char logString[256];
     sprintf(logString, "CRoutineHoldRainbow::CRoutineHoldRainbow: Constructing routine");
@@ -29,12 +30,12 @@ void CRoutineHoldRainbow::Start()
     for(size_t i=0;i<GetSize()/2;i++)
     {
         hsv.hue = i * multiplier;
-        m_pPixelArray->SetPixel(i, CRGB(hsv));
+        m_pixels.SetPixel(i, CRGB(hsv));
     }
     for(size_t i=0;i<GetSize()/2;i++)
     {
         hsv.hue = 255 - i * (double)(255.0 / (GetSize()/2-1));
-        m_pPixelArray->SetPixel(i + GetSize()/2, CRGB(hsv));
+        m_pixels.SetPixel(i + GetSize()/2, CRGB(hsv));
     }
 }
 

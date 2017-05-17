@@ -5,11 +5,11 @@
 class CRoutineHoldRainbow : public CRoutine
 {
     public:
-        CRoutineHoldRainbow(size_t size);
+        CRoutineHoldRainbow(CPixelArray& pixels);
         ~CRoutineHoldRainbow();
 
     public:
-        virtual void Start() override;
-        virtual void Continue() override;
-        virtual RoutineType GetType() override { return HoldRainbow; }
+        virtual void        Start()    override;
+        virtual void        Continue() override;
+        virtual const char* GetName()  override { return "HoldRainbow"; }
 };

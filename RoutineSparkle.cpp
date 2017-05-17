@@ -2,8 +2,8 @@
 #include "PixelArray.h"
 #include "Logging.h"
 
-CRoutineSparkle::CRoutineSparkle(size_t size) :
-    CRoutine(size),
+CRoutineSparkle::CRoutineSparkle(CPixelArray& pixels) :
+    CRoutine(pixels),
     m_lastRun(0)
 {
     char logString[256];
@@ -36,13 +36,13 @@ void CRoutineSparkle::Continue()
 
 void CRoutineSparkle::SetRandomPixels()
 {
-    m_pPixelArray->Reset();
+    m_pixels.Reset();
     for(size_t i=0;i<GetSize();i++)
     {
         bool setThisPixel = rand() % 30 == 0;
         if(setThisPixel)
-            m_pPixelArray->SetPixel(i, GetColor());
+            m_pixels.SetPixel(i, GetColor());
         else
-            m_pPixelArray->SetPixel(i, CRGB::Black);
+            m_pixels.SetPixel(i, CRGB::Black);
     }
 }

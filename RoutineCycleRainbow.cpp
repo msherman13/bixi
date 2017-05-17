@@ -1,9 +1,10 @@
 #include "RoutineCycleRainbow.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
-CRoutineCycleRainbow::CRoutineCycleRainbow(size_t size) :
-    CRoutineHoldRainbow(size),
+CRoutineCycleRainbow::CRoutineCycleRainbow(CPixelArray& pixels) :
+    CRoutineHoldRainbow(pixels),
     m_lastMove(0)
 {
     char logString[256];
@@ -17,5 +18,10 @@ CRoutineCycleRainbow::~CRoutineCycleRainbow()
 
 void CRoutineCycleRainbow::Continue()
 {
-    m_pPixelArray->Shift(true, 2);
+    uint32_t now = millis();
+    if(now - m_lastMove < 200)
+        return;
+
+    m_pixels.Shift(true, 1);
+    m_lastMove = now;
 }

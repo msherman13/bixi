@@ -1,9 +1,10 @@
 #include "RoutineGrow.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
-CRoutineGrow::CRoutineGrow(size_t size) :
-    CRoutine(size),
+CRoutineGrow::CRoutineGrow(CPixelArray& pixels) :
+    CRoutine(pixels),
     m_lastRun(0),
     m_head(0),
     m_up(true)
@@ -25,10 +26,10 @@ void CRoutineGrow::Start()
 
     for(size_t i=0;i<GetSize();i++)
     {
-        m_pPixelArray->SetPixel(i, CRGB::Black);
+        m_pixels.SetPixel(i, CRGB::Black);
     }
 
-    m_pPixelArray->SetPixel(m_head, CRGB::Blue);
+    m_pixels.SetPixel(m_head, CRGB::Blue);
 }
 
 void CRoutineGrow::Continue()
@@ -48,9 +49,9 @@ void CRoutineGrow::Continue()
     }
 
     m_head = m_up ? m_head + 1 : m_head - 1;
-    m_pPixelArray->SetPixel(m_head, CRGB::Blue);
+    m_pixels.SetPixel(m_head, CRGB::Blue);
     if(!m_up)
     {
-        m_pPixelArray->SetPixel(m_head + 1, CRGB::Black);
+        m_pixels.SetPixel(m_head + 1, CRGB::Black);
     }
 }

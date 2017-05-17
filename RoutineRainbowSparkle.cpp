@@ -1,9 +1,10 @@
 #include "RoutineRainbowSparkle.h"
 #include "PixelArray.h"
 #include "Logging.h"
+#include "FastLED.h"
 
-CRoutineRainbowSparkle::CRoutineRainbowSparkle(size_t size) :
-    CRoutineSparkle(size),
+CRoutineRainbowSparkle::CRoutineRainbowSparkle(CPixelArray& pixels) :
+    CRoutineSparkle(pixels),
     m_currHsv(0, 240, 128),
     m_numIterationsSinceChange(0)
 {

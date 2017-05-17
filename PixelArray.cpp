@@ -1,70 +1,68 @@
 #include "PixelArray.h"
-#include "Logging.h"
+#include "FastLED.h"
 
-CPixelArray::CPixelArray(int size) :
-    m_size(size),
-    m_pPixels(new CPixel[size])
+CPixelArray::CPixelArray(size_t len) :
+    m_pixels(new CRGB[len]),
+    m_length(len)
+{
+    Reset();
+}
+
+CPixelArray::CPixelArray(CRGB* rgb, size_t len) :
+    m_pixels(rgb),
+    m_length(len)
+{
+}
+
+CPixelArray::CPixelArray(CPixelArray& rhs) :
+    m_pixels(rhs.GetRawArray()),
+    m_length(rhs.GetSize())
 {
 }
 
 CPixelArray::~CPixelArray()
 {
-    for(int i=0;i<GetSize();i++)
-        delete &m_pPixels[i];
 }
 
-bool CPixelArray::ValidateIndex(int index)
+CRGB& CPixelArray::GetPixel(size_t index)
 {
-    return index >= 0 && index < GetSize();
+    return m_pixels[index];
 }
 
-CPixel* CPixelArray::GetPixel(int index)
+void CPixelArray::SetPixel(size_t index, CRGB rgb)
 {
-    if(!ValidateIndex(index))
-        return nullptr;
-
-    return &m_pPixels[index];
-}
-
-bool CPixelArray::SetPixel(int index, CRGB rgb)
-{
-    if(!ValidateIndex(index))
-        return false;
-
-    m_pPixels[index].SetRGB(rgb);
-    return true;
+    m_pixels[index] = rgb;
 }
 
 void CPixelArray::Reset()
 {
-    for(int i=0;i<GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
-        m_pPixels[i].SetRGB(CRGB::Black);
-        m_pPixels[i].SetIsPopulated(false);
+        SetPixel(i, CRGB::Black);
     }
 }
 
-void CPixelArray::Shift(bool forward, int amount)
+void CPixelArray::Shift(bool forward, size_t amount)
 {
-    for(int it=0;it<amount;it++)
-    {
-        CPixel pixel = m_pPixels[GetSize()-1];
-        CPixel buff;
+    for(size_t it=0;it<amount;it++)
+    {   
+        CRGB& pixel = m_pixels[GetSize()-1];
+        CRGB  buff;
 
-        for(int i=0;i<GetSize();i++)
-        {
-            buff = m_pPixels[i];
-            m_pPixels[i] = pixel;
+        for(size_t i=0;i<GetSize();i++)
+        {   
+            buff = m_pixels[i];
+            m_pixels[i] = pixel;
             pixel = buff;
-        }
-    }
+        }   
+    }   
 }
 
-void CPixelArray::SmartCopy(CPixelArray& rhs, int size, int offset)
+void CPixelArray::SmartCopy(CPixelArray& rhs, size_t size, size_t offset)
 {
-    for(int i=0;i<size;i++)
-    {
-        int index = (i + offset) % GetSize();
-        m_pPixels[index] = *rhs.GetPixel(i);
-    }
+    for(size_t i=0;i<size;i++)
+    {   
+        size_t index = (i + offset) % GetSize();
+        m_pixels[index] = rhs.GetPixel(i);
+    }   
 }

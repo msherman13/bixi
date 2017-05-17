@@ -1,30 +1,33 @@
 #pragma once
 
-#include "FastLED.h"
-#include "Pixel.h"
+#include <stdlib.h>
+
+struct CRGB;
 
 class CPixelArray
 {
     public:
-        CPixelArray(int size);
+        CPixelArray(size_t len); // new underlying pixels
+        CPixelArray(CRGB* rgb, size_t len); // reference to external pixels
+        CPixelArray(CPixelArray& rhs); // reference to external pixels (no copy!)
         ~CPixelArray();
 
     public:
-        int GetSize() { return m_size; }
+        size_t GetSize() { return m_length; }
 
     public:
-        CPixel* GetPixel(int index);
-        bool SetPixel(int index, CRGB rgb);
-        void Reset();
-        bool ValidateIndex(int index);
+        CRGB& GetPixel(size_t index);
+        void  SetPixel(size_t index, CRGB rgb);
+        CRGB* GetRawArray() { return m_pixels; }
+        void  Reset();
 
     public:
-        void Shift(bool forward, int amount);
+        void Shift(bool forward, size_t amount);
 
     public:
-        void SmartCopy(CPixelArray& rhs, int size, int offset=0);
+        void SmartCopy(CPixelArray& rhs, size_t size, size_t offset=0);
 
     private:
-        int m_size;
-        CPixel* m_pPixels;
+        CRGB*  m_pixels = nullptr;
+        size_t m_length = 0;
 };

@@ -7,15 +7,15 @@ class CRoutineRainbowSparkle : public CRoutineSparkle
     public:
         static const size_t c_iterationsPerColor = 5;
     public:
-        CRoutineRainbowSparkle(size_t size);
+        CRoutineRainbowSparkle(CPixelArray& pixels);
         ~CRoutineRainbowSparkle();
 
     public:
-        virtual CRGB GetColor() { return CRGB(m_currHsv); }
-        virtual RoutineType GetType() override { return RainbowSparkle; }
+        virtual CRGB GetColor() override { return CRGB(m_currHsv); }
 
     protected:
-        virtual void SetRandomPixels() override;
+        virtual void        SetRandomPixels() override;
+        virtual const char* GetName()         override { return "RainbowSparkle"; }
 
     private:
         CHSV m_currHsv;

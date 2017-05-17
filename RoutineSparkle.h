@@ -1,8 +1,9 @@
 #pragma once
 
+#include <stdint.h>
+
 #include "Routine.h"
 #include "FastLED.h"
-#include <stdint.h>
 
 class CRoutineSparkle : public CRoutine
 {
@@ -10,14 +11,14 @@ class CRoutineSparkle : public CRoutine
         static constexpr CRGB::HTMLColorCode c_color = CRGB::WhiteSmoke;
 
     public:
-        CRoutineSparkle(size_t size);
+        CRoutineSparkle(CPixelArray& pixels);
         ~CRoutineSparkle();
 
     public:
-        virtual void Start() override;
-        virtual void Continue() override;
-        virtual RoutineType GetType() override { return Sparkle; }
-        virtual CRGB GetColor() { return c_color; }
+        virtual void        Start()    override;
+        virtual void        Continue() override;
+        virtual const char* GetName()  override { return "Sparkle"; }
+        virtual CRGB        GetColor() { return c_color; }
 
     protected:
         virtual void SetRandomPixels();
