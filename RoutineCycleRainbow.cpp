@@ -19,7 +19,7 @@ CRoutineCycleRainbow::~CRoutineCycleRainbow()
 void CRoutineCycleRainbow::Continue()
 {
     uint32_t now = millis();
-    if(now - m_lastMove < 200)
+    if(now - m_lastMove < 50)
         return;
 
     m_pixels.Shift(true, 1);

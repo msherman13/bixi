@@ -21,3 +21,8 @@ void CPlain::SetColor(CRGB rgb)
         }
     }
 }
+
+CRGB CPlain::GetColor(size_t index)
+{
+    return m_pixels.GetPixel(index);
+}

@@ -27,6 +27,7 @@ class CPlain
 
     public:
         void SetColor(CRGB rgb);
+        CRGB GetColor(size_t index);
 
     private:
         CPixelArray& m_pixels;
