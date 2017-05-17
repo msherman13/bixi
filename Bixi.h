@@ -18,6 +18,7 @@ class CBixi
             Sparkle,
             RainbowSparkle,
             Grow,
+            PlainTest,
 
             RoutineQty,
             RoutineUndef,

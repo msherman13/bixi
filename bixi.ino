@@ -23,7 +23,7 @@ void loop()
 { 
     while(true)
     {
-        runRoutine(CBixi::Grow, 1000);
+        runRoutine(CBixi::PlainTest, 1000);
     }
 }
 

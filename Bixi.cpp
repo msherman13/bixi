@@ -4,6 +4,7 @@
 #include "RoutineSparkle.h"
 #include "RoutineRainbowSparkle.h"
 #include "RoutineGrow.h"
+#include "RoutinePlainTest.h"
 #include "Logging.h"
 #include "Addressing.h"
 #include "Arduino.h"
@@ -34,6 +35,7 @@ CBixi::CBixi() :
     m_routines[Sparkle]        = new CRoutineSparkle(m_pixels);
     m_routines[RainbowSparkle] = new CRoutineRainbowSparkle(m_pixels);
     m_routines[Grow]           = new CRoutineGrow(m_pixels);
+    m_routines[PlainTest]      = new CRoutinePlainTest(m_pixels);
 
     // Parallel Output
     FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRawArray(), m_pixels.GetSize());
