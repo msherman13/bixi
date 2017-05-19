@@ -13,7 +13,7 @@ class CPlain
 
             size_t m_num_legs               = 0;
             size_t m_start[c_max_num_legs]  = {};
-            size_t m_length[c_max_num_legs] = {};
+            size_t m_end[c_max_num_legs]    = {};
         };
 
     public:
@@ -22,8 +22,9 @@ class CPlain
 
     public:
         size_t NumLegs()               { return m_config.m_num_legs; }
-        size_t LegLength(size_t index) { return m_config.m_length[index]; }
         size_t LegStart(size_t index)  { return m_config.m_start[index]; }
+        size_t LegEnd(size_t index)    { return m_config.m_end[index]; }
+        size_t LegLength(size_t index) { return abs(m_config.m_start[index] - m_config.m_end[index]) + 1; }
 
     public:
         void SetColor(CRGB rgb);

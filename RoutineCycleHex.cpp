@@ -1,68 +1,55 @@
 #include "RoutineCycleHex.h"
 #include "PixelArray.h"
 #include "Logging.h"
-#include "FastLED.h"
 
 CRoutineCycleHex::CRoutineCycleHex(CPixelArray& pixels) :
-    CRoutine(pixels),
-    m_color(0, 255, 255)
+    CRoutine(pixels)
 {
     char logString[256];
     sprintf(logString, "CRoutineCycleHex::CRoutineCycleHex: Constructing routine");
     CLogging::log(logString);
 
-    CPlain::Config config;
-    config.m_num_legs  = 2;
+    CDoubleHex::Config config;
 
-    // top
-    config.m_start[0]  = 0;
-    config.m_length[0] = 15;
-    config.m_start[1]  = 90;
-    config.m_length[1] = 8;
-    m_plains[0] = new CPlain(m_pixels, config);
-    // top-left
-    config.m_start[0]  = 15;
-    config.m_length[0] = 15;
-    config.m_start[1]  = 98;
-    config.m_length[1] = 8;
-    m_plains[1] = new CPlain(m_pixels, config);
-    // bottom-left
-    config.m_start[0]  = 30;
-    config.m_length[0] = 15;
-    config.m_start[1]  = 106;
-    config.m_length[1] = 8;
-    m_plains[2] = new CPlain(m_pixels, config);
-    // bottom
-    config.m_start[0]  = 45;
-    config.m_length[0] = 15;
-    config.m_start[1]  = 114;
-    config.m_length[1] = 8;
-    m_plains[3] = new CPlain(m_pixels, config);
-    // bottom-right
-    config.m_start[0]  = 60;
-    config.m_length[0] = 15;
-    config.m_start[1]  = 122;
-    config.m_length[1] = 8;
-    m_plains[4] = new CPlain(m_pixels, config);
-    // top-right
-    config.m_start[0]  = 75;
-    config.m_length[0] = 15;
-    config.m_start[1]  = 130;
-    config.m_length[1] = 8;
-    m_plains[5] = new CPlain(m_pixels, config);
+    config.m_start_outer[0]  = 14;
+    config.m_end_outer[0]    = 0;
+    config.m_start_outer[1]  = 89;
+    config.m_end_outer[1]    = 75;
+    config.m_start_outer[2]  = 74;
+    config.m_end_outer[2]    = 60;
+    config.m_start_outer[3]  = 59;
+    config.m_end_outer[3]    = 45;
+    config.m_start_outer[4]  = 44;
+    config.m_end_outer[4]    = 30;
+    config.m_start_outer[5]  = 29;
+    config.m_end_outer[5]    = 15;
+
+    config.m_start_inner[0]  = 97;
+    config.m_end_inner[0]    = 90;
+    config.m_start_inner[1]  = 137;
+    config.m_end_inner[1]    = 130;
+    config.m_start_inner[2]  = 129;
+    config.m_end_inner[2]    = 122;
+    config.m_start_inner[3]  = 121;
+    config.m_end_inner[3]    = 114;
+    config.m_start_inner[4]  = 113;
+    config.m_end_inner[4]    = 106;
+    config.m_start_inner[5]  = 105;
+    config.m_end_inner[5]    = 98;
+
+    m_hex = new CDoubleHex(pixels, config);
+
+    //m_hex->SetMode(CDoubleHex::ModeCycle);
+    //m_hex->SetMode(CDoubleHex::ModeSolid);
+    //m_hex->SetMode(CDoubleHex::ModeBlink);
+    //m_hex->SetMode(CDoubleHex::ModeRainbow);
+    m_hex->SetMode(CDoubleHex::ModeGlare);
+    m_hex->SetDirection(true);
 }
 
 CRoutineCycleHex::~CRoutineCycleHex()
 {
-    for(size_t i=0;i<c_num_plains;i++)
-    {
-        delete m_plains[i];
-    }
-}
-
-void CRoutineCycleHex::TogglePlain(size_t index, bool on_off)
-{
-    m_plains[index]->SetColor(on_off ? CRGB(m_color) : CRGB::Black);
+    delete m_hex;
 }
 
 void CRoutineCycleHex::Start()
@@ -73,22 +60,11 @@ void CRoutineCycleHex::Start()
 
     m_pixels.Reset();
 
-    Continue();
+    m_hex->SetBaseColorIndex(ColorPallete::Turquoise);
+    m_hex->Start();
 }
 
 void CRoutineCycleHex::Continue()
 {
-    m_color.hue++;
-
-    uint32_t now = millis();
-    if(now - m_lastRun < 2000)
-        return;
-    m_lastRun = now;
-
-    m_count++;
-
-    for(size_t i=0;i<c_num_plains;i++)
-    {
-        TogglePlain(i, (m_count + i) % 3 == 0);
-    }
+    m_hex->Continue();
 }
