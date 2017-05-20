@@ -43,7 +43,7 @@ CBixi::CBixi() :
     config.m_end[5]    = 15;
 
     m_polygons[0] = new CPolygon(&m_pixels, config);
-    m_polygons[0]->Solid(ColorPallete::LightPurple);
+    m_polygons[0]->Glare(ColorPallete::Turquoise, false, 10);
 
     config.m_start[0]  = 97;
     config.m_end[0]    = 90;
@@ -59,7 +59,7 @@ CBixi::CBixi() :
     config.m_end[5]    = 98;
 
     m_polygons[1] = new CPolygon(&m_pixels, config);
-    m_polygons[1]->Solid(ColorPallete::Turquoise);
+    m_polygons[1]->Glare(ColorPallete::ChromeBlue, true, 5);
 
     Show();
 }

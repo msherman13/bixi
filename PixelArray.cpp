@@ -100,3 +100,8 @@ void CPixelArray::Continue()
 
     m_routine->Continue();
 }
+
+CRGB* CPixelArray::GetRaw(size_t index)
+{
+    return &m_pixels[index];
+}

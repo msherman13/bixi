@@ -41,9 +41,6 @@ CHSV rgb2hsv_approximate(const CRGB& rgb)
     ret.s = hsv.s * 255;
     ret.v = hsv.v * 255;
 
-    printf("MILES_DEBUG: %f %f %f | %u %u %u -> %f / %f / %f | %u %u %u\n",
-            frgb.r, frgb.g, frgb.b, rgb.r, rgb.g, rgb.b, hsv.h, hsv.s, hsv.v, ret.h, ret.s, ret.v);
-
     return ret;
 }
 

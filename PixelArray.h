@@ -24,7 +24,7 @@ class CPixelArray
 
     public:
         size_t GetSize()              { return m_length; }
-        CRGB*  GetRaw(size_t index=0) { return m_pixels; }
+        CRGB*  GetRaw(size_t index=0);
 
     public:
         CRGB   GetPixel(size_t index);
