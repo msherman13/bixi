@@ -1,13 +1,9 @@
 #include "Bixi.h"
-#include "RoutineHoldRainbow.h"
-#include "RoutineCycleRainbow.h"
-#include "RoutineSparkle.h"
-#include "RoutineRainbowSparkle.h"
-#include "RoutineGrow.h"
-#include "RoutineCycleHex.h"
 #include "Logging.h"
 #include "Addressing.h"
 #include "Arduino.h"
+#include "Polygon.h"
+#include "ColorPallete.h"
 
 //#define LOG_REFRESH_RATE
 
@@ -24,116 +20,52 @@ CBixi::CBixi() :
 {
     CLogging::log("CBixi::CBixi: Initializing Bixi");
 
-    SetState(State::Initializing);
-
     // indicator
     pinMode(c_indicatorPin, OUTPUT);
 
-    // construct routines
-    m_routines[HoldRainbow]    = new CRoutineHoldRainbow(m_pixels);
-    m_routines[CycleRainbow]   = new CRoutineCycleRainbow(m_pixels);
-    m_routines[Sparkle]        = new CRoutineSparkle(m_pixels);
-    m_routines[RainbowSparkle] = new CRoutineRainbowSparkle(m_pixels);
-    m_routines[Grow]           = new CRoutineGrow(m_pixels);
-    m_routines[CycleHex]       = new CRoutineCycleHex(m_pixels);
-
     // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRawArray(), m_pixels.GetSize());
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRaw(), m_pixels.GetSize());
+
+    // init shapes
+    CPolygon::Config config;
+    config.m_num_legs = 6;
+    config.m_start[0]  = 14;
+    config.m_end[0]    = 0;
+    config.m_start[1]  = 89;
+    config.m_end[1]    = 75;
+    config.m_start[2]  = 74;
+    config.m_end[2]    = 60;
+    config.m_start[3]  = 59;
+    config.m_end[3]    = 45;
+    config.m_start[4]  = 44;
+    config.m_end[4]    = 30;
+    config.m_start[5]  = 29;
+    config.m_end[5]    = 15;
+
+    m_polygons[0] = new CPolygon(&m_pixels, config);
+    m_polygons[0]->Solid(ColorPallete::LightPurple);
+
+    config.m_start[0]  = 97;
+    config.m_end[0]    = 90;
+    config.m_start[1]  = 137;
+    config.m_end[1]    = 130;
+    config.m_start[2]  = 129;
+    config.m_end[2]    = 122;
+    config.m_start[3]  = 121;
+    config.m_end[3]    = 114;
+    config.m_start[4]  = 113;
+    config.m_end[4]    = 106;
+    config.m_start[5]  = 105;
+    config.m_end[5]    = 98;
+
+    m_polygons[1] = new CPolygon(&m_pixels, config);
+    m_polygons[1]->Solid(ColorPallete::Turquoise);
 
     Show();
-
-    SetState(State::Running);
 }
 
 CBixi::~CBixi()
 {
-    delete m_currRoutine;
-}
-
-const char* CBixi::sRoutineType(RoutineType type)
-{
-    switch(type)
-    {
-        case HoldRainbow:    return "HoldRainbow";
-        case CycleRainbow:   return "CycleRainbow";
-        case Sparkle:        return "Sparkle";
-        case RainbowSparkle: return "RainbowSparkle";
-        case Grow:           return "Grow";
-        case CycleHex:       return "CycleHex";
-        default:             return "RoutineUnknown";
-    }
-}
-
-const char* CBixi::sState(State state)
-{
-    switch(state)
-    {
-        case State::Stopped: return "Stopped";
-        case State::Running: return "Running";
-        default:             return "Undef";
-    }
-}
-
-void CBixi::SetState(State state)
-{
-    m_state = state;
-
-    char logString[128];
-    sprintf(logString, "CBixi::SetState: %s", sState(state));
-    CLogging::log(logString);
-}
-
-CRoutine* CBixi::GetRoutine(RoutineType type)
-{
-    return m_routines[type];
-}
-
-bool CBixi::StartRoutine(RoutineType type)
-{
-    if(type >= RoutineQty)
-        return false;
-
-    if(m_currRoutine)
-    {
-        ExitCurrRoutine();
-    }
-
-    char logString[256];
-    sprintf(logString, "CBixi::StartRoutine: Starting [%s]", sRoutineType(type));
-    CLogging::log(logString);
-
-    m_currRoutine = GetRoutine(type);
-    m_currRoutine->Start();
-
-    return true;
-}
-
-bool CBixi::ExitCurrRoutine()
-{
-    if(!m_currRoutine)
-    {
-        return false;
-    }
-
-    char logString[256];
-    sprintf(logString, "CBixi::ExitCurrRoutine: Exiting [%s]", m_currRoutine->GetName());
-    CLogging::log(logString);
-
-    m_currRoutine = nullptr;
-
-    return true;
-}
-
-bool CBixi::ShowCurrRoutine()
-{
-    if(!m_currRoutine)
-    {
-        return false;
-    }
-
-    Show();
-
-    return true;
 }
 
 void CBixi::Show()
@@ -141,17 +73,24 @@ void CBixi::Show()
     FastLED.show();
 }
 
-bool CBixi::Continue()
+void CBixi::Continue()
 {
-    if(!m_currRoutine || GetState() == State::Stopped)
-    {
-        return false;
-    }
-
     size_t now = millis();
 
-    m_currRoutine->Continue();
-    ShowCurrRoutine();
+    // TODO: call continue on all objects
+    for(size_t i=0;i<c_num_polygons;i++)
+    {
+        m_polygons[i]->Continue();
+    }
+
+    Show();
+
+    if(now - m_lastIndicator >= c_indicatorDelayMs)
+    {
+        m_indicatorOn   = !m_indicatorOn;
+        m_lastIndicator = now;
+        digitalWrite(c_indicatorPin, m_indicatorOn ? HIGH : LOW);
+    }
 
 #ifdef LOG_REFRESH_RATE
     size_t timer = millis() - now;
@@ -159,17 +98,4 @@ bool CBixi::Continue()
     sprintf(logString, "CBixi::Continue: This iteration took %lu ms", timer);
     CLogging::log(logString);
 #endif
-
-    if(now - m_lastIndicator >= c_indicatorDelayMs)
-    {
-        m_indicatorOn = !m_indicatorOn;
-        if(GetState() != State::Running)
-        {
-            m_indicatorOn = false;
-        }
-        m_lastIndicator = now;
-        digitalWrite(c_indicatorPin, m_indicatorOn ? HIGH : LOW);
-    }
-
-    return true;
 }
