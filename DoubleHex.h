@@ -49,11 +49,11 @@ class CDoubleHex
     public:
         size_t LengthOuter(size_t index)
         {
-            return abs(m_config.m_start_outer[index] - m_config.m_end_outer[index]) + 1;
+            return abs((int)m_config.m_start_outer[index] - (int)m_config.m_end_outer[index]) + 1;
         }
         size_t LengthInner(size_t index)
         {
-            return abs(m_config.m_start_inner[index] - m_config.m_end_inner[index]) + 1;
+            return abs((int)m_config.m_start_inner[index] - (int)m_config.m_end_inner[index]) + 1;
         }
 
     private:

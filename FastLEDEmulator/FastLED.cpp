@@ -25,3 +25,57 @@ void CFastLED::show()
 }
 
 CFastLED FastLED;
+
+CHSV rgb2hsv_approximate(const CRGB& rgb)
+{
+    FRGB frgb;
+    frgb.r = (double)rgb.r / 255;
+    frgb.g = (double)rgb.g / 255;
+    frgb.b = (double)rgb.b / 255;
+
+    FHSV hsv;
+    frgb2fhsv(frgb.r, frgb.g, frgb.b, hsv.h, hsv.s, hsv.v);
+
+    CHSV ret;
+    ret.h = (hsv.h / 360) * 255;
+    ret.s = hsv.s * 255;
+    ret.v = hsv.v * 255;
+
+    printf("MILES_DEBUG: %f %f %f | %u %u %u -> %f / %f / %f | %u %u %u\n",
+            frgb.r, frgb.g, frgb.b, rgb.r, rgb.g, rgb.b, hsv.h, hsv.s, hsv.v, ret.h, ret.s, ret.v);
+
+    return ret;
+}
+
+void frgb2fhsv(double fR, double fG, double fB, double& fH, double& fS, double& fV)
+{
+  double fCMax = std::max(std::max(fR, fG), fB);
+  double fCMin = std::min(std::min(fR, fG), fB);
+  double fDelta = fCMax - fCMin;
+
+  if(fDelta > 0) {
+    if(fCMax == fR) {
+      fH = 60 * (fmod(((fG - fB) / fDelta), 6));
+    } else if(fCMax == fG) {
+      fH = 60 * (((fB - fR) / fDelta) + 2);
+    } else if(fCMax == fB) {
+      fH = 60 * (((fR - fG) / fDelta) + 4);
+    }
+
+    if(fCMax > 0) {
+      fS = fDelta / fCMax;
+    } else {
+      fS = 0;
+    }
+
+    fV = fCMax;
+  } else {
+    fH = 0;
+    fS = 0;
+    fV = fCMax;
+  }
+
+  if(fH < 0) {
+    fH = 360 + fH;
+  }
+}

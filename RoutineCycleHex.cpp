@@ -45,6 +45,7 @@ CRoutineCycleHex::CRoutineCycleHex(CPixelArray& pixels) :
     //m_hex->SetMode(CDoubleHex::ModeRainbow);
     m_hex->SetMode(CDoubleHex::ModeGlare);
     m_hex->SetDirection(true);
+    m_hex->SetBaseColorIndex(ColorPallete::LightPurple);
 }
 
 CRoutineCycleHex::~CRoutineCycleHex()
@@ -60,7 +61,6 @@ void CRoutineCycleHex::Start()
 
     m_pixels.Reset();
 
-    m_hex->SetBaseColorIndex(ColorPallete::Turquoise);
     m_hex->Start();
 }
 

@@ -39,3 +39,20 @@ class CFastLED
 };
 
 extern CFastLED FastLED;
+
+struct FRGB
+{
+    double r;       // a fraction between 0 and 1
+    double g;       // a fraction between 0 and 1
+    double b;       // a fraction between 0 and 1
+};
+
+struct FHSV
+{
+    double h;       // angle in degrees
+    double s;       // a fraction between 0 and 1
+    double v;       // a fraction between 0 and 1
+};
+
+void frgb2fhsv(double fR, double fG, double fB, double& fH, double& fS, double& fV);
+CHSV rgb2hsv_approximate( const CRGB& rgb);
