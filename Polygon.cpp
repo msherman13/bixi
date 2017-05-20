@@ -71,21 +71,28 @@ void CPolygon::Solid(CRGB rgb)
     m_virtual_pixels->StartRoutineSolid(rgb);
 }
 
-void CPolygon::Glare(CRGB base_color, bool forward, uint32_t period_sec)
+void CPolygon::Glare(CRGB base_color, size_t q, bool forward, uint32_t period_sec)
 {
     ClearRoutines();
 
-    m_virtual_pixels->StartRoutineGlare(base_color, forward, period_sec);
+    m_virtual_pixels->StartRoutineGlare(base_color, q, forward, period_sec);
 }
 
-void CPolygon::GlareLegs(CRGB base_color, bool forward, uint32_t period_sec)
+void CPolygon::GlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec)
 {
     ClearRoutines();
 
     for(size_t i=0;i<NumLegs();i++)
     {
-        m_legs[i]->StartRoutineGlare(base_color, forward, period_sec);
+        m_legs[i]->StartRoutineGlare(base_color, q, forward, period_sec);
     }
+}
+
+void CPolygon::Sticks(size_t num_sticks)
+{
+    ClearRoutines();
+
+    m_virtual_pixels->StartRoutineSticks(num_sticks);
 }
 
 void CPolygon::Continue()

@@ -7,10 +7,12 @@
 
 CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
                              CRGB         base_color,
+                             size_t       q,
                              bool         forward,
                              uint32_t     period_sec) :
     CRoutine(pixels),
     m_base_color(rgb2hsv_approximate(base_color)),
+    m_q(q),
     m_forward(forward),
     m_period_sec(period_sec)
 {
@@ -52,7 +54,7 @@ void CRoutineGlare::Continue()
         double this_index = (double)i / m_pixels.GetSize();
         double ratio = std::max<double>(1 - fabs(this_index - m_midpoint), 0.0001);
         ratio = fabs(ratio - 0.50) * 2;
-        ratio = pow(ratio, 5);
+        ratio = pow(ratio, m_q);
         hsv.val = std::min<double>(255, 255 * ratio);
         if(hsv.val < 15)
             hsv.val = 0;

@@ -26,6 +26,9 @@ CBixi::CBixi() :
     // Parallel Output
     FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRaw(), m_pixels.GetSize());
 
+    m_pixels.SetAllPixels(CRGB::Black);
+    Show();
+
     // init shapes
     CPolygon::Config config;
     config.m_num_legs = 6;
@@ -43,7 +46,8 @@ CBixi::CBixi() :
     config.m_end[5]    = 15;
 
     m_polygons[0] = new CPolygon(&m_pixels, config);
-    m_polygons[0]->Glare(ColorPallete::Turquoise, false, 10);
+    m_polygons[0]->Glare(ColorPallete::Turquoise, 5, false, 10);
+    //m_polygons[0]->Sticks(5);
 
     config.m_start[0]  = 97;
     config.m_end[0]    = 90;
@@ -59,9 +63,8 @@ CBixi::CBixi() :
     config.m_end[5]    = 98;
 
     m_polygons[1] = new CPolygon(&m_pixels, config);
-    m_polygons[1]->Glare(ColorPallete::ChromeBlue, true, 5);
-
-    Show();
+    m_polygons[1]->Glare(ColorPallete::ChromeBlue, 5, true, 5);
+    //m_polygons[1]->Sticks(3);
 }
 
 CBixi::~CBixi()
@@ -95,7 +98,7 @@ void CBixi::Continue()
 #ifdef LOG_REFRESH_RATE
     size_t timer = millis() - now;
     char logString[128];
-    sprintf(logString, "CBixi::Continue: This iteration took %lu ms", timer);
+    sprintf(logString, "CBixi::Continue: This iteration took %u ms", timer);
     CLogging::log(logString);
 #endif
 }

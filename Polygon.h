@@ -24,8 +24,9 @@ class CPolygon
 
     public:
         void Solid(CRGB rgb);
-        void Glare(CRGB base_color, bool forward, uint32_t period_sec);
-        void GlareLegs(CRGB base_color, bool forward, uint32_t period_sec);
+        void Glare(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
+        void GlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
+        void Sticks(size_t num_sticks);
         void Continue();
 
     public:
