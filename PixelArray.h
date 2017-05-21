@@ -17,6 +17,7 @@ class CPixelArray
     public:
         void StartRoutineSolid(CRGB rgb);
         void StartRoutineGlare(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
+        void StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec);
         void StartRoutineSticks(size_t num_sticks);
 
     public:
@@ -38,5 +39,5 @@ class CPixelArray
         bool      m_owner      = false;
         CRGB*     m_pixels     = nullptr;
         size_t    m_length     = 0;
-        CRoutine* m_routine = nullptr;
+        CRoutine* m_routine    = nullptr;
 };

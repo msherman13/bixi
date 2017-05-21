@@ -2,6 +2,7 @@
 #include "FastLED.h"
 #include "Routine.h"
 #include "RoutineGlare.h"
+#include "RoutineCrawl.h"
 #include "RoutineSticks.h"
 
 CPixelArray::CPixelArray(size_t len) :
@@ -52,13 +53,14 @@ void CPixelArray::Shift(bool forward, size_t amount)
 {
     for(size_t it=0;it<amount;it++)
     {   
-        CRGB& pixel = m_pixels[GetSize()-1];
+        CRGB& pixel = forward ? m_pixels[GetSize()-1] : m_pixels[0];
         CRGB  buff;
 
         for(size_t i=0;i<GetSize();i++)
         {   
-            buff = m_pixels[i];
-            m_pixels[i] = pixel;
+            size_t index = forward ? i : GetSize() - i - 1;
+            buff = m_pixels[index];
+            m_pixels[index] = pixel;
             pixel = buff;
         }   
     }   
@@ -69,10 +71,10 @@ void CPixelArray::SmartCopy(CPixelArray* rhs, size_t size, size_t offset)
     for(size_t i=0;i<size;i++)
     {   
         size_t index = (i + offset) % GetSize();
-        CRGB   pixel = rhs->GetPixel(i);
-        if(pixel != CRGB(CRGB::Black))
+        CRGB   rgb = rhs->GetPixel(i);
+        if(GetPixel(index) == CRGB(CRGB::Black))
         {
-            m_pixels[index] = rhs->GetPixel(i);
+            SetPixel(index, rgb);
         }
     }   
 }
@@ -99,6 +101,13 @@ void CPixelArray::StartRoutineGlare(CRGB base_color, size_t q, bool forward, uin
     ExitRoutine();
 
     m_routine = new CRoutineGlare(this, base_color, q, forward, period_sec);
+}
+
+void CPixelArray::StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec)
+{
+    ExitRoutine();
+
+    m_routine = new CRoutineCrawl(this, base_color, width, start_offset, forward, period_sec);
 }
 
 void CPixelArray::StartRoutineSticks(size_t num_sticks)

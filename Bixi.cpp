@@ -46,8 +46,8 @@ CBixi::CBixi() :
     config.m_end[5]    = 15;
 
     m_polygons[0] = new CPolygon(&m_pixels, config);
-    m_polygons[0]->Glare(ColorPallete::Turquoise, 5, false, 10);
-    //m_polygons[0]->Sticks(5);
+    //m_polygons[0]->Glare(ColorPallete::Turquoise, 5, false, 10);
+    m_polygons[0]->Sticks(3);
 
     config.m_start[0]  = 97;
     config.m_end[0]    = 90;

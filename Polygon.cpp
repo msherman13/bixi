@@ -78,6 +78,13 @@ void CPolygon::Glare(CRGB base_color, size_t q, bool forward, uint32_t period_se
     m_virtual_pixels->StartRoutineGlare(base_color, q, forward, period_sec);
 }
 
+void CPolygon::Crawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec)
+{
+    ClearRoutines();
+
+    m_virtual_pixels->StartRoutineCrawl(base_color, width, start_offset, forward, period_sec);
+}
+
 void CPolygon::GlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec)
 {
     ClearRoutines();
