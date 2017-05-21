@@ -363,7 +363,7 @@ Text Label 4650 1600 2    60   ~ 0
 GND
 Text Label 6050 1900 0    60   ~ 0
 3V
-Text Label 3600 2300 0    60   ~ 0
+Text Label 1600 2600 2    60   ~ 0
 3V
 $Comp
 L R R9
