@@ -46,17 +46,17 @@ $EndDescr
 $Comp
 L Screw_Terminal_1x02 J1
 U 1 1 5907F10E
-P 5550 2850
-F 0 "J1" H 5550 3100 50  0000 C TNN
-F 1 "Screw_Terminal_1x02" V 5400 2850 50  0000 C TNN
-F 2 "custom:HP_9500_Terminal_Connector" H 5550 2625 50  0001 C CNN
-F 3 "" H 5525 2850 50  0001 C CNN
-	1    5550 2850
+P 6000 2850
+F 0 "J1" H 6000 3100 50  0000 C TNN
+F 1 "Screw_Terminal_1x02" V 5850 2850 50  0000 C TNN
+F 2 "custom:OSTYK42102030-2P-Terminal" H 6000 2625 50  0001 C CNN
+F 3 "" H 5975 2850 50  0001 C CNN
+	1    6000 2850
 	1    0    0    -1  
 $EndComp
-Text Label 5750 2750 0    60   ~ 0
+Text Label 6200 2750 0    60   ~ 0
 VCC
-Text Label 5750 2950 0    60   ~ 0
+Text Label 6200 2950 0    60   ~ 0
 GND
 $Comp
 L CONN_01X03 L1
@@ -64,12 +64,12 @@ U 1 1 5907F1DC
 P 4500 2850
 F 0 "L1" H 4500 3050 50  0000 C CNN
 F 1 "CONN_01X03" V 4600 2850 50  0000 C CNN
-F 2 "custom:PAD_3X_OVAL_WS2812B" H 4500 2850 50  0001 C CNN
+F 2 "custom:3-wire-hole-with-relief" H 4500 2850 50  0001 C CNN
 F 3 "" H 4500 2850 50  0001 C CNN
 	1    4500 2850
 	1    0    0    -1  
 $EndComp
-Text Label 4300 2750 2    60   ~ 0
+Text Label 4300 2950 2    60   ~ 0
 GND
 Text Label 4300 2850 2    60   ~ 0
 DATA
@@ -79,12 +79,12 @@ U 1 1 5907F236
 P 6800 2850
 F 0 "R1" H 6800 3050 50  0000 C CNN
 F 1 "CONN_01X03" V 6900 2850 50  0000 C CNN
-F 2 "custom:PAD_3X_OVAL_WS2812B" H 6800 2850 50  0001 C CNN
+F 2 "custom:3-wire-hole-with-relief" H 6800 2850 50  0001 C CNN
 F 3 "" H 6800 2850 50  0001 C CNN
 	1    6800 2850
 	-1   0    0    1   
 $EndComp
-Text Label 7000 2750 0    60   ~ 0
+Text Label 7000 2950 0    60   ~ 0
 GND
 Text Label 7000 2850 0    60   ~ 0
 DATA
@@ -99,9 +99,9 @@ F 3 "" H 5550 3550 50  0001 C CNN
 	1    5550 3550
 	1    0    0    -1  
 $EndComp
-Text Label 4300 2950 2    60   ~ 0
+Text Label 4300 2750 2    60   ~ 0
 VCCL
-Text Label 7000 2950 0    60   ~ 0
+Text Label 7000 2750 0    60   ~ 0
 VCCR
 Text Label 5250 3550 2    60   ~ 0
 VCCL
