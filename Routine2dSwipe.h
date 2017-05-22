@@ -31,6 +31,7 @@ class CRoutine2dSwipe : public CRoutine
 
     private:
         CHSV                    m_color;
+        size_t                  m_color_index  = 0;
         size_t                  m_q            = 0;
         uint32_t                m_period_sec   = 10;
         uint32_t                m_last_run     = 0;

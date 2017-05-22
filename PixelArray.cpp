@@ -112,25 +112,26 @@ void CPixelArray::MapCoordinates(double scale)
     for(size_t i=0;i<NumLegs();i++)
     {
         Coordinate& corner = corners[i];
-        const double pi = 3.14159265358979323846;
-        corner.x = cos(2 * pi * i / NumLegs()) * scale;
-        corner.y = center_distance * sin(2 * pi * i / NumLegs() * scale);
+        const double pi    = 3.14159265358979323846;
+        corner.x           = cos(2 * pi * i / NumLegs()) * scale + m_config.m_origin.x;
+        corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * scale + m_config.m_origin.y;
+        char logstr[256];
     }
 
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
         const size_t length = m_legs[i]->GetSize();
-        Coordinate& start   = corners[i];
-        Coordinate& end     = corners[i < NumLegs() - 1 ? i + 1 : 0];
+        Coordinate&  start  = corners[i];
+        Coordinate&  end    = corners[i < NumLegs() - 1 ? i + 1 : 0];
         const double x_step = (end.x - start.x) / length;
         const double y_step = (end.y - start.y) / length;
 
         for(size_t j=0;j<length;j++)
         {
             Coordinate& this_coord = m_coordinates[index++];
-            this_coord.x = start.x + j * x_step;
-            this_coord.y = start.y + j * y_step;
+            this_coord.x           = start.x + j * x_step;
+            this_coord.y           = start.y + j * y_step;
         }
     }
 }

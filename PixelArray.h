@@ -14,18 +14,10 @@ class CPixelArray
         static constexpr size_t c_max_num_legs = 8;
 
     public:
-        struct Config
-        {
-            size_t m_num_legs              = 0;
-            double m_scale                 = 1.00;
-            size_t m_start[c_max_num_legs] = {};
-            size_t m_end[c_max_num_legs]   = {};
-        };
-
         struct Coordinate
         {
-            double x = 0.0;
-            double y = 0.0;
+            double x      = 0.0;
+            double y      = 0.0;
 
             Coordinate() {}
 
@@ -34,6 +26,15 @@ class CPixelArray
                 y(y_in)
             {
             }
+        };
+
+        struct Config
+        {
+            size_t m_num_legs              = 0;
+            size_t m_start[c_max_num_legs] = {};
+            size_t m_end[c_max_num_legs]   = {};
+            double m_scale                 = 1.00;
+            Coordinate m_origin;
         };
 
     public:

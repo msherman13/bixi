@@ -48,24 +48,36 @@ void CRoutine2dSwipe::Continue()
             case 0:
                 m_midpoint.x = ((double)(rand() % 200) / 200) - 1.00;
                 m_midpoint.y = c_frame_size / 2;
+                m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+                m_y_step     = (2 * -m_midpoint.y) / (m_period_sec * 1000);
                 break;
             case 1:
                 m_midpoint.x = c_frame_size / 2;
                 m_midpoint.y = (double)(rand() % 200) / 200 - 1.00;
+                m_x_step     = (2 * -m_midpoint.x) / (m_period_sec * 1000);
+                m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
                 break;
             case 2:
                 m_midpoint.x = ((double)(rand() % 200) / 200) - 1.00;
                 m_midpoint.y = -c_frame_size / 2;
+                m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+                m_y_step     = (2 * -m_midpoint.y) / (m_period_sec * 1000);
                 break;
             case 3:
                 m_midpoint.x = -c_frame_size / 2;
                 m_midpoint.y = (double)(rand() % 200) / 200 - 1.00;
+                m_x_step     = (2 * -m_midpoint.x) / (m_period_sec * 1000);
+                m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
                 break;
         }
 
-        m_x_step = (2 * -m_midpoint.x) / (m_period_sec * 1000);
-        m_y_step = (2 * -m_midpoint.y) / (m_period_sec * 1000);
-        m_color = rgb2hsv_approximate(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
+        size_t color_index = m_color_index;
+        while(color_index == m_color_index)
+        {
+            color_index = rand() % ColorPallete::Qty;
+        }
+        m_color_index = color_index;
+        m_color = rgb2hsv_approximate(ColorPallete::s_colors[m_color_index]);
 
         m_last_side = side;
     }

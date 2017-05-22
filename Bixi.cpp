@@ -3,7 +3,7 @@
 #include "Addressing.h"
 #include "Arduino.h"
 #include "ColorPallete.h"
-#include "Routine2dSwipe.h"
+#include "Dome.h"
 
 //#define LOG_REFRESH_RATE
 
@@ -29,44 +29,9 @@ CBixi::CBixi() :
     m_pixels.SetAllPixels(CRGB::Black);
     Show();
 
-    // init shapes
-    CPixelArray::Config config;
-    config.m_num_legs = 6;
-    config.m_start[0]  = 14;
-    config.m_end[0]    = 0;
-    config.m_start[1]  = 89;
-    config.m_end[1]    = 75;
-    config.m_start[2]  = 74;
-    config.m_end[2]    = 60;
-    config.m_start[3]  = 59;
-    config.m_end[3]    = 45;
-    config.m_start[4]  = 44;
-    config.m_end[4]    = 30;
-    config.m_start[5]  = 29;
-    config.m_end[5]    = 15;
+    m_dome = new CDome(&m_pixels);
 
-    m_shapes[0] = new CPixelArray(&m_pixels, config);
-//    m_shapes[0]->StartRoutineSwipe(5, 5);
-
-    config.m_scale     = 0.75;
-    config.m_start[0]  = 97;
-    config.m_end[0]    = 90;
-    config.m_start[1]  = 137;
-    config.m_end[1]    = 130;
-    config.m_start[2]  = 129;
-    config.m_end[2]    = 122;
-    config.m_start[3]  = 121;
-    config.m_end[3]    = 114;
-    config.m_start[4]  = 113;
-    config.m_end[4]    = 106;
-    config.m_start[5]  = 105;
-    config.m_end[5]    = 98;
-
-    m_shapes[1] = new CPixelArray(&m_pixels, config);
-//    m_shapes[1]->StartRoutineGlare(ColorPallete::ChromeBlue, 5, true, 5);
-//    m_shapes[1]->StartRoutineSwipe(5, 5);
-
-    m_routine = new CRoutine2dSwipe(2, &m_shapes[0], 15, 5);
+    m_dome->StartRoutineSwipe();
 }
 
 CBixi::~CBixi()
@@ -82,12 +47,7 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    for(size_t i=0;i<c_num_shapes;i++)
-    {
-        m_shapes[i]->Continue();
-    }
-
-    m_routine->Continue();
+    m_dome->Continue();
 
     Show();
 
