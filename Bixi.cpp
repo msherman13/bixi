@@ -2,8 +2,8 @@
 #include "Logging.h"
 #include "Addressing.h"
 #include "Arduino.h"
-#include "Polygon.h"
 #include "ColorPallete.h"
+#include "Routine2dSwipe.h"
 
 //#define LOG_REFRESH_RATE
 
@@ -30,7 +30,7 @@ CBixi::CBixi() :
     Show();
 
     // init shapes
-    CPolygon::Config config;
+    CPixelArray::Config config;
     config.m_num_legs = 6;
     config.m_start[0]  = 14;
     config.m_end[0]    = 0;
@@ -45,10 +45,10 @@ CBixi::CBixi() :
     config.m_start[5]  = 29;
     config.m_end[5]    = 15;
 
-    m_polygons[0] = new CPolygon(&m_pixels, config);
-    //m_polygons[0]->Glare(ColorPallete::Turquoise, 5, false, 10);
-    m_polygons[0]->Sticks(3);
+    m_shapes[0] = new CPixelArray(&m_pixels, config);
+//    m_shapes[0]->StartRoutineSwipe(5, 5);
 
+    config.m_scale     = 0.75;
     config.m_start[0]  = 97;
     config.m_end[0]    = 90;
     config.m_start[1]  = 137;
@@ -62,9 +62,11 @@ CBixi::CBixi() :
     config.m_start[5]  = 105;
     config.m_end[5]    = 98;
 
-    m_polygons[1] = new CPolygon(&m_pixels, config);
-    m_polygons[1]->Glare(ColorPallete::ChromeBlue, 5, true, 5);
-    //m_polygons[1]->Sticks(3);
+    m_shapes[1] = new CPixelArray(&m_pixels, config);
+//    m_shapes[1]->StartRoutineGlare(ColorPallete::ChromeBlue, 5, true, 5);
+//    m_shapes[1]->StartRoutineSwipe(5, 5);
+
+    m_routine = new CRoutine2dSwipe(2, &m_shapes[0], 15, 5);
 }
 
 CBixi::~CBixi()
@@ -80,11 +82,12 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    // TODO: call continue on all objects
-    for(size_t i=0;i<c_num_polygons;i++)
+    for(size_t i=0;i<c_num_shapes;i++)
     {
-        m_polygons[i]->Continue();
+        m_shapes[i]->Continue();
     }
+
+    m_routine->Continue();
 
     Show();
 

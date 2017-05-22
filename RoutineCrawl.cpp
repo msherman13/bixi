@@ -13,13 +13,13 @@ CRoutineCrawl::CRoutineCrawl(CPixelArray* pixels,
                              uint32_t     period_sec) :
     CRoutine(pixels),
     m_forward(forward),
-    m_delay_ms((period_sec * 1000) / m_pixels.GetSize())
+    m_delay_ms((period_sec * 1000) / m_pixels->GetSize())
 {
-    m_pixels.SetAllPixels(CRGB::Black);
+    m_pixels->SetAllPixels(CRGB::Black);
 
     for(size_t i=start_offset;i<width+start_offset;i++)
     {
-        m_pixels.SetPixel(i, base_color);
+        m_pixels->SetPixel(i, base_color);
     }
 
     m_last_run = millis();
@@ -38,5 +38,5 @@ void CRoutineCrawl::Continue()
     }
     m_last_run = now;
 
-    m_pixels.Shift(m_forward, 1);
+    m_pixels->Shift(m_forward, 1);
 }
