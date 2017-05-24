@@ -21,48 +21,56 @@
       )
     )
     (boundary
-      (path pcb 0  106045 -99695  93980 -99695  93980 -83185  106045 -83185
-            107315 -84455  113665 -84455  114935 -83185  124460 -83185  125730 -84455
-            132080 -84455  133350 -83185  140335 -83185  142240 -83185  142240 -99695
-            133350 -99695  132080 -98425  125730 -98425  124460 -99695  114935 -99695
-            113665 -98425  107315 -98425  106045 -99695  106045 -99695)
+      (path pcb 0  63500 -146876  25400 -146876  25400 -127000  63500 -127000
+            63500 -146876  63500 -146876)
     )
-    (plane GND (polygon B.Cu 0  144145 -102235  92075 -102235  92075 -79375  144145 -79375))
-    (plane VCC (polygon F.Cu 0  144145 -102235  92075 -102235  92075 -79375  144145 -79375))
-    (via "Via[0-1]_500:400_um")
+    (plane VCC (polygon F.Cu 0  66040 -149860  20320 -149860  20320 -124460  66040 -124460))
+    (plane GND (polygon B.Cu 0  66040 -149860  20320 -149860  20320 -124460  66040 -124460))
+    (via "Via[0-1]_400:300_um")
     (rule
-      (width 500)
+      (width 400)
       (clearance 200.1)
       (clearance 200.1 (type default_smd))
       (clearance 50 (type smd_smd))
     )
   )
   (placement
-    (component "logos:burner-logo-fs"
-      (place "burner-logo2" 125476 -85344 front 0)
-      (place "burner-logo1" 106934 -85344 front 0)
+    (component Mounting_Holes:MountingHole_2.7mm_Pad
+      (place S2 60750 -142926 front 0 (PN MountingHole_2.7mm_Pad))
+      (place S1 60750 -130950 front 0 (PN MountingHole_2.7mm_Pad))
     )
     (component "Housings_DIP:DIP-8_W7.62mm"
-      (place U1 116205 -98425 front 90 (PN SP3485CN))
+      (place U1 42164 -140970 front 90 (PN SP3485CN))
     )
     (component Connectors:RJ45_8
-      (place J1 96520 -91440 front 270 (PN RJ45))
+      (place J1 29210 -137160 front 270 (PN RJ45))
     )
     (component Resistors_THT:Resistor_Horizontal_RM7mm
-      (place R1 116205 -85090 front 0 (PN R))
+      (place R1 40894 -143764 front 0 (PN R))
     )
     (component custom:jumper_3_pin_fixed
-      (place JP1 137795 -97790 front 0 (PN Jumper_NC_Dual))
+      (place JP1 53594 -130556 front 0 (PN Jumper_NC_Dual))
     )
     (component Capacitors_THT:C_Axial_L3.8mm_D2.6mm_P7.50mm_Horizontal
-      (place C1 116205 -88265 front 0 (PN C))
+      (place C1 40894 -130556 front 0 (PN C))
     )
-    (component custom:PAD_3X_OVAL_WS2812B
-      (place P1 138430 -91440 front 180 (PN CONN_01X03))
+    (component "custom:3-wire-hole-with-relief"
+      (place P1 60706 -136906 front 0 (PN CONN_01X03))
     )
   )
   (library
-    (image "logos:burner-logo-fs"
+    (image Mounting_Holes:MountingHole_2.7mm_Pad
+      (outline (path signal 150  2700 0  2567.85 -834.346  2184.35 -1587.02  1587.02 -2184.35
+            834.346 -2567.85  0 -2700  -834.346 -2567.85  -1587.02 -2184.35
+            -2184.35 -1587.02  -2567.85 -834.346  -2700 0  -2567.85 834.346
+            -2184.35 1587.02  -1587.02 2184.35  -834.346 2567.85  0 2700
+            834.346 2567.85  1587.02 2184.35  2184.35 1587.02  2567.85 834.346))
+      (outline (path signal 50  2950 0  2805.62 -911.6  2386.6 -1733.97  1733.97 -2386.6
+            911.6 -2805.62  0 -2950  -911.6 -2805.62  -1733.97 -2386.6  -2386.6 -1733.97
+            -2805.62 -911.6  -2950 0  -2805.62 911.6  -2386.6 1733.97  -1733.97 2386.6
+            -911.6 2805.62  0 2950  911.6 2805.62  1733.97 2386.6  2386.6 1733.97
+            2805.62 911.6))
+      (pin Round[A]Pad_3500_um 1 0 0)
     )
     (image "Housings_DIP:DIP-8_W7.62mm"
       (outline (path signal 50  -1050 2450  -1050 -10100))
@@ -138,10 +146,13 @@
       (pin Round[A]Pad_1600_um 1 0 0)
       (pin Oval[A]Pad_1600x1600_um 2 7500 0)
     )
-    (image custom:PAD_3X_OVAL_WS2812B
-      (pin Oval[T]Pad_4000x1500_um 3 -250 -2500)
-      (pin Oval[T]Pad_4000x1500_um 1 -250 2500)
-      (pin Oval[T]Pad_4000x1500_um 2 -250 0)
+    (image "custom:3-wire-hole-with-relief"
+      (pin Round[A]Pad_1778_um 1 -1810 2540)
+      (pin Round[A]Pad_1778_um 2 -1810 0)
+      (pin Round[A]Pad_1778_um 3 -1810 -2540)
+      (pin Round[A]Pad_2286_um @1 1000 2540)
+      (pin Round[A]Pad_2286_um @2 1000 0)
+      (pin Round[A]Pad_2286_um @3 1000 -2540)
     )
     (padstack Round[A]Pad_1501.14_um
       (shape (circle F.Cu 1501.14))
@@ -158,18 +169,29 @@
       (shape (circle B.Cu 1600))
       (attach off)
     )
+    (padstack Round[A]Pad_1778_um
+      (shape (circle F.Cu 1778))
+      (shape (circle B.Cu 1778))
+      (attach off)
+    )
     (padstack Round[A]Pad_1998.98_um
       (shape (circle F.Cu 1998.98))
       (shape (circle B.Cu 1998.98))
       (attach off)
     )
+    (padstack Round[A]Pad_2286_um
+      (shape (circle F.Cu 2286))
+      (shape (circle B.Cu 2286))
+      (attach off)
+    )
+    (padstack Round[A]Pad_3500_um
+      (shape (circle F.Cu 3500))
+      (shape (circle B.Cu 3500))
+      (attach off)
+    )
     (padstack Round[A]Pad_3649.98_um
       (shape (circle F.Cu 3649.98))
       (shape (circle B.Cu 3649.98))
-      (attach off)
-    )
-    (padstack Oval[T]Pad_4000x1500_um
-      (shape (path F.Cu 1500  -1250 0  1250 0))
       (attach off)
     )
     (padstack Oval[A]Pad_1600x1600_um
@@ -182,18 +204,18 @@
       (shape (rect B.Cu -750.57 -750.57 750.57 750.57))
       (attach off)
     )
-    (padstack "Via[0-1]_500:400_um"
-      (shape (circle F.Cu 500))
-      (shape (circle B.Cu 500))
+    (padstack "Via[0-1]_400:300_um"
+      (shape (circle F.Cu 400))
+      (shape (circle B.Cu 400))
       (attach off)
     )
   )
   (network
     (net VCC
-      (pins U1-8 JP1-1 C1-1 P1-1)
+      (pins U1-8 JP1-1 C1-1 P1-3)
     )
     (net GND
-      (pins U1-5 J1-7 J1-8 JP1-3 C1-2 P1-3)
+      (pins U1-5 J1-7 J1-8 JP1-3 C1-2 P1-1)
     )
     (net "Net-(J1-Pad4)"
       (pins J1-4)
@@ -207,9 +229,6 @@
     (net /DATA_DIFF_B
       (pins U1-7 J1-2 R1-1)
     )
-    (net /MODE
-      (pins U1-2 U1-3 JP1-2)
-    )
     (net "Net-(J1-Pad3)"
       (pins J1-3)
     )
@@ -219,13 +238,17 @@
     (net "Net-(J1-Pad6)"
       (pins J1-6)
     )
-    (class kicad_default "" /DATA /DATA_DIFF_A /DATA_DIFF_B /MODE GND "Net-(J1-Pad3)"
-      "Net-(J1-Pad4)" "Net-(J1-Pad5)" "Net-(J1-Pad6)" VCC
+    (net /MD
+      (pins U1-2 U1-3 JP1-2)
+    )
+    (class kicad_default "" /DATA /DATA_DIFF_A /DATA_DIFF_B /MD /MODE GND
+      "Net-(J1-Pad3)" "Net-(J1-Pad4)" "Net-(J1-Pad5)" "Net-(J1-Pad6)" "Net-(JP1-Pad2)"
+      "Net-(U1-Pad2)" "Net-(U1-Pad3)" VCC
       (circuit
-        (use_via Via[0-1]_500:400_um)
+        (use_via Via[0-1]_400:300_um)
       )
       (rule
-        (width 500)
+        (width 400)
         (clearance 200.1)
       )
     )

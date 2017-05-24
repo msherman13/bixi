@@ -45,56 +45,56 @@
   )
   (placement
     (component Resistors_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
-      (place R2 67310 -106680 front 0 (PN 100))
-      (place R3 53340 -106680 front 0 (PN 100))
-      (place R4 39370 -106680 front 0 (PN 100))
-      (place R5 81280 -127000 front 0 (PN 100))
-      (place R6 67310 -127000 front 0 (PN 100))
-      (place R7 53340 -127000 front 0 (PN 100))
-      (place R8 39370 -127000 front 0 (PN 100))
-      (place R1 81280 -106680 front 0 (PN 100))
-      (place R9 22860 -107950 front 0 (PN R))
-      (place R10 22860 -102870 front 0 (PN R))
+      (place R2 62230 -107315 front 0 (PN 100))
+      (place R3 42545 -107315 front 0 (PN 100))
+      (place R4 23495 -107315 front 0 (PN 100))
+      (place R5 81280 -127635 front 0 (PN 100))
+      (place R6 62230 -127635 front 0 (PN 100))
+      (place R7 41910 -127635 front 0 (PN 100))
+      (place R8 22860 -127635 front 0 (PN 100))
+      (place R1 81280 -107315 front 0 (PN 100))
+      (place R9 97790 -100330 front 0 (PN R))
+      (place R10 97790 -94615 front 0 (PN R))
     )
     (component "Housings_DIP:DIP-8_W7.62mm"
-      (place U1 81280 -102870 front 90 (PN SP3481CN))
-      (place U2 67310 -102870 front 90 (PN SP3481CN))
-      (place U3 53340 -102870 front 90 (PN SP3481CN))
-      (place U4 39370 -102870 front 90 (PN SP3481CN))
-      (place U5 81280 -123190 front 90 (PN SP3481CN))
-      (place U6 67310 -123190 front 90 (PN SP3481CN))
-      (place U7 53340 -123190 front 90 (PN SP3481CN))
-      (place U8 39370 -123190 front 90 (PN SP3481CN))
+      (place U1 81280 -104140 front 90 (PN SP3481CN))
+      (place U2 62230 -104140 front 90 (PN SP3481CN))
+      (place U3 42545 -104140 front 90 (PN SP3481CN))
+      (place U4 23495 -104140 front 90 (PN SP3481CN))
+      (place U5 81280 -124460 front 90 (PN SP3481CN))
+      (place U6 62230 -124460 front 90 (PN SP3481CN))
+      (place U7 41910 -124460 front 90 (PN SP3481CN))
+      (place U8 23495 -124460 front 90 (PN SP3481CN))
     )
     (component Teensy:Teensy35_36
       (place U9 63500 -78740 front 0 (PN Teensy3.6))
     )
     (component custom:ESP8266
-      (place U10 26670 -100330 front 270 (PN ESP8266))
-    )
-    (component Mounting_Holes:MountingHole_3.5mm
-      (place S3 25400 -152400 front 0 (PN MountingHole_3.5mm))
-      (place S4 101600 -152400 front 0 (PN MountingHole_3.5mm))
-      (place S1 25400 -76200 front 0 (PN MountingHole_3.5mm))
-      (place S2 101600 -76200 front 0 (PN MountingHole_3.5mm))
+      (place U10 101600 -92710 front 270 (PN ESP8266))
     )
     (component "logos:bixi-graphic"
-      (place "bixi-graphic" 3175 -166370 front 90)
-      (place "bixi-text" 158750 -113030 front 90)
+      (place "bixi-graphic" 46990 -69850 front 0)
+      (place "bixi-text" 43180 -148590 front 0)
     )
     (component Capacitors_THT:C_Axial_L3.8mm_D2.6mm_P7.50mm_Horizontal
-      (place C1 81280 -91440 front 0 (PN C))
-      (place C2 67310 -91440 front 0 (PN C))
-      (place C3 53340 -91440 front 0 (PN C))
-      (place C4 39370 -91440 front 0 (PN C))
-      (place C5 81280 -111760 front 0 (PN C))
-      (place C6 67310 -111760 front 0 (PN C))
-      (place C7 53340 -111760 front 0 (PN C))
-      (place C8 39370 -111760 front 0 (PN C))
-      (place C9 22860 -97790 front 0 (PN C))
+      (place C1 81280 -93345 front 0 (PN C))
+      (place C2 62230 -93345 front 0 (PN C))
+      (place C3 42545 -93345 front 0 (PN C))
+      (place C4 23495 -93345 front 0 (PN C))
+      (place C5 81280 -113665 front 0 (PN C))
+      (place C6 62230 -113665 front 0 (PN C))
+      (place C7 41910 -113665 front 0 (PN C))
+      (place C8 23495 -113665 front 0 (PN C))
+      (place C9 97790 -89535 front 0 (PN C))
     )
     (component custom:RJ45_2x4
       (place J1 66040 -167640 front 0 (PN RJ45_2x4))
+    )
+    (component Mounting_Holes:MountingHole_3.5mm_Pad
+      (place S1 25400 -76200 front 0 (PN MountingHole_3.5mm))
+      (place S2 101600 -76200 front 0 (PN MountingHole_3.5mm))
+      (place S4 101600 -152400 front 0 (PN MountingHole_3.5mm))
+      (place S3 25400 -152400 front 0 (PN MountingHole_3.5mm))
     )
   )
   (library
@@ -280,20 +280,6 @@
       (pin Round[A]Pad_1524_um 7 -6350 -3810)
       (pin Round[A]Pad_1524_um 8 -8890 -3810)
     )
-    (image Mounting_Holes:MountingHole_3.5mm
-      (outline (path signal 150  3500 0  3328.7 -1081.56  2831.56 -2057.25  2057.25 -2831.56
-            1081.56 -3328.7  0 -3500  -1081.56 -3328.7  -2057.25 -2831.56
-            -2831.56 -2057.25  -3328.7 -1081.56  -3500 0  -3328.7 1081.56
-            -2831.56 2057.25  -2057.25 2831.56  -1081.56 3328.7  0 3500
-            1081.56 3328.7  2057.25 2831.56  2831.56 2057.25  3328.7 1081.56))
-      (outline (path signal 50  3750 0  3566.46 -1158.81  3033.81 -2204.2  2204.2 -3033.81
-            1158.81 -3566.46  0 -3750  -1158.81 -3566.46  -2204.2 -3033.81
-            -3033.81 -2204.2  -3566.46 -1158.81  -3750 0  -3566.46 1158.81
-            -3033.81 2204.2  -2204.2 3033.81  -1158.81 3566.46  0 3750  1158.81 3566.46
-            2204.2 3033.81  3033.81 2204.2  3566.46 1158.81))
-      (keepout "" (circle F.Cu 3500))
-      (keepout "" (circle B.Cu 3500))
-    )
     (image "logos:bixi-graphic"
     )
     (image Capacitors_THT:C_Axial_L3.8mm_D2.6mm_P7.50mm_Horizontal
@@ -397,6 +383,19 @@
       (pin Round[A]Pad_1500_um 64 -19050 27940)
       (pin Round[A]Pad_2400_um 70 -15875 36322)
     )
+    (image Mounting_Holes:MountingHole_3.5mm_Pad
+      (outline (path signal 150  3500 0  3328.7 -1081.56  2831.56 -2057.25  2057.25 -2831.56
+            1081.56 -3328.7  0 -3500  -1081.56 -3328.7  -2057.25 -2831.56
+            -2831.56 -2057.25  -3328.7 -1081.56  -3500 0  -3328.7 1081.56
+            -2831.56 2057.25  -2057.25 2831.56  -1081.56 3328.7  0 3500
+            1081.56 3328.7  2057.25 2831.56  2831.56 2057.25  3328.7 1081.56))
+      (outline (path signal 50  3750 0  3566.46 -1158.81  3033.81 -2204.2  2204.2 -3033.81
+            1158.81 -3566.46  0 -3750  -1158.81 -3566.46  -2204.2 -3033.81
+            -3033.81 -2204.2  -3566.46 -1158.81  -3750 0  -3566.46 1158.81
+            -3033.81 2204.2  -2204.2 3033.81  -1158.81 3566.46  0 3750  1158.81 3566.46
+            2204.2 3033.81  3033.81 2204.2  3566.46 1158.81))
+      (pin Round[A]Pad_7000_um 1 0 0)
+    )
     (padstack Round[A]Pad_1500_um
       (shape (circle F.Cu 1500))
       (shape (circle B.Cu 1500))
@@ -420,6 +419,11 @@
     (padstack Round[A]Pad_3650_um
       (shape (circle F.Cu 3650))
       (shape (circle B.Cu 3650))
+      (attach off)
+    )
+    (padstack Round[A]Pad_7000_um
+      (shape (circle F.Cu 7000))
+      (shape (circle B.Cu 7000))
       (attach off)
     )
     (padstack Oval[A]Pad_1600x1600_um
@@ -875,29 +879,24 @@
       "Net-(J1-Pad37)" "Net-(J1-Pad38)" "Net-(J1-Pad4)" "Net-(J1-Pad43)" "Net-(J1-Pad44)"
       "Net-(J1-Pad45)" "Net-(J1-Pad46)" "Net-(J1-Pad5)" "Net-(J1-Pad51)" "Net-(J1-Pad52)"
       "Net-(J1-Pad53)" "Net-(J1-Pad54)" "Net-(J1-Pad59)" "Net-(J1-Pad6)" "Net-(J1-Pad60)"
-      "Net-(J1-Pad61)" "Net-(J1-Pad62)" "Net-(J2-Pad3)" "Net-(J2-Pad4)" "Net-(J2-Pad5)"
-      "Net-(J2-Pad6)" "Net-(J3-Pad3)" "Net-(J3-Pad4)" "Net-(J3-Pad5)" "Net-(J3-Pad6)"
-      "Net-(J4-Pad3)" "Net-(J4-Pad4)" "Net-(J4-Pad5)" "Net-(J4-Pad6)" "Net-(J5-Pad3)"
-      "Net-(J5-Pad4)" "Net-(J5-Pad5)" "Net-(J5-Pad6)" "Net-(J6-Pad3)" "Net-(J6-Pad4)"
-      "Net-(J6-Pad5)" "Net-(J6-Pad6)" "Net-(J7-Pad3)" "Net-(J7-Pad4)" "Net-(J7-Pad5)"
-      "Net-(J7-Pad6)" "Net-(J8-Pad3)" "Net-(J8-Pad4)" "Net-(J8-Pad5)" "Net-(J8-Pad6)"
-      "Net-(U1-Pad1)" "Net-(U2-Pad1)" "Net-(U3-Pad1)" "Net-(U4-Pad1)" "Net-(U5-Pad1)"
-      "Net-(U6-Pad1)" "Net-(U7-Pad1)" "Net-(U8-Pad1)" "Net-(U9-Pad11)" "Net-(U9-Pad12)"
-      "Net-(U9-Pad13)" "Net-(U9-Pad14)" "Net-(U9-Pad16)" "Net-(U9-Pad17)"
-      "Net-(U9-Pad18)" "Net-(U9-Pad19)" "Net-(U9-Pad2)" "Net-(U9-Pad20)" "Net-(U9-Pad25)"
-      "Net-(U9-Pad26)" "Net-(U9-Pad27)" "Net-(U9-Pad28)" "Net-(U9-Pad29)"
-      "Net-(U9-Pad3)" "Net-(U9-Pad30)" "Net-(U9-Pad31)" "Net-(U9-Pad32)" "Net-(U9-Pad33)"
-      "Net-(U9-Pad34)" "Net-(U9-Pad35)" "Net-(U9-Pad36)" "Net-(U9-Pad37)"
-      "Net-(U9-Pad38)" "Net-(U9-Pad39)" "Net-(U9-Pad40)" "Net-(U9-Pad42)"
-      "Net-(U9-Pad43)" "Net-(U9-Pad44)" "Net-(U9-Pad45)" "Net-(U9-Pad46)"
-      "Net-(U9-Pad49)" "Net-(U9-Pad5)" "Net-(U9-Pad50)" "Net-(U9-Pad51)" "Net-(U9-Pad52)"
-      "Net-(U9-Pad54)" "Net-(U9-Pad55)" "Net-(U9-Pad56)" "Net-(U9-Pad57)"
-      "Net-(U9-Pad6)" "Net-(U9-Pad63)" "Net-(U9-Pad64)" "Net-(U9-Pad65)" "Net-(U9-Pad66)"
-      "Net-(U9-Pad67)" "Net-(U9-Pad68)" "Net-(U9-Pad69)" "Net-(U9-Pad70)"
-      "Net-(U9-Pad71)" "Net-(U9-Pad72)" "Net-(U9-Pad73)" "Net-(U9-Pad74)"
-      "Net-(U9-Pad75)" "Net-(U9-Pad76)" "Net-(U9-Pad77)" "Net-(U9-Pad78)"
-      "Net-(U9-Pad79)" "Net-(U9-Pad80)" "Net-(U9-Pad81)" "Net-(U9-Pad82)"
-      "Net-(U9-Pad83)" "Net-(U9-Pad84)" "Net-(U9-Pad85)" "Net-(U9-Pad86)"
+      "Net-(J1-Pad61)" "Net-(J1-Pad62)" "Net-(U1-Pad1)" "Net-(U2-Pad1)" "Net-(U3-Pad1)"
+      "Net-(U4-Pad1)" "Net-(U5-Pad1)" "Net-(U6-Pad1)" "Net-(U7-Pad1)" "Net-(U8-Pad1)"
+      "Net-(U9-Pad11)" "Net-(U9-Pad12)" "Net-(U9-Pad13)" "Net-(U9-Pad14)"
+      "Net-(U9-Pad16)" "Net-(U9-Pad17)" "Net-(U9-Pad18)" "Net-(U9-Pad19)"
+      "Net-(U9-Pad2)" "Net-(U9-Pad20)" "Net-(U9-Pad25)" "Net-(U9-Pad26)" "Net-(U9-Pad27)"
+      "Net-(U9-Pad28)" "Net-(U9-Pad29)" "Net-(U9-Pad3)" "Net-(U9-Pad30)" "Net-(U9-Pad31)"
+      "Net-(U9-Pad32)" "Net-(U9-Pad33)" "Net-(U9-Pad34)" "Net-(U9-Pad35)"
+      "Net-(U9-Pad36)" "Net-(U9-Pad37)" "Net-(U9-Pad38)" "Net-(U9-Pad39)"
+      "Net-(U9-Pad40)" "Net-(U9-Pad42)" "Net-(U9-Pad43)" "Net-(U9-Pad44)"
+      "Net-(U9-Pad45)" "Net-(U9-Pad46)" "Net-(U9-Pad49)" "Net-(U9-Pad5)" "Net-(U9-Pad50)"
+      "Net-(U9-Pad51)" "Net-(U9-Pad52)" "Net-(U9-Pad54)" "Net-(U9-Pad55)"
+      "Net-(U9-Pad56)" "Net-(U9-Pad57)" "Net-(U9-Pad6)" "Net-(U9-Pad63)" "Net-(U9-Pad64)"
+      "Net-(U9-Pad65)" "Net-(U9-Pad66)" "Net-(U9-Pad67)" "Net-(U9-Pad68)"
+      "Net-(U9-Pad69)" "Net-(U9-Pad70)" "Net-(U9-Pad71)" "Net-(U9-Pad72)"
+      "Net-(U9-Pad73)" "Net-(U9-Pad74)" "Net-(U9-Pad75)" "Net-(U9-Pad76)"
+      "Net-(U9-Pad77)" "Net-(U9-Pad78)" "Net-(U9-Pad79)" "Net-(U9-Pad80)"
+      "Net-(U9-Pad81)" "Net-(U9-Pad82)" "Net-(U9-Pad83)" "Net-(U9-Pad84)"
+      "Net-(U9-Pad85)" "Net-(U9-Pad86)"
       (circuit
         (use_via Via[0-1]_400:300_um)
       )
@@ -908,17 +907,15 @@
     )
   )
   (wiring
-    (wire (path F.Cu 2000  22860 -102870  22860 -107950)(net /3V)(type protect))
-    (wire (path F.Cu 2000  22860 -97790  22860 -102870)(net /3V)(type protect))
-    (wire (path F.Cu 2000  22860 -97790  21590 -97790)(net /3V)(type protect))
-    (wire (path F.Cu 2000  21590 -91440  22860 -91440)(net /3V)(type protect))
-    (wire (path F.Cu 2000  20320 -92710  21590 -91440)(net /3V)(type protect))
-    (wire (path F.Cu 2000  20320 -96520  20320 -92710)(net /3V)(type protect))
-    (wire (path F.Cu 2000  21590 -97790  20320 -96520)(net /3V)(type protect))
-    (wire (path F.Cu 2000  69850 -86360  69850 -85090)(net /3V)(type protect))
-    (wire (path F.Cu 2000  22860 -88900  22860 -91440)(net /3V)(type protect))
-    (wire (path F.Cu 2000  27940 -83820  22860 -88900)(net /3V)(type protect))
-    (wire (path F.Cu 2000  68580 -83820  27940 -83820)(net /3V)(type protect))
-    (wire (path F.Cu 2000  69850 -85090  68580 -83820)(net /3V)(type protect))
+    (wire (path F.Cu 2000  97790 -94615  97790 -89535)(net /3V)(type protect))
+    (wire (path F.Cu 2000  97790 -100330  97790 -94615)(net /3V)(type protect))
+    (wire (path F.Cu 2000  97790 -89535  93345 -89535)(net /3V)(type protect))
+    (wire (path F.Cu 2000  69850 -86360  69850 -88900)(net /3V)(type protect))
+    (wire (path F.Cu 2000  96520 -83820  97790 -83820)(net /3V)(type protect))
+    (wire (path F.Cu 2000  95250 -85090  96520 -83820)(net /3V)(type protect))
+    (wire (path F.Cu 2000  95250 -87630  95250 -85090)(net /3V)(type protect))
+    (wire (path F.Cu 2000  93345 -89535  95250 -87630)(net /3V)(type protect))
+    (wire (path F.Cu 2000  70485 -89535  93345 -89535)(net /3V)(type protect))
+    (wire (path F.Cu 2000  69850 -88900  70485 -89535)(net /3V)(type protect))
   )
 )

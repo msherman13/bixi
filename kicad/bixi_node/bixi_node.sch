@@ -238,9 +238,9 @@ DATA_DIFF_A
 Text Label 6200 3400 0    60   ~ 0
 DATA_DIFF_B
 Text Label 5400 3200 2    60   ~ 0
-MODE
+MD
 Text Label 5400 3400 2    60   ~ 0
-MODE
+MD
 Text Label 6300 4800 2    60   ~ 0
-MODE
+MD
 $EndSCHEMATC
