@@ -4,7 +4,7 @@ namespace ColorPallete
 {
     enum Color
     {
-        ChromeBlue  = 0x005c7e,
+        ChromeBlue  = 0x3c61d9,
         Turquoise   = 0x00935a,
         LightPurple = 0x940096,
 

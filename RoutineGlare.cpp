@@ -49,9 +49,9 @@ void CRoutineGlare::Continue()
 
     CHSV hsv = m_base_color;
 
-    for(size_t i=0;i<m_pixels.GetSize();i++)
+    for(size_t i=0;i<m_pixels->GetSize();i++)
     {
-        double this_index = (double)i / m_pixels.GetSize();
+        double this_index = (double)i / m_pixels->GetSize();
         double ratio = std::max<double>(1 - fabs(this_index - m_midpoint), 0.0001);
         ratio = fabs(ratio - 0.50) * 2;
         ratio = pow(ratio, m_q);
@@ -59,6 +59,6 @@ void CRoutineGlare::Continue()
         if(hsv.val < 15)
             hsv.val = 0;
 
-        m_pixels.SetPixel(i, hsv);
+        m_pixels->SetPixel(i, hsv);
     }
 }

@@ -2,8 +2,8 @@
 #include "Logging.h"
 #include "Addressing.h"
 #include "Arduino.h"
-#include "Polygon.h"
 #include "ColorPallete.h"
+#include "Dome.h"
 
 //#define LOG_REFRESH_RATE
 
@@ -29,42 +29,9 @@ CBixi::CBixi() :
     m_pixels.SetAllPixels(CRGB::Black);
     Show();
 
-    // init shapes
-    CPolygon::Config config;
-    config.m_num_legs = 6;
-    config.m_start[0]  = 14;
-    config.m_end[0]    = 0;
-    config.m_start[1]  = 89;
-    config.m_end[1]    = 75;
-    config.m_start[2]  = 74;
-    config.m_end[2]    = 60;
-    config.m_start[3]  = 59;
-    config.m_end[3]    = 45;
-    config.m_start[4]  = 44;
-    config.m_end[4]    = 30;
-    config.m_start[5]  = 29;
-    config.m_end[5]    = 15;
+    m_dome = new CDome(&m_pixels);
 
-    m_polygons[0] = new CPolygon(&m_pixels, config);
-    m_polygons[0]->GlareLegs(ColorPallete::Turquoise, 5, false, 10);
-    //m_polygons[0]->Sticks(5);
-
-    config.m_start[0]  = 97;
-    config.m_end[0]    = 90;
-    config.m_start[1]  = 137;
-    config.m_end[1]    = 130;
-    config.m_start[2]  = 129;
-    config.m_end[2]    = 122;
-    config.m_start[3]  = 121;
-    config.m_end[3]    = 114;
-    config.m_start[4]  = 113;
-    config.m_end[4]    = 106;
-    config.m_start[5]  = 105;
-    config.m_end[5]    = 98;
-
-    m_polygons[1] = new CPolygon(&m_pixels, config);
-    m_polygons[1]->GlareLegs(ColorPallete::ChromeBlue, 5, true, 5);
-    //m_polygons[1]->Sticks(3);
+    m_dome->StartRoutineSwipe();
 }
 
 CBixi::~CBixi()
@@ -80,11 +47,7 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    // TODO: call continue on all objects
-    for(size_t i=0;i<c_num_polygons;i++)
-    {
-        m_polygons[i]->Continue();
-    }
+    m_dome->Continue();
 
     Show();
 

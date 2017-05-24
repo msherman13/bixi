@@ -165,6 +165,11 @@ struct CRGB
         uint8_t raw[3];
     };
 
+    bool operator==(const CRGB& rhs)
+    {
+        return rhs.r == r && rhs.g == g && rhs.b == b;
+    }
+
     typedef enum {
         AliceBlue=0xF0F8FF,
         Amethyst=0x9966CC,
