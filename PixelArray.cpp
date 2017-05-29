@@ -5,7 +5,8 @@
 #include "RoutineGlare.h"
 #include "RoutineCrawl.h"
 #include "RoutineSticks.h"
-#include "Routine2dSwipe.h"
+#include "RoutineSwipe.h"
+#include "RoutineFire.h"
 
 CPixelArray::CPixelArray(size_t len) :
     CPixelArray(new CRGB[len], len)
@@ -29,14 +30,14 @@ CPixelArray::CPixelArray(CRGB* rgb, size_t len, Config config) :
     m_length(len),
     m_config(config)
 {
-    InitPolygon();
+    Init();
 }
 
 CPixelArray::CPixelArray(CPixelArray* rhs) :
     CPixelArray(rhs->GetRaw(), rhs->GetSize())
 {
     m_config = rhs->GetConfig();
-    InitPolygon();
+    Init();
 }
 
 CPixelArray::CPixelArray(CPixelArray* rhs, Config config) :
@@ -44,7 +45,7 @@ CPixelArray::CPixelArray(CPixelArray* rhs, Config config) :
 {
     m_config = config;
 
-    InitPolygon();
+    Init();
 }
 
 CPixelArray::~CPixelArray()
@@ -67,7 +68,7 @@ CPixelArray::~CPixelArray()
     }
 }
 
-void CPixelArray::InitPolygon()
+void CPixelArray::Init()
 {
     size_t length[m_config.m_num_legs] = {};
     m_perimeter = 0;
@@ -93,7 +94,7 @@ void CPixelArray::InitPolygon()
         }
     }
 
-    MapCoordinates(m_config.m_scale);
+    MapCoordinates();
 
     char logstr[256];
     sprintf(logstr, "CPolygon::CPolygon: Initializing polygon with "
@@ -101,38 +102,48 @@ void CPixelArray::InitPolygon()
     CLogging::log(logstr);
 }
 
-void CPixelArray::MapCoordinates(double scale)
+void CPixelArray::MapCoordinates()
 {
-    const bool   side_at_edge    = NumLegs() == 4 || NumLegs() == 8;
-    const double center_distance = side_at_edge ?
-                                   0.50 / cos(180 / NumLegs()) :
-                                   0.50;
-
-    Coordinate corners[NumLegs()];
-    for(size_t i=0;i<NumLegs();i++)
+    if(m_config.m_auto_coordinates == true)
     {
-        Coordinate& corner = corners[i];
-        const double pi    = 3.14159265358979323846;
-        corner.x           = cos(2 * pi * i / NumLegs()) * scale + m_config.m_origin.x;
-        corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * scale + m_config.m_origin.y;
-        char logstr[256];
+        AutoMapCorners();
     }
 
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
         const size_t length = m_legs[i]->GetSize();
-        Coordinate&  start  = corners[i];
-        Coordinate&  end    = corners[i < NumLegs() - 1 ? i + 1 : 0];
+        Coordinate&  start  = m_config.m_corner_coordinates[i];
+        Coordinate&  end    = m_config.m_corner_coordinates[i < NumLegs() - 1 ? i + 1 : 0];
         const double x_step = (end.x - start.x) / length;
         const double y_step = (end.y - start.y) / length;
+        const double z_step = (end.z - start.z) / length;
 
         for(size_t j=0;j<length;j++)
         {
             Coordinate& this_coord = m_coordinates[index++];
             this_coord.x           = start.x + j * x_step;
             this_coord.y           = start.y + j * y_step;
+            this_coord.z           = start.z + j * z_step;
         }
+    }
+}
+
+// assume regular polygon, map corners to coordinates
+void CPixelArray::AutoMapCorners()
+{
+    const bool   side_at_edge    = NumLegs() == 4 || NumLegs() == 8;
+    const double center_distance = side_at_edge ?
+                                   0.50 / cos(180 / NumLegs()) :
+                                   0.50;
+
+    for(size_t i=0;i<NumLegs();i++)
+    {
+        Coordinate& corner = m_config.m_corner_coordinates[i];
+        const double pi    = 3.14159265358979323846;
+        corner.x           = cos(2 * pi * i / NumLegs()) * m_config.m_scale + m_config.m_origin.x;
+        corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * m_config.m_scale + m_config.m_origin.y;
+        // TODO: how to map z-axis?
     }
 }
 
@@ -245,7 +256,14 @@ void CPixelArray::StartRoutineSwipe(size_t q, uint32_t period_sec)
 {
     ExitRoutine();
 
-    m_routine = new CRoutine2dSwipe(this, q, period_sec);
+    m_routine = new CRoutineSwipe(this, q, period_sec);
+}
+
+void CPixelArray::StartRoutineFire()
+{
+    ExitRoutine();
+
+    m_routine = new CRoutineFire(this);
 }
 
 void CPixelArray::Continue()

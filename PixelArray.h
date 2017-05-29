@@ -18,23 +18,29 @@ class CPixelArray
         {
             double x      = 0.0;
             double y      = 0.0;
+            double z      = 0.0;
 
             Coordinate() {}
 
-            Coordinate(double x_in, double y_in) :
+            Coordinate(double x_in, double y_in, double z_in) :
                 x(x_in),
-                y(y_in)
+                y(y_in),
+                z(z_in)
             {
             }
         };
 
         struct Config
         {
-            size_t m_num_legs              = 0;
-            size_t m_start[c_max_num_legs] = {};
-            size_t m_end[c_max_num_legs]   = {};
-            double m_scale                 = 1.00;
+            size_t     m_num_legs              = 0;
+            size_t     m_start[c_max_num_legs] = {};
+            size_t     m_end[c_max_num_legs]   = {};
+            Coordinate m_corner_coordinates[c_max_num_legs];
+
+            // optional: used for automatic coordinate mapping of polygons
+            bool       m_auto_coordinates      = false;
             Coordinate m_origin;
+            double     m_scale                 = 1.00;
         };
 
     public:
@@ -52,6 +58,7 @@ class CPixelArray
         void StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec);
         void StartRoutineSticks(size_t num_sticks);
         void StartRoutineSwipe(size_t q, uint32_t period_sec);
+        void StartRoutineFire();
 
     public:
         void ExitRoutine();
@@ -76,8 +83,9 @@ class CPixelArray
         bool   HasCoordinates() { return m_coordinates != nullptr; }
 
     private:
-        void InitPolygon();
-        void MapCoordinates(double scale);
+        void Init();
+        void MapCoordinates();
+        void AutoMapCorners();
 
     private:
         bool         m_owner       = false;

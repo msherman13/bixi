@@ -16,6 +16,7 @@ class CDome
 
     public:
         void StartRoutineSwipe();
+        void StartRoutineFire();
 
     public:
         void ExitRoutine();

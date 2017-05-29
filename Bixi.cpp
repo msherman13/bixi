@@ -31,7 +31,8 @@ CBixi::CBixi() :
 
     m_dome = new CDome(&m_pixels);
 
-    m_dome->StartRoutineSwipe();
+    //m_dome->StartRoutineSwipe();
+    m_dome->StartRoutineFire();
 }
 
 CBixi::~CBixi()

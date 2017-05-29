@@ -11,3 +11,5 @@ sim: $(OBJ)
 
 clean:
 	rm -rf $(SIM_DIR)
+
+#`sdl-config --cflags --libs`
