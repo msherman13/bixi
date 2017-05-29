@@ -18,14 +18,12 @@ class CPixelArray
         {
             double x      = 0.0;
             double y      = 0.0;
-            double z      = 0.0;
 
             Coordinate() {}
 
-            Coordinate(double x_in, double y_in, double z_in) :
+            Coordinate(double x_in, double y_in) :
                 x(x_in),
-                y(y_in),
-                z(z_in)
+                y(y_in)
             {
             }
         };
@@ -66,13 +64,14 @@ class CPixelArray
         void Continue();
 
     public:
-        size_t      GetSize()                   { return HasCoordinates() ? Perimeter() : m_length; }
-        size_t      GetSize(size_t index)       { return m_legs[index]->GetSize(); }
-        size_t      Perimeter()                 { return m_perimeter; }
+        size_t      GetSize()                                     { return m_length; }
+        size_t      GetSize(size_t index)                         { return m_legs[index]->GetSize(); }
         CRGB*       GetRaw(size_t index=0);
-        size_t      NumLegs()                   { return m_config.m_num_legs; }
-        Coordinate& GetCoordinate(size_t index) { return m_coordinates[index]; }
-        Config&     GetConfig()                 { return m_config; }
+        size_t      NumLegs()                                     { return m_config.m_num_legs; }
+        Coordinate& GetCoordinate(size_t index)                   { return m_coordinates[index]; }
+        size_t      GetLocation(size_t index)                     { return m_locations[index]; }
+        void        SetCoordinate(size_t index, Coordinate coord) { m_coordinates[index] = coord; }
+        Config&     GetConfig()                                   { return m_config; }
 
     public:
         CRGB   GetPixel(size_t index);
@@ -91,7 +90,6 @@ class CPixelArray
         bool         m_owner       = false;
         CRGB*        m_pixels      = nullptr;
         size_t       m_length      = 0;
-        size_t       m_perimeter   = 0;
         CRoutine*    m_routine     = nullptr;
 
     private:

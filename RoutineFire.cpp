@@ -77,7 +77,7 @@ void CRoutineFire::Continue()
         {
             CPixelArray::Coordinate coord = m_arrays[array]->GetCoordinate(i);
             size_t x_pixel = ((coord.x + c_max_axis_val) / 2) * c_num_pixels_per_axis;
-            size_t y_pixel = ((coord.z + c_max_axis_val) / 2) * c_num_pixels_per_axis;
+            size_t y_pixel = ((coord.y + c_max_axis_val) / 2) * c_num_pixels_per_axis;
             m_arrays[array]->SetPixel(i, m_colors[m_fire[y_pixel][x_pixel]]);
         }
     }

@@ -27,19 +27,18 @@ CBixi::CBixi() :
     FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRaw(), m_pixels.GetSize());
 
     m_pixels.SetAllPixels(CRGB::Black);
-    Show();
 
-    m_dome = new CDome(&m_pixels);
+    m_geometry = new CDome(&m_pixels);
 
-    //m_dome->StartRoutineSwipe();
-    m_dome->StartRoutineFire();
+    //m_geometry->StartRoutineSwipe();
+    m_geometry->StartRoutineFire();
 }
 
 CBixi::~CBixi()
 {
 }
 
-void CBixi::Show()
+void CBixi::Show(CPixelArray*)
 {
     FastLED.show();
 }
@@ -48,9 +47,9 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    m_dome->Continue();
+    m_geometry->Continue();
 
-    Show();
+    Show(m_geometry);
 
     if(now - m_lastIndicator >= c_indicatorDelayMs)
     {

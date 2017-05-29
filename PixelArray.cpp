@@ -18,10 +18,12 @@ CPixelArray::CPixelArray(CRGB* rgb, size_t len) :
     m_pixels(rgb),
     m_length(len)
 {
-    m_locations = new size_t[GetSize()];
+    m_locations      = new size_t[GetSize()];
+    m_coordinates    = new Coordinate[GetSize()];
     for(size_t i=0;i<GetSize();i++)
     {
-        m_locations[i] = i;
+        m_locations[i]   = i;
+        m_coordinates[i] = Coordinate(0, 0);
     }
 }
 
@@ -71,16 +73,14 @@ CPixelArray::~CPixelArray()
 void CPixelArray::Init()
 {
     size_t length[m_config.m_num_legs] = {};
-    m_perimeter = 0;
 
     for(size_t i=0;i<NumLegs();i++)
     {
         length[i]  = abs((int)m_config.m_end[i] - (int)m_config.m_start[i]) + 1;
-        m_perimeter += length[i];
     }
 
-    m_locations      = new size_t[Perimeter()];
-    m_coordinates    = new Coordinate[Perimeter()];
+    m_locations      = new size_t[GetSize()];
+    m_coordinates    = new Coordinate[GetSize()];
 
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
@@ -98,7 +98,7 @@ void CPixelArray::Init()
 
     char logstr[256];
     sprintf(logstr, "CPolygon::CPolygon: Initializing polygon with "
-            "%u legs and perimeter %u pixels", NumLegs(), GetSize());
+            "%u legs and size %u pixels", NumLegs(), GetSize());
     CLogging::log(logstr);
 }
 
@@ -117,14 +117,12 @@ void CPixelArray::MapCoordinates()
         Coordinate&  end    = m_config.m_corner_coordinates[i < NumLegs() - 1 ? i + 1 : 0];
         const double x_step = (end.x - start.x) / length;
         const double y_step = (end.y - start.y) / length;
-        const double z_step = (end.z - start.z) / length;
 
         for(size_t j=0;j<length;j++)
         {
             Coordinate& this_coord = m_coordinates[index++];
             this_coord.x           = start.x + j * x_step;
             this_coord.y           = start.y + j * y_step;
-            this_coord.z           = start.z + j * z_step;
         }
     }
 }
@@ -143,7 +141,6 @@ void CPixelArray::AutoMapCorners()
         const double pi    = 3.14159265358979323846;
         corner.x           = cos(2 * pi * i / NumLegs()) * m_config.m_scale + m_config.m_origin.x;
         corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * m_config.m_scale + m_config.m_origin.y;
-        // TODO: how to map z-axis?
     }
 }
 
