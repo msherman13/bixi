@@ -14,9 +14,3 @@ void loop()
         CBixi::Instance().Continue();
     }
 }
-
-int main()
-{
-    loop();
-    return 0;
-}

@@ -27,7 +27,6 @@ CBixi::CBixi() :
     FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRaw(), m_pixels.GetSize());
 
     m_pixels.SetAllPixels(CRGB::Black);
-    Show();
 
     m_dome = new CDome(&m_pixels);
 

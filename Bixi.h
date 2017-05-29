@@ -14,16 +14,14 @@ class CBixi
 
     public: // singleton
         static CBixi& Instance();
-        ~CBixi();
-
-    private:
         CBixi();
+        ~CBixi();
 
     public:
         void Continue();
 
-    private:
-        void Show();
+    protected:
+        virtual void Show();
 
     private:
         CPixelArray  m_pixels;
