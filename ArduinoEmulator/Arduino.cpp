@@ -1,4 +1,5 @@
 #include "Arduino.h"
+#include <chrono>
 
 void pinMode(size_t, size_t)
 {
@@ -12,7 +13,11 @@ size_t curr_time_ms = 0;
 
 size_t millis()
 {
-    return curr_time_ms;
+//    return curr_time_ms;
+    using namespace std::chrono;
+    milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    printf("MILES_DEBUG: time is %lu", ms.count());
+    return ms.count();
 }
 
 void increment_time(size_t millis)

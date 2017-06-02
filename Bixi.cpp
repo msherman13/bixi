@@ -28,16 +28,18 @@ CBixi::CBixi() :
 
     m_pixels.SetAllPixels(CRGB::Black);
 
-    m_dome = new CDome(&m_pixels);
+    m_geometry = new CDome(&m_pixels);
 
-    m_dome->StartRoutineSwipe();
+    m_geometry->StartRoutineSwipe();
+    //m_geometry->StartRoutineFire();
+    //m_geometry->StartRoutineSolid(CRGB(255, 0, 0));
 }
 
 CBixi::~CBixi()
 {
 }
 
-void CBixi::Show()
+void CBixi::Show(CPixelArray*)
 {
     FastLED.show();
 }
@@ -46,9 +48,9 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    m_dome->Continue();
+    m_geometry->Continue();
 
-    Show();
+    Show(m_geometry);
 
     if(now - m_lastIndicator >= c_indicatorDelayMs)
     {

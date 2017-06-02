@@ -1,5 +1,5 @@
 CC = /usr/bin/g++
-CXXFLAGS = -I. -std=c++11 -g
+CXXFLAGS = -I. -std=c++11 -g `sdl-config --cflags --libs`
 OBJ = FastLEDEmulator/*.cpp ArduinoEmulator/*.cpp *.cpp QuickCG/*.cpp
 SIM_DIR = build-sim
 INC += -IFastLEDEmulator

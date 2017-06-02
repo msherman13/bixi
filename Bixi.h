@@ -21,11 +21,11 @@ class CBixi
         void Continue();
 
     protected:
-        virtual void Show();
+        virtual void Show(CPixelArray* pixels);
 
     private:
         CPixelArray  m_pixels;
         size_t       m_lastIndicator = 0;
         bool         m_indicatorOn   = false;
-        CDome*       m_dome          = nullptr;
+        CPixelArray* m_geometry      = nullptr;
 };

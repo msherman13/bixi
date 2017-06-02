@@ -7,24 +7,24 @@
 
 class CPixelArray;
 
-class CRoutine2dSwipe : public CRoutine
+class CRoutineSwipe : public CRoutine
 {
     public:
         static constexpr double c_frame_size = 4.0;
 
     public:
-        CRoutine2dSwipe(CPixelArray*    arrays,
+        CRoutineSwipe(CPixelArray*    arrays,
                         size_t          q,
                         uint32_t        period_sec);
-        CRoutine2dSwipe(size_t          num_arrays,
+        CRoutineSwipe(size_t          num_arrays,
                         CPixelArray**   arrays, // array of ptrs
                         size_t          q,
                         uint32_t        period_sec);
-        ~CRoutine2dSwipe();
+        ~CRoutineSwipe();
 
     public:
         virtual void        Continue() override;
-        virtual const char* GetName()  override { return "2dSwipe"; }
+        virtual const char* GetName()  override { return "Swipe"; }
 
     private:
         void Init();
@@ -39,5 +39,6 @@ class CRoutine2dSwipe : public CRoutine
         size_t                  m_last_side    = 0;
         double                  m_x_step       = 0.0;
         double                  m_y_step       = 0.0;
+        double                  m_z_step       = 0.0;
         CPixelArray::Coordinate m_midpoint;
 };

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <stdlib.h>
+#include "PixelArray.h"
 
-class CPixelArray;
 class CRoutine;
 
-class CDome
+class CDome : public CPixelArray
 {
     public:
         static constexpr size_t c_num_shapes = 4;
@@ -16,6 +16,7 @@ class CDome
 
     public:
         void StartRoutineSwipe();
+        void StartRoutineFire();
 
     public:
         void ExitRoutine();

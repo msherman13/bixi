@@ -1,13 +1,13 @@
 #include <algorithm>
 #include <math.h>
 
-#include "Routine2dSwipe.h"
+#include "RoutineSwipe.h"
 #include "PixelArray.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
 #include "Arduino.h"
 
-CRoutine2dSwipe::CRoutine2dSwipe(CPixelArray* arrays,
+CRoutineSwipe::CRoutineSwipe(CPixelArray* arrays,
                                  size_t       q,
                                  uint32_t     period_sec) :
     CRoutine(arrays),
@@ -16,7 +16,7 @@ CRoutine2dSwipe::CRoutine2dSwipe(CPixelArray* arrays,
 {
 }
 
-CRoutine2dSwipe::CRoutine2dSwipe(size_t        num_arrays,
+CRoutineSwipe::CRoutineSwipe(size_t        num_arrays,
                                  CPixelArray** arrays,
                                  size_t        q,
                                  uint32_t      period_sec) :
@@ -26,11 +26,11 @@ CRoutine2dSwipe::CRoutine2dSwipe(size_t        num_arrays,
 {
 }
 
-CRoutine2dSwipe::~CRoutine2dSwipe()
+CRoutineSwipe::~CRoutineSwipe()
 {
 }
 
-void CRoutine2dSwipe::Continue()
+void CRoutineSwipe::Continue()
 {
     uint32_t now = millis();
 
@@ -43,31 +43,31 @@ void CRoutine2dSwipe::Continue()
         {
             side = rand() % 4;
         }
+
+        m_midpoint.x = ((double)(rand() % 200) / 200) - 1.00;
+        m_midpoint.y = ((double)(rand() % 200) / 200) - 1.00;
+
+        m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+        m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+        m_z_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+
         switch(side)
         {
             case 0:
-                m_midpoint.x = ((double)(rand() % 200) / 200) - 1.00;
-                m_midpoint.y = c_frame_size / 2;
-                m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
-                m_y_step     = (2 * -m_midpoint.y) / (m_period_sec * 1000);
+                m_midpoint.x = c_frame_size / 2;
+                m_x_step     = (2 * -m_midpoint.x) / (m_period_sec * 1000);
                 break;
             case 1:
-                m_midpoint.x = c_frame_size / 2;
-                m_midpoint.y = (double)(rand() % 200) / 200 - 1.00;
+                m_midpoint.x = -c_frame_size / 2;
                 m_x_step     = (2 * -m_midpoint.x) / (m_period_sec * 1000);
-                m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
                 break;
             case 2:
-                m_midpoint.x = ((double)(rand() % 200) / 200) - 1.00;
-                m_midpoint.y = -c_frame_size / 2;
-                m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+                m_midpoint.y = c_frame_size / 2;
                 m_y_step     = (2 * -m_midpoint.y) / (m_period_sec * 1000);
                 break;
             case 3:
-                m_midpoint.x = -c_frame_size / 2;
-                m_midpoint.y = (double)(rand() % 200) / 200 - 1.00;
-                m_x_step     = (2 * -m_midpoint.x) / (m_period_sec * 1000);
-                m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+                m_midpoint.y = -c_frame_size / 2;
+                m_y_step     = (2 * -m_midpoint.y) / (m_period_sec * 1000);
                 break;
         }
 
@@ -89,7 +89,7 @@ void CRoutine2dSwipe::Continue()
 
     CHSV hsv = m_color;
 
-    const double longest_distance = 2.83; // (-1, -1) to (1, 1)
+    const double longest_distance = 3.46;
 
     for(size_t array=0;array<m_num_arrays;array++)
     {

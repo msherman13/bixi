@@ -30,11 +30,15 @@ class CPixelArray
 
         struct Config
         {
-            size_t m_num_legs              = 0;
-            size_t m_start[c_max_num_legs] = {};
-            size_t m_end[c_max_num_legs]   = {};
-            double m_scale                 = 1.00;
+            size_t     m_num_legs              = 0;
+            size_t     m_start[c_max_num_legs] = {};
+            size_t     m_end[c_max_num_legs]   = {};
+            Coordinate m_corner_coordinates[c_max_num_legs];
+
+            // optional: used for automatic coordinate mapping of polygons
+            bool       m_auto_coordinates      = false;
             Coordinate m_origin;
+            double     m_scale                 = 1.00;
         };
 
     public:
@@ -52,6 +56,8 @@ class CPixelArray
         void StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec);
         void StartRoutineSticks(size_t num_sticks);
         void StartRoutineSwipe(size_t q, uint32_t period_sec);
+        virtual void StartRoutineSwipe() {}
+        void StartRoutineFire();
 
     public:
         void ExitRoutine();
@@ -59,13 +65,14 @@ class CPixelArray
         void Continue();
 
     public:
-        size_t      GetSize()                   { return HasCoordinates() ? Perimeter() : m_length; }
-        size_t      GetSize(size_t index)       { return m_legs[index]->GetSize(); }
-        size_t      Perimeter()                 { return m_perimeter; }
+        size_t      GetSize()                                     { return m_length; }
+        size_t      GetSize(size_t index)                         { return m_legs[index]->GetSize(); }
         CRGB*       GetRaw(size_t index=0);
-        size_t      NumLegs()                   { return m_config.m_num_legs; }
-        Coordinate& GetCoordinate(size_t index) { return m_coordinates[index]; }
-        Config&     GetConfig()                 { return m_config; }
+        size_t      NumLegs()                                     { return m_config.m_num_legs; }
+        Coordinate& GetCoordinate(size_t index)                   { return m_coordinates[index]; }
+        size_t      GetLocation(size_t index)                     { return m_locations[index]; }
+        void        SetCoordinate(size_t index, Coordinate coord) { m_coordinates[index] = coord; }
+        Config&     GetConfig()                                   { return m_config; }
 
     public:
         CRGB   GetPixel(size_t index);
@@ -76,14 +83,14 @@ class CPixelArray
         bool   HasCoordinates() { return m_coordinates != nullptr; }
 
     private:
-        void InitPolygon();
-        void MapCoordinates(double scale);
+        void Init();
+        void MapCoordinates();
+        void AutoMapCorners();
 
     private:
         bool         m_owner       = false;
         CRGB*        m_pixels      = nullptr;
         size_t       m_length      = 0;
-        size_t       m_perimeter   = 0;
         CRoutine*    m_routine     = nullptr;
 
     private:
