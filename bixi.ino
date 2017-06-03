@@ -5,6 +5,8 @@ void setup()
 {
     CLogging::Init();
     CBixi::Instance();
+
+    CLogging::log("Bixi is initialized");
 }
 
 void loop()
@@ -17,6 +19,8 @@ void loop()
 
 int main()
 {
+    setup();
     loop();
+
     return 0;
 }

@@ -1,4 +1,5 @@
 #include "Dome.h"
+#include "Logging.h"
 #include "RoutineSwipe.h"
 #include "RoutineFire.h"
 

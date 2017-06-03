@@ -29,5 +29,5 @@ class CBixi
         CPixelArray  m_pixels;
         size_t       m_lastIndicator = 0;
         bool         m_indicatorOn   = false;
-        CPixelArray* m_geometry      = nullptr;
+        CDome*       m_dome          = nullptr;
 };
