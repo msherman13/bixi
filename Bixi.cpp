@@ -15,8 +15,7 @@ CBixi& CBixi::Instance()
 
 // FastLED::ParallelOutput:
 //     Pins 2, 14, 7, 8, 6, 20, 21, 5
-CBixi::CBixi() :
-    m_pixels(Addressing::c_effective_strand_length)
+CBixi::CBixi()
 {
     CLogging::log("CBixi::CBixi: Initializing Bixi");
 
@@ -24,11 +23,12 @@ CBixi::CBixi() :
     pinMode(c_indicatorPin, OUTPUT);
 
     // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_pixels.GetRaw(), m_pixels.GetSize());
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_leds, Addressing::c_effective_strand_length);
 
-    m_pixels.SetAllPixels(CRGB::Black);
-
-    m_dome = new CDome(&m_pixels);
+#ifdef GEOM_DOME
+    CLogging::log("CBixi::CBixi: Geometry = GEOM_DOME");
+    m_geometry = new CDome(m_leds);
+#endif
 }
 
 CBixi::~CBixi()
@@ -37,10 +37,10 @@ CBixi::~CBixi()
 
     ShutDown();
 
-    delete m_dome;
+    delete m_geometry;
 }
 
-void CBixi::Show(CPixelArray*)
+void CBixi::Show(CPixelArray* pixels)
 {
     FastLED.show();
 }
@@ -49,9 +49,9 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    m_dome->Continue();
+    m_geometry->Continue();
 
-    Show(m_dome);
+    Show(m_geometry);
 
     if(now - m_lastIndicator >= c_indicatorDelayMs)
     {

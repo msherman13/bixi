@@ -2,8 +2,7 @@
 
 #include "FastLED.h"
 #include "PixelArray.h"
-
-class CDome;
+#include "Addressing.h"
 
 class CBixi
 {
@@ -26,9 +25,9 @@ class CBixi
         virtual void Show(CPixelArray* pixels);
 
     private:
-        CPixelArray  m_pixels;
+        CRGB         m_leds[Addressing::c_effective_strand_length];
         size_t       m_lastIndicator = 0;
         bool         m_indicatorOn   = false;
-        CDome*       m_dome          = nullptr;
+        CPixelArray* m_geometry      = nullptr;
         bool         m_shutting_down = false;
 };

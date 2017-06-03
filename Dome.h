@@ -11,12 +11,13 @@ class CDome : public CPixelArray
         static constexpr size_t c_num_shapes = 4;
 
     public:
-        CDome(CPixelArray* pixels);
+        CDome(CRGB* leds);
         ~CDome();
 
     public:
-        void Continue();
+        virtual void Continue() override;
 
     private:
         CPixelArray* m_shapes[c_num_shapes] = {};
+        Config       s_config;
 };

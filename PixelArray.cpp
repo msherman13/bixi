@@ -8,46 +8,38 @@
 #include "RoutineSwipe.h"
 #include "RoutineFire.h"
 
-CPixelArray::CPixelArray(size_t len) :
-    CPixelArray(new CRGB[len], len)
+CPixelArray::CPixelArray(CRGB* leds, Config config) :
+    m_pixels(leds)
 {
     m_owner = true;
+
+    Init(config);
+
+    char logstr[256];
+    sprintf(logstr, "CPixelArray::CPixelArray: Constructed parent array of length %u", GetSize());
+    CLogging::log(logstr);
 }
 
-CPixelArray::CPixelArray(CRGB* rgb, size_t len) :
-    m_pixels(rgb),
-    m_length(len)
+CPixelArray::CPixelArray(CPixelArray* pixels) :
+    CPixelArray(pixels, pixels->GetSize(), 0, pixels->NumLegs(), 0)
 {
-    m_locations      = new size_t[GetSize()];
-    m_coordinates    = new Coordinate[GetSize()];
-    for(size_t i=0;i<GetSize();i++)
-    {
-        m_locations[i]   = i;
-        m_coordinates[i] = Coordinate(0, 0);
-    }
 }
 
-CPixelArray::CPixelArray(CRGB* rgb, size_t len, Config config) :
-    m_pixels(rgb),
+CPixelArray::CPixelArray(CPixelArray* pixels, size_t len, size_t offset, size_t num_legs, size_t leg_offset) :
+    m_pixels(pixels->GetRaw()),
+    m_num_legs(num_legs),
     m_length(len),
-    m_config(config)
+    m_coordinates(pixels->m_coordinates + offset),
+    m_locations(pixels->m_locations + offset)
 {
-    Init();
-}
+    for(size_t i=0;i<NumLegs();i++)
+    {
+        m_legs[i] = pixels->m_legs[i + leg_offset];
+    }
 
-CPixelArray::CPixelArray(CPixelArray* rhs) :
-    CPixelArray(rhs->GetRaw(), rhs->GetSize())
-{
-    m_config = rhs->GetConfig();
-    Init();
-}
-
-CPixelArray::CPixelArray(CPixelArray* rhs, Config config) :
-    CPixelArray(rhs->GetRaw(), rhs->GetSize())
-{
-    m_config = config;
-
-    Init();
+    char logstr[256];
+    sprintf(logstr, "CPixelArray::CPixelArray: Constructed child array of length %u", GetSize());
+    CLogging::log(logstr);
 }
 
 CPixelArray::~CPixelArray()
@@ -56,81 +48,70 @@ CPixelArray::~CPixelArray()
 
     if(m_owner == true)
     {
-        delete[] m_pixels;
-    }
-
-    delete[] m_locations;
-
-    if(HasCoordinates() == true)
-    {
         delete[] m_coordinates;
-    }
-
-    for(size_t i=0;i<NumLegs();i++)
-    {
-        delete m_legs[i];
+        delete[] m_locations;
+        for(size_t i=0;i<NumLegs();i++)
+        {
+            delete m_legs[i];
+        }
     }
 }
 
-void CPixelArray::Init()
+void CPixelArray::Init(Config config)
 {
+    m_num_legs = config.m_num_legs;
+
     if(NumLegs() == 0)
     {
         return;
     }
 
-    size_t length[m_config.m_num_legs] = {};
+    size_t length[config.m_num_legs] = {};
 
     m_length = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
-        length[i]  = abs((int)m_config.m_end[i] - (int)m_config.m_start[i]) + 1;
+        length[i]  = abs((int)config.m_end_index[i] - (int)config.m_start_index[i]) + 1;
         m_length  += length[i];
     }
 
-    if(m_locations == nullptr)
-    {
-        m_locations      = new size_t[GetSize()];
-    }
-    if(m_coordinates == nullptr)
-    {
-        m_coordinates    = new Coordinate[GetSize()];
-    }
+    m_locations      = new size_t[GetSize()];
+    m_coordinates    = new Coordinate[GetSize()];
 
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
-        bool forward = m_config.m_start[i] <= m_config.m_end[i];
-        m_legs[i]    = new CPixelArray(GetRaw(), length[i]);
+        bool forward = config.m_start_index[i] <= config.m_end_index[i];
+        m_legs[i]    = new CPixelArray(this, length[i], index);
 
         for(size_t j=0;j<length[i];j++)
         {
-            m_locations[index++] = m_config.m_start[i] + (forward ? j : -j);
-            m_legs[i]->SetLocation(j, m_config.m_start[i] + (forward ? j : -j));
+            m_locations[index++] = config.m_start_index[i] + (forward ? j : -j);
+            m_legs[i]->SetLocation(j, config.m_start_index[i] + (forward ? j : -j));
         }
     }
 
-    MapCoordinates();
+    MapCoordinates(config);
 
     char logstr[256];
-    sprintf(logstr, "CPolygon::CPolygon: Initializing polygon with "
-            "%u legs and size %u pixels", NumLegs(), GetSize());
+    sprintf(logstr, "CPolygon::CPolygon: Initialized shape with "
+            "%u legs", NumLegs(), GetSize());
     CLogging::log(logstr);
 }
 
-void CPixelArray::MapCoordinates()
+void CPixelArray::MapCoordinates(Config config)
 {
-    if(m_config.m_auto_coordinates == true)
+    if(config.m_auto_coordinates == true)
     {
-        AutoMapCorners();
+        AutoMapCorners(config);
     }
 
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
         const size_t length = m_legs[i]->GetSize();
-        Coordinate&  start  = m_config.m_corner_coordinates[i];
-        Coordinate&  end    = m_config.m_corner_coordinates[i < NumLegs() - 1 ? i + 1 : 0];
+        Coordinate&  start  = config.m_start_coordinate[i];
+        Coordinate&  end    = config.m_end_coordinate[i];
         const double x_step = (end.x - start.x) / length;
         const double y_step = (end.y - start.y) / length;
 
@@ -144,7 +125,7 @@ void CPixelArray::MapCoordinates()
 }
 
 // assume regular polygon, map corners to coordinates
-void CPixelArray::AutoMapCorners()
+void CPixelArray::AutoMapCorners(Config config)
 {
     const bool   side_at_edge    = NumLegs() == 4 || NumLegs() == 8;
     const double center_distance = side_at_edge ?
@@ -153,10 +134,12 @@ void CPixelArray::AutoMapCorners()
 
     for(size_t i=0;i<NumLegs();i++)
     {
-        Coordinate& corner = m_config.m_corner_coordinates[i];
-        const double pi    = 3.14159265358979323846;
-        corner.x           = cos(2 * pi * i / NumLegs()) * m_config.m_scale + m_config.m_origin.x;
-        corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * m_config.m_scale + m_config.m_origin.y;
+        Coordinate& start_corner = config.m_start_coordinate[i];
+        const double pi          = 3.14159265358979323846;
+        start_corner.x           = cos(2 * pi * i / NumLegs()) * config.m_scale + config.m_origin.x;
+        start_corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * config.m_scale + config.m_origin.y;
+
+        config.m_end_coordinate[i > 0 ? i - 1 : NumLegs() - 1] = start_corner;
     }
 }
 
