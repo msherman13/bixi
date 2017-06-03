@@ -4,6 +4,7 @@
 #include "PixelArray.h"
 #include "FastLED.h"
 #include "Arduino.h"
+#include "Logging.h"
 
 CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
                              CRGB         base_color,
@@ -16,6 +17,7 @@ CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
     m_forward(forward),
     m_period_sec(period_sec)
 {
+    m_last_run = millis();
 }
 
 CRoutineGlare::~CRoutineGlare()

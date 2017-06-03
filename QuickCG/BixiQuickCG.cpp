@@ -19,12 +19,9 @@ CBixiQuickCG::~CBixiQuickCG()
 
 void CBixiQuickCG::Show(CPixelArray* pixels)
 {
-    for(size_t x=0;x<c_pixels_x;x++)
+    if(QuickCG::done())
     {
-        for(size_t y=0;y<c_pixels_y;y++)
-        {
-            QuickCG::pset(x, y, QuickCG::ColorRGB(0, 0, 0));
-        }
+        exit(0);
     }
 
     for(size_t i=0;i<pixels->GetSize();i++)
@@ -39,7 +36,7 @@ void CBixiQuickCG::Show(CPixelArray* pixels)
         {
             for(size_t y_w=0;y_w<c_pixel_width;y_w++)
             {
-                QuickCG::pset(x + x_w, y + y_w, QuickCG::ColorRGB(rgb.r, rgb.g, rgb.b));
+                QuickCG::pset(x+x_w, y+y_w, QuickCG::ColorRGB(rgb.r, rgb.g, rgb.b));
             }
         }
     }

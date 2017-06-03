@@ -47,7 +47,7 @@ class CPixelArray
         CPixelArray(CRGB* rgb, size_t len, Config config); // reference to external pixels
         CPixelArray(CPixelArray* rhs); // reference to external pixels (no copy!)
         CPixelArray(CPixelArray* rhs, Config config); // reference to external pixels, diff config
-        ~CPixelArray();
+        virtual ~CPixelArray();
 
     public:
         void StartRoutineSolid(CRGB rgb);
@@ -91,11 +91,13 @@ class CPixelArray
         bool         m_owner       = false;
         CRGB*        m_pixels      = nullptr;
         size_t       m_length      = 0;
-        CRoutine*    m_routine     = nullptr;
 
     private:
         Config              m_config;
         size_t*             m_locations            = nullptr;
         Coordinate*         m_coordinates          = nullptr;
         CPixelArray*        m_legs[c_max_num_legs] = {};
+
+    protected:
+        CRoutine*    m_routine = nullptr;
 };

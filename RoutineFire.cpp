@@ -40,6 +40,8 @@ void CRoutineFire::Init()
       CHSV hsv(i / 3, 255, std::min<size_t>(255, i * 2));
       m_colors[i] = CRGB(hsv);
     }
+
+    m_last_run = millis();
 }
 
 void CRoutineFire::Continue()

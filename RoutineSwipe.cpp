@@ -14,6 +14,7 @@ CRoutineSwipe::CRoutineSwipe(CPixelArray* arrays,
     m_q(q),
     m_period_sec(period_sec)
 {
+    m_last_run = millis();
 }
 
 CRoutineSwipe::CRoutineSwipe(size_t        num_arrays,
@@ -24,6 +25,7 @@ CRoutineSwipe::CRoutineSwipe(size_t        num_arrays,
     m_q(q),
     m_period_sec(period_sec)
 {
+    m_last_run = millis();
 }
 
 CRoutineSwipe::~CRoutineSwipe()

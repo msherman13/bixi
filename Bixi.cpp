@@ -28,11 +28,11 @@ CBixi::CBixi() :
 
     m_pixels.SetAllPixels(CRGB::Black);
 
-    m_geometry = new CDome(&m_pixels);
-
-    m_geometry->StartRoutineSwipe();
-    //m_geometry->StartRoutineFire();
-    //m_geometry->StartRoutineSolid(CRGB(255, 0, 0));
+    m_dome = new CDome(&m_pixels);
+    //m_dome->StartRoutineSwipe();
+    //m_dome->StartRoutineFire();
+    //m_dome->StartRoutineSolid(CRGB::Blue);
+    //m_dome->StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 }
 
 CBixi::~CBixi()
@@ -48,9 +48,9 @@ void CBixi::Continue()
 {
     size_t now = millis();
 
-    m_geometry->Continue();
+    m_dome->Continue();
 
-    Show(m_geometry);
+    Show(m_dome);
 
     if(now - m_lastIndicator >= c_indicatorDelayMs)
     {

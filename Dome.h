@@ -19,10 +19,8 @@ class CDome : public CPixelArray
         void StartRoutineFire();
 
     public:
-        void ExitRoutine();
         void Continue();
 
     private:
         CPixelArray* m_shapes[c_num_shapes] = {};
-        CRoutine*    m_routine              = nullptr;
 };

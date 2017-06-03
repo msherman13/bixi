@@ -1,6 +1,8 @@
 #include "Dome.h"
+#include "Logging.h"
 #include "RoutineSwipe.h"
 #include "RoutineFire.h"
+#include "ColorPallete.h"
 
 CDome::CDome(CPixelArray* pixels) :
     CPixelArray(pixels)
@@ -108,6 +110,13 @@ CDome::CDome(CPixelArray* pixels) :
             SetCoordinate(pixels->GetLocation(i), pixels->GetCoordinate(i));
         }
     }
+
+    //StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
+
+    for(size_t shape=0;shape<c_num_shapes;shape++)
+    {
+        m_shapes[shape]->StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
+    }
 }
 
 CDome::~CDome()
@@ -118,17 +127,6 @@ CDome::~CDome()
     }
 }
 
-void CDome::ExitRoutine()
-{
-    if(m_routine == nullptr)
-    {
-        return;
-    }
-
-    delete m_routine;
-    m_routine = nullptr;
-}
-
 void CDome::Continue()
 {
     for(size_t i=0;i<c_num_shapes;i++)
@@ -136,10 +134,7 @@ void CDome::Continue()
         m_shapes[i]->Continue();
     }
 
-    if(m_routine != nullptr)
-    {
-        m_routine->Continue();
-    }
+    CPixelArray::Continue();
 }
 
 void CDome::StartRoutineSwipe()

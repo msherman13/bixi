@@ -44,6 +44,46 @@ CHSV rgb2hsv_approximate(const CRGB& rgb)
     return ret;
 }
 
+/*
+CHSV rgb2hsv_approximate(const CRGB& rgb)
+{
+  float r, g, b, h = 0.0, s = 0.0, v; //this function works with floats between 0 and 1
+  r = rgb.r / 256.0;
+  g = rgb.g / 256.0;
+  b = rgb.b / 256.0;
+
+  float maxColor = std::max(r, std::max(g, b));
+  float minColor = std::min(r, std::min(g, b));
+
+  v = maxColor;
+
+  if(maxColor != 0.0) //avoid division by zero when the color is black
+  {
+    s = (maxColor - minColor) / maxColor;
+  }
+
+  if(s == 0.0)
+  {
+    h = 0.0; //it doesn't matter what value it has
+  }
+  else
+  {
+    if(r == maxColor) h = (g - b) / (maxColor - minColor);
+    if(g == maxColor) h = 2.0 + (b - r) / (maxColor - minColor);
+    if(b == maxColor) h = 4.0 + (r - g) / (maxColor - minColor);
+
+    h /= 6.0; //to bring it to a number between 0 and 1
+    if(h < 0.0) h++;
+  }
+
+  CHSV hsv;
+  hsv.h = h * 255.0;
+  hsv.s = s * 255.0;
+  hsv.v = v * 255.0;
+  return hsv;
+}
+*/
+
 void frgb2fhsv(double fR, double fG, double fB, double& fH, double& fS, double& fV)
 {
   double fCMax = std::max(std::max(fR, fG), fB);

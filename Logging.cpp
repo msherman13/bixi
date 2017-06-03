@@ -8,6 +8,8 @@ void CLogging::Init()
     {
         ;
     }
+
+    log("*** Begin Session***");
 }
 
 void CLogging::log(const char* buff)

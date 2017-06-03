@@ -11,7 +11,7 @@ void pinMode(size_t, size_t);
 
 void digitalWrite(size_t, bool);
 
-size_t millis();
+uint32_t millis();
 
 void increment_time(size_t millis);
 

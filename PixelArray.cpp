@@ -72,11 +72,18 @@ CPixelArray::~CPixelArray()
 
 void CPixelArray::Init()
 {
+    if(NumLegs() == 0)
+    {
+        return;
+    }
+
     size_t length[m_config.m_num_legs] = {};
 
+    m_length = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
         length[i]  = abs((int)m_config.m_end[i] - (int)m_config.m_start[i]) + 1;
+        m_length  += length[i];
     }
 
     m_locations      = new size_t[GetSize()];
@@ -198,6 +205,10 @@ void CPixelArray::ExitRoutine()
         return;
     }
 
+    char logstr[256];
+    sprintf(logstr, "CPixelArray::ExitRoutine: Exiting routine [%s]", m_routine->GetName());
+    CLogging::log(logstr);
+
     delete m_routine;
 }
 
@@ -215,12 +226,16 @@ void CPixelArray::StartRoutineSolid(CRGB rgb)
 {
     ClearRoutines();
 
+    CLogging::log("CPixelArray::StartRoutineSolid: Starting routine");
+
     SetAllPixels(rgb);
 }
 
 void CPixelArray::StartRoutineGlare(CRGB base_color, size_t q, bool forward, uint32_t period_sec)
 {
     ClearRoutines();
+
+    CLogging::log("CPixelArray::StartRoutineGlare: Starting routine glare");
 
     m_routine = new CRoutineGlare(this, base_color, q, forward, period_sec);
 }
@@ -229,6 +244,8 @@ void CPixelArray::StartRoutineCrawl(CRGB base_color, size_t width, size_t start_
 {
     ClearRoutines();
 
+    CLogging::log("CPixelArray::StartRoutineCrawl: Starting routine Crawl");
+
     m_routine = new CRoutineCrawl(this, base_color, width, start_offset, forward, period_sec);
 }
 
@@ -236,12 +253,16 @@ void CPixelArray::StartRoutineSticks(size_t num_sticks)
 {
     ClearRoutines();
 
+    CLogging::log("CPixelArray::StartRoutineSticks: Starting routine Sticks");
+
     m_routine = new CRoutineSticks(this, num_sticks);
 }
 
 void CPixelArray::StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec)
 {
     ClearRoutines();
+
+    CLogging::log("CPixelArray::StartRoutineGlareLegs: Starting routine GlareLegs");
 
     for(size_t i=0;i<NumLegs();i++)
     {
@@ -253,12 +274,16 @@ void CPixelArray::StartRoutineSwipe(size_t q, uint32_t period_sec)
 {
     ExitRoutine();
 
+    CLogging::log("CPixelArray::StartRoutineSwipe: Starting routine Swipe");
+
     m_routine = new CRoutineSwipe(this, q, period_sec);
 }
 
 void CPixelArray::StartRoutineFire()
 {
     ExitRoutine();
+
+    CLogging::log("CPixelArray::StartRoutineFire: Starting routine Fire");
 
     m_routine = new CRoutineFire(this);
 }
