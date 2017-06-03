@@ -10,9 +10,9 @@ class CRoutineBalls : public CRoutine
     public:
         static constexpr size_t c_max_num_balls = 16;
         static constexpr size_t c_min_q         = 20;
-        static constexpr size_t c_max_q         = 40;
-        static constexpr size_t c_min_period    = 3;
-        static constexpr size_t c_max_period    = 5;
+        static constexpr size_t c_max_q         = 60;
+        static constexpr size_t c_min_period    = 1;
+        static constexpr size_t c_max_period    = 10;
 
     public:
         CRoutineBalls(CPixelArray* pixels, size_t num_balls);
@@ -27,6 +27,6 @@ class CRoutineBalls : public CRoutine
 
     private:
         size_t        m_num_balls = 0;
-        CRoutineBall* m_balls[c_max_num_balls];
+        CRoutineBall* m_balls[c_max_num_balls] = {};
         CPixelArray   m_buffer;
 };

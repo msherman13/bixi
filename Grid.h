@@ -8,6 +8,6 @@ class CRoutine;
 class CGrid : public CPixelArray
 {
     public:
-        CGrid(CRGB* leds);
+        CGrid();
         ~CGrid();
 };

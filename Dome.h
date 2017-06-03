@@ -11,7 +11,7 @@ class CDome : public CPixelArray
         static constexpr size_t c_num_shapes = 4;
 
     public:
-        CDome(CRGB* leds);
+        CDome();
         ~CDome();
 
     public:

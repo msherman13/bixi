@@ -4,8 +4,8 @@
 #include "FastLED.h"
 #include "DomeMappings.h"
 
-CDome::CDome(CRGB* leds) :
-    CPixelArray(leds, DomeMappings::Mappings())
+CDome::CDome() :
+    CPixelArray(DomeMappings::Mappings())
 {
     auto config = DomeMappings::Mappings();
 

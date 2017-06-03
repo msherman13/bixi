@@ -46,8 +46,9 @@ class CPixelArray
         };
 
     public:
-        CPixelArray(CRGB* leds, size_t len); // owner
-        CPixelArray(CRGB* leds, Config config); // owner
+        CPixelArray(size_t len); // owner
+        CPixelArray(Config config); // owner
+        CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
         CPixelArray(CPixelArray* pixels); // reference to external pixels
         CPixelArray(CPixelArray* pixels, size_t len, size_t offset = 0, size_t num_legs=0, size_t leg_offset=0); // reference to external pixels
         virtual ~CPixelArray();
@@ -68,12 +69,12 @@ class CPixelArray
         virtual void Continue();
 
     public:
-        size_t      GetSize()                                     { return m_length; }
-        size_t      GetSize(size_t index)                         { return m_legs[index]->GetSize(); }
+        size_t      GetSize() const                               { return m_length; }
+        size_t      GetSize(size_t index) const                   { return m_legs[index]->GetSize(); }
         CRGB*       GetRaw(size_t index=0);
         size_t      NumLegs()                                     { return m_num_legs; }
-        Coordinate& GetCoordinate(size_t index)                   { return m_coordinates[index]; }
-        size_t      GetLocation(size_t index)                     { return m_locations[index]; }
+        Coordinate& GetCoordinate(size_t index) const             { return m_coordinates[index]; }
+        size_t      GetLocation(size_t index) const               { return m_locations[index]; }
         void        SetLocation(size_t index, size_t loc)         { m_locations[index] = loc; }
         void        SetCoordinate(size_t index, Coordinate coord) { m_coordinates[index] = coord; }
 

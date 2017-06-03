@@ -4,11 +4,11 @@
 #include "FastLED.h"
 #include "GridMappings.h"
 
-CGrid::CGrid(CRGB* leds) :
-    CPixelArray(leds, GridMappings::Mappings())
+CGrid::CGrid() :
+    CPixelArray(GridMappings::Mappings())
 {
     //StartRoutineBall(20, 2);
-    StartRoutineBalls(4);
+    StartRoutineBalls(5);
 //    StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 
     /*

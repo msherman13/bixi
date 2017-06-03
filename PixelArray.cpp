@@ -9,26 +9,40 @@
 #include "RoutineBalls.h"
 #include "RoutineFire.h"
 
-CPixelArray::CPixelArray(CRGB* leds, size_t len) :
-    m_pixels(leds),
+CPixelArray::CPixelArray(const CPixelArray& rhs) :
+    m_owner(true),
+    m_pixels(new CRGB[rhs.GetSize()]),
+    m_length(rhs.GetSize()),
+    m_locations(new size_t[GetSize()]),
+    m_coordinates(new Coordinate[GetSize()])
+{
+    for(size_t i=0;i<GetSize();i++)
+    {
+        m_locations[i]   = rhs.GetLocation(i);
+        m_coordinates[i] = rhs.GetCoordinate(i);
+    }
+}
+
+CPixelArray::CPixelArray(size_t len) :
+    m_owner(true),
+    m_pixels(new CRGB[len]),
     m_length(len),
     m_locations(new size_t[GetSize()]),
     m_coordinates(new Coordinate[GetSize()])
 {
-    m_owner = true;
-
     for(size_t i=0;i<GetSize();i++)
     {
         m_locations[i] = i;
     }
 }
 
-CPixelArray::CPixelArray(CRGB* leds, Config config) :
-    m_pixels(leds)
+CPixelArray::CPixelArray(Config config)
 {
     m_owner = true;
 
     Init(config);
+
+    m_pixels = new CRGB[GetSize()];
 
     char logstr[256];
     sprintf(logstr, "CPixelArray::CPixelArray: Constructed parent array of length %u", GetSize());
@@ -63,6 +77,7 @@ CPixelArray::~CPixelArray()
 
     if(m_owner == true)
     {
+        delete[] m_pixels;
         delete[] m_coordinates;
         delete[] m_locations;
         for(size_t i=0;i<NumLegs();i++)
@@ -208,7 +223,8 @@ void CPixelArray::SmartCopy(CPixelArray* rhs, size_t size, size_t offset)
     {   
         size_t index = (i + offset) % GetSize();
         CRGB   rgb = rhs->GetPixel(i);
-        if(GetPixel(index) == CRGB(CRGB::Black))
+        uint8_t brightness = rgb2hsv_approximate(GetPixel(index)).v;
+        if(brightness < 30)
         {
             SetPixel(index, rgb);
         }

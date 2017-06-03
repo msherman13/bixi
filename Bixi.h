@@ -25,7 +25,6 @@ class CBixi
         virtual void Show(CPixelArray* pixels);
 
     private:
-        CRGB         m_leds[Addressing::c_effective_strand_length];
         size_t       m_lastIndicator = 0;
         bool         m_indicatorOn   = false;
         CPixelArray* m_geometry      = nullptr;

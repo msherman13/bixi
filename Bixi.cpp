@@ -23,16 +23,17 @@ CBixi::CBixi()
     // indicator
     pinMode(c_indicatorPin, OUTPUT);
 
-    // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_leds, Addressing::c_effective_strand_length);
-
+    // geometry
 #ifdef GEOM_DOME
     CLogging::log("CBixi::CBixi: Geometry = GEOM_DOME");
-    m_geometry = new CDome(m_leds);
+    m_geometry = new CDome();
 #elif GEOM_GRID
     CLogging::log("CBixi::CBixi: Geometry = GEOM_GRID");
-    m_geometry = new CGrid(m_leds);
+    m_geometry = new CGrid();
 #endif
+
+    // Parallel Output
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(), m_geometry->GetSize());
 }
 
 CBixi::~CBixi()

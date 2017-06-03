@@ -9,16 +9,17 @@ namespace GridMappings
 {
     struct Mappings : public CPixelArray::Config
     {
+        static constexpr size_t c_resolution = 128;
         Mappings() :
             CPixelArray::Config()
         {
-            m_num_legs  = 100;
+            m_num_legs  = c_resolution;
 
-            for(size_t i=0;i<m_num_legs;i++)
+            for(size_t i=0;i<c_resolution;i++)
             {
-                m_start_index[i]      = i * 100;
-                m_end_index[i]        = m_start_index[i] + 99;
-                double raster_y       = 2 * (i / 100.0) - 0.99;
+                m_start_index[i]      = i * c_resolution;
+                m_end_index[i]        = m_start_index[i] + c_resolution - 1;
+                double raster_y       = 2 * (i / (double)c_resolution) - 0.99;
                 m_start_coordinate[i] = CPixelArray::Coordinate(-1.00, raster_y);
                 m_end_coordinate[i]   = CPixelArray::Coordinate(1.00, raster_y);
             }
