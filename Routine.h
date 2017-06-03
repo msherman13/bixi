@@ -20,6 +20,7 @@ class CRoutine
     public:
         virtual void        Continue() = 0;
         virtual const char* GetName() = 0;
+        CPixelArray*        GetPixels() { return m_pixels; }
 
     protected:
         CPixelArray* m_pixels = nullptr;

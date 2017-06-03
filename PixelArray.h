@@ -46,6 +46,7 @@ class CPixelArray
         };
 
     public:
+        CPixelArray(CRGB* leds, size_t len); // owner
         CPixelArray(CRGB* leds, Config config); // owner
         CPixelArray(CPixelArray* pixels); // reference to external pixels
         CPixelArray(CPixelArray* pixels, size_t len, size_t offset = 0, size_t num_legs=0, size_t leg_offset=0); // reference to external pixels
@@ -57,8 +58,8 @@ class CPixelArray
         void StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
         void StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec);
         void StartRoutineSticks(size_t num_sticks);
-        void StartRoutineSwipe(size_t q, uint32_t period_sec);
-        virtual void StartRoutineSwipe() {}
+        void StartRoutineBall(size_t q, uint32_t period_sec);
+        void StartRoutineBalls(size_t num_balls);
         void StartRoutineFire();
 
     public:
@@ -81,6 +82,7 @@ class CPixelArray
         void   SetPixel(size_t index, CRGB rgb);
         void   SetAllPixels(CRGB rgb);
         void   Shift(bool forward, size_t amount);
+        void   Copy(CPixelArray* rhs, size_t size, size_t offset=0);
         void   SmartCopy(CPixelArray* rhs, size_t size, size_t offset=0);
         bool   HasCoordinates() { return m_coordinates != nullptr; }
 

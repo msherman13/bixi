@@ -30,8 +30,8 @@ void CBixiQuickCG::Show(CPixelArray* pixels)
         CRGB                    rgb   = pixels->GetPixel(i);
         CPixelArray::Coordinate coord = pixels->GetCoordinate(i);
 
-        size_t x = (coord.x + 0.5) * c_pixels_x;
-        size_t y = (coord.y + 0.5) * c_pixels_y;
+        size_t x = ((coord.x + 1.0) / 2) * c_pixels_x;
+        size_t y = ((coord.y + 1.0) / 2) * c_pixels_y;
 
         for(size_t x_w=0;x_w<c_pixel_width;x_w++)
         {

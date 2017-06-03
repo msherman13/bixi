@@ -16,6 +16,9 @@ endif
 ifeq ($(GEOM), dome)
 CXXFLAGS += -DGEOM_DOME
 $(info GEOM = dome)
+else ifeq ($(GEOM), grid)
+CXXFLAGS += -DGEOM_GRID
+$(info GEOM = grid)
 else ifeq ($(GEOM), periph)
 CXXFLAGS += -DGEOM_PERIPH
 $(info GEOM = periph)

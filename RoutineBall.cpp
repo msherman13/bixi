@@ -1,13 +1,13 @@
 #include <algorithm>
 #include <math.h>
 
-#include "RoutineSwipe.h"
+#include "RoutineBall.h"
 #include "PixelArray.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
 #include "Arduino.h"
 
-CRoutineSwipe::CRoutineSwipe(CPixelArray* arrays,
+CRoutineBall::CRoutineBall(CPixelArray* arrays,
                                  size_t       q,
                                  uint32_t     period_sec) :
     CRoutine(arrays),
@@ -17,7 +17,7 @@ CRoutineSwipe::CRoutineSwipe(CPixelArray* arrays,
     m_last_run = millis();
 }
 
-CRoutineSwipe::CRoutineSwipe(size_t        num_arrays,
+CRoutineBall::CRoutineBall(size_t        num_arrays,
                                  CPixelArray** arrays,
                                  size_t        q,
                                  uint32_t      period_sec) :
@@ -28,17 +28,17 @@ CRoutineSwipe::CRoutineSwipe(size_t        num_arrays,
     m_last_run = millis();
 }
 
-CRoutineSwipe::~CRoutineSwipe()
+CRoutineBall::~CRoutineBall()
 {
 }
 
-void CRoutineSwipe::Continue()
+void CRoutineBall::Continue()
 {
     uint32_t now = millis();
 
-    if(m_swipe_finish == 0 || now - m_swipe_finish >= m_period_sec * 1000)
+    if(m_ball_finish == 0 || now - m_ball_finish >= m_period_sec * 1000)
     {
-        m_swipe_finish = now;
+        m_ball_finish = now;
 
         size_t side = m_last_side;
         while(side == m_last_side)

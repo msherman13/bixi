@@ -133,6 +133,15 @@ namespace DomeMappings
             m_end_coordinate[22]   = CPixelArray::Coordinate( -0.34375, -0.0000);
             m_start_coordinate[23] = CPixelArray::Coordinate( -0.34375, -0.0000);
             m_end_coordinate[23]   = CPixelArray::Coordinate( -0.21875, -0.0000);
+
+            // hack
+            for(size_t i=0;i<m_num_legs;i++)
+            {
+                m_start_coordinate[i].x *= 2;
+                m_end_coordinate[i].x   *= 2;
+                m_start_coordinate[i].y *= 2;
+                m_end_coordinate[i].y   *= 2;
+            }
         }
     };
 };

@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "ColorPallete.h"
 #include "Dome.h"
+#include "Grid.h"
 
 //#define LOG_REFRESH_RATE
 
@@ -28,6 +29,9 @@ CBixi::CBixi()
 #ifdef GEOM_DOME
     CLogging::log("CBixi::CBixi: Geometry = GEOM_DOME");
     m_geometry = new CDome(m_leds);
+#elif GEOM_GRID
+    CLogging::log("CBixi::CBixi: Geometry = GEOM_GRID");
+    m_geometry = new CGrid(m_leds);
 #endif
 }
 

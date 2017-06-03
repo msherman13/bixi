@@ -19,5 +19,4 @@ class CDome : public CPixelArray
 
     private:
         CPixelArray* m_shapes[c_num_shapes] = {};
-        Config       s_config;
 };

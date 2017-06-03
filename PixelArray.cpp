@@ -5,8 +5,23 @@
 #include "RoutineGlare.h"
 #include "RoutineCrawl.h"
 #include "RoutineSticks.h"
-#include "RoutineSwipe.h"
+#include "RoutineBall.h"
+#include "RoutineBalls.h"
 #include "RoutineFire.h"
+
+CPixelArray::CPixelArray(CRGB* leds, size_t len) :
+    m_pixels(leds),
+    m_length(len),
+    m_locations(new size_t[GetSize()]),
+    m_coordinates(new Coordinate[GetSize()])
+{
+    m_owner = true;
+
+    for(size_t i=0;i<GetSize();i++)
+    {
+        m_locations[i] = i;
+    }
+}
 
 CPixelArray::CPixelArray(CRGB* leds, Config config) :
     m_pixels(leds)
@@ -177,6 +192,16 @@ void CPixelArray::Shift(bool forward, size_t amount)
     }   
 }
 
+void CPixelArray::Copy(CPixelArray* rhs, size_t size, size_t offset)
+{
+    for(size_t i=0;i<size;i++)
+    {   
+        size_t index = (i + offset) % GetSize();
+        CRGB   rgb = rhs->GetPixel(i);
+        SetPixel(index, rgb);
+    }   
+}
+
 void CPixelArray::SmartCopy(CPixelArray* rhs, size_t size, size_t offset)
 {
     for(size_t i=0;i<size;i++)
@@ -264,13 +289,22 @@ void CPixelArray::StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward,
     }
 }
 
-void CPixelArray::StartRoutineSwipe(size_t q, uint32_t period_sec)
+void CPixelArray::StartRoutineBall(size_t q, uint32_t period_sec)
 {
     ExitRoutine();
 
-    CLogging::log("CPixelArray::StartRoutineSwipe: Starting routine Swipe");
+    CLogging::log("CPixelArray::StartRoutineBall: Starting routine Ball");
 
-    m_routine = new CRoutineSwipe(this, q, period_sec);
+    m_routine = new CRoutineBall(this, q, period_sec);
+}
+
+void CPixelArray::StartRoutineBalls(size_t num_balls)
+{
+    ExitRoutine();
+
+    CLogging::log("CPixelArray::StartRoutineBalls: Starting routine Balls");
+
+    m_routine = new CRoutineBalls(this, num_balls);
 }
 
 void CPixelArray::StartRoutineFire()
