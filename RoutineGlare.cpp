@@ -22,6 +22,7 @@ CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
 
 CRoutineGlare::~CRoutineGlare()
 {
+    CLogging::log("CRoutineGlare::~CRoutineGlare");
 }
 
 void CRoutineGlare::Continue()

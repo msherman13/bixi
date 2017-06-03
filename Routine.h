@@ -22,7 +22,7 @@ class CRoutine
         virtual const char* GetName() = 0;
 
     protected:
-        CPixelArray* m_pixels;
+        CPixelArray* m_pixels = nullptr;
         size_t       m_num_arrays               = 0;
         CPixelArray* m_arrays[c_max_num_arrays] = {};
 };

@@ -6,7 +6,7 @@ int main()
     CLogging::Init();
     CBixiQuickCG::Instance();
 
-    while(true)
+    while(!CBixiQuickCG::Instance().ShuttingDown())
     {
         CBixiQuickCG::Instance().Continue();
     }

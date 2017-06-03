@@ -1,8 +1,7 @@
 #include "Dome.h"
 #include "Logging.h"
-#include "RoutineSwipe.h"
-#include "RoutineFire.h"
 #include "ColorPallete.h"
+#include "FastLED.h"
 
 CDome::CDome(CPixelArray* pixels) :
     CPixelArray(pixels)
@@ -113,9 +112,15 @@ CDome::CDome(CPixelArray* pixels) :
 
     //StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 
+    /*
     for(size_t shape=0;shape<c_num_shapes;shape++)
     {
-        m_shapes[shape]->StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
+        m_shapes[shape]->StartRoutineGlare(ColorPallete::Turquoise, 4, true, 10);
+    }
+    */
+    for(size_t shape=0;shape<c_num_shapes;shape++)
+    {
+        m_shapes[shape]->StartRoutineGlareLegs(CRGB(ColorPallete::Turquoise), 4, true, 1);
     }
 }
 
@@ -135,14 +140,4 @@ void CDome::Continue()
     }
 
     CPixelArray::Continue();
-}
-
-void CDome::StartRoutineSwipe()
-{
-    m_routine = new CRoutineSwipe(c_num_shapes, &m_shapes[0], 15, 10);
-}
-
-void CDome::StartRoutineFire()
-{
-    m_routine = new CRoutineFire(c_num_shapes, &m_shapes[0]);
 }

@@ -15,10 +15,6 @@ class CDome : public CPixelArray
         ~CDome();
 
     public:
-        void StartRoutineSwipe();
-        void StartRoutineFire();
-
-    public:
         void Continue();
 
     private:

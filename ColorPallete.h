@@ -2,7 +2,7 @@
 
 namespace ColorPallete
 {
-    enum Color
+    enum Color : uint32_t
     {
         ChromeBlue  = 0x3c61d9,
         Turquoise   = 0x00935a,

@@ -51,7 +51,6 @@ void CRoutineSwipe::Continue()
 
         m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
         m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
-        m_z_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
 
         switch(side)
         {

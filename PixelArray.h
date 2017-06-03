@@ -71,6 +71,7 @@ class CPixelArray
         size_t      NumLegs()                                     { return m_config.m_num_legs; }
         Coordinate& GetCoordinate(size_t index)                   { return m_coordinates[index]; }
         size_t      GetLocation(size_t index)                     { return m_locations[index]; }
+        void        SetLocation(size_t index, size_t loc)         { m_locations[index] = loc; }
         void        SetCoordinate(size_t index, Coordinate coord) { m_coordinates[index] = coord; }
         Config&     GetConfig()                                   { return m_config; }
 

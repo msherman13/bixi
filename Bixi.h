@@ -19,6 +19,8 @@ class CBixi
 
     public:
         void Continue();
+        void ShutDown() { m_shutting_down = true; }
+        bool ShuttingDown() { return m_shutting_down; }
 
     protected:
         virtual void Show(CPixelArray* pixels);
@@ -28,4 +30,5 @@ class CBixi
         size_t       m_lastIndicator = 0;
         bool         m_indicatorOn   = false;
         CDome*       m_dome          = nullptr;
+        bool         m_shutting_down = false;
 };

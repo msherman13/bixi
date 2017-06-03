@@ -52,6 +52,8 @@ CPixelArray::CPixelArray(CPixelArray* rhs, Config config) :
 
 CPixelArray::~CPixelArray()
 {
+    ClearRoutines();
+
     if(m_owner == true)
     {
         delete[] m_pixels;
@@ -86,18 +88,25 @@ void CPixelArray::Init()
         m_length  += length[i];
     }
 
-    m_locations      = new size_t[GetSize()];
-    m_coordinates    = new Coordinate[GetSize()];
+    if(m_locations == nullptr)
+    {
+        m_locations      = new size_t[GetSize()];
+    }
+    if(m_coordinates == nullptr)
+    {
+        m_coordinates    = new Coordinate[GetSize()];
+    }
 
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
-        m_legs[i] = new CPixelArray(GetRaw(index), length[i]);
-
         bool forward = m_config.m_start[i] <= m_config.m_end[i];
+        m_legs[i]    = new CPixelArray(GetRaw(), length[i]);
+
         for(size_t j=0;j<length[i];j++)
         {
             m_locations[index++] = m_config.m_start[i] + (forward ? j : -j);
+            m_legs[i]->SetLocation(j, m_config.m_start[i] + (forward ? j : -j));
         }
     }
 
@@ -206,10 +215,12 @@ void CPixelArray::ExitRoutine()
     }
 
     char logstr[256];
-    sprintf(logstr, "CPixelArray::ExitRoutine: Exiting routine [%s]", m_routine->GetName());
+    sprintf(logstr, "CPixelArray::ExitRoutine: Exiting routine");
     CLogging::log(logstr);
 
     delete m_routine;
+
+    m_routine = nullptr;
 }
 
 void CPixelArray::ClearRoutines()
@@ -290,6 +301,11 @@ void CPixelArray::StartRoutineFire()
 
 void CPixelArray::Continue()
 {
+    for(size_t i=0;i<NumLegs();i++)
+    {
+        m_legs[i]->Continue();
+    }
+
     if(m_routine == nullptr)
     {
         return;

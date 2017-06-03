@@ -29,14 +29,15 @@ CBixi::CBixi() :
     m_pixels.SetAllPixels(CRGB::Black);
 
     m_dome = new CDome(&m_pixels);
-    //m_dome->StartRoutineSwipe();
-    //m_dome->StartRoutineFire();
-    //m_dome->StartRoutineSolid(CRGB::Blue);
-    //m_dome->StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 }
 
 CBixi::~CBixi()
 {
+    CLogging::log("CBixi::~CBixi: Destructing");
+
+    ShutDown();
+
+    delete m_dome;
 }
 
 void CBixi::Show(CPixelArray*)

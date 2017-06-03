@@ -21,7 +21,8 @@ void CBixiQuickCG::Show(CPixelArray* pixels)
 {
     if(QuickCG::done())
     {
-        exit(0);
+        ShutDown();
+        return;
     }
 
     for(size_t i=0;i<pixels->GetSize();i++)
