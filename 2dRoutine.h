@@ -16,9 +16,10 @@ class C2dRoutine : public CRoutine
         virtual ~C2dRoutine();
 
     protected:
-        void ClearScreen();
-        void Set2dPixel(size_t x, size_t y, CRGB rgb);
-        void Redraw();
+        void   ClearScreen();
+        void   Set2dPixel(size_t x, size_t y, CRGB rgb);
+        void   Redraw();
+        size_t CoordTo2d(float coord) { return (coord + c_max_axis_coord) * c_resolution; }
 
     protected:
         CRGB m_2d_pixels[c_resolution][c_resolution];

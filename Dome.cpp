@@ -22,8 +22,8 @@ CDome::CDome() :
 
     //StartRoutineSolid(CRGB::Red);
     //StartRoutineBall(40, 2);
-    //StartRoutineBalls(4);
-    StartRoutineFire();
+    StartRoutineBalls(8);
+    //StartRoutineFire();
     //StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 
     /*

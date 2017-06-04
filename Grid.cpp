@@ -8,8 +8,8 @@ CGrid::CGrid() :
     CPixelArray(GridMappings::Mappings())
 {
 //    StartRoutineBall(20, 2);
-    StartRoutineFire();
-//    StartRoutineBalls(5);
+    //StartRoutineFire();
+    StartRoutineBalls(8);
 //    StartRoutineGlare(ColorPallete::ChromeBlue, 40, true, 10);
 
     /*

@@ -11,7 +11,7 @@ class CRoutineBalls : public CRoutine
         static constexpr size_t c_max_num_balls = 16;
         static constexpr size_t c_min_q         = 20;
         static constexpr size_t c_max_q         = 60;
-        static constexpr size_t c_min_period    = 1;
+        static constexpr size_t c_min_period    = 4;
         static constexpr size_t c_max_period    = 10;
 
     public:
