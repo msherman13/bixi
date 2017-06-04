@@ -13,12 +13,13 @@ CPixelArray::CPixelArray(const CPixelArray& rhs) :
     m_owner(true),
     m_pixels(new CRGB[rhs.GetSize()]),
     m_length(rhs.GetSize()),
+    m_raw_size(rhs.GetSize()),
     m_locations(new size_t[GetSize()]),
     m_coordinates(new Coordinate[GetSize()])
 {
     for(size_t i=0;i<GetSize();i++)
     {
-        m_locations[i]   = rhs.GetLocation(i);
+        m_locations[i]   = i;
         m_coordinates[i] = rhs.GetCoordinate(i);
     }
 }
@@ -27,6 +28,7 @@ CPixelArray::CPixelArray(size_t len) :
     m_owner(true),
     m_pixels(new CRGB[len]),
     m_length(len),
+    m_raw_size(len),
     m_locations(new size_t[GetSize()]),
     m_coordinates(new Coordinate[GetSize()])
 {
@@ -36,13 +38,13 @@ CPixelArray::CPixelArray(size_t len) :
     }
 }
 
-CPixelArray::CPixelArray(Config config)
+CPixelArray::CPixelArray(Config config) :
+    m_pixels(new CRGB[config.m_num_raw_pixels]),
+    m_raw_size(config.m_num_raw_pixels)
 {
     m_owner = true;
 
     Init(config);
-
-    m_pixels = new CRGB[GetSize()];
 
     char logstr[256];
     sprintf(logstr, "CPixelArray::CPixelArray: Constructed parent array of length %u", GetSize());
@@ -56,10 +58,10 @@ CPixelArray::CPixelArray(CPixelArray* pixels) :
 
 CPixelArray::CPixelArray(CPixelArray* pixels, size_t len, size_t offset, size_t num_legs, size_t leg_offset) :
     m_pixels(pixels->GetRaw()),
-    m_num_legs(num_legs),
     m_length(len),
-    m_coordinates(pixels->m_coordinates + offset),
-    m_locations(pixels->m_locations + offset)
+    m_num_legs(num_legs),
+    m_locations(pixels->m_locations + offset),
+    m_coordinates(pixels->m_coordinates + offset)
 {
     for(size_t i=0;i<NumLegs();i++)
     {
@@ -125,7 +127,7 @@ void CPixelArray::Init(Config config)
 
     char logstr[256];
     sprintf(logstr, "CPolygon::CPolygon: Initialized shape with "
-            "%u legs", NumLegs(), GetSize());
+            "%u legs", NumLegs());
     CLogging::log(logstr);
 }
 
@@ -142,8 +144,8 @@ void CPixelArray::MapCoordinates(Config config)
         const size_t length = m_legs[i]->GetSize();
         Coordinate&  start  = config.m_start_coordinate[i];
         Coordinate&  end    = config.m_end_coordinate[i];
-        const double x_step = (end.x - start.x) / length;
-        const double y_step = (end.y - start.y) / length;
+        const float x_step = (end.x - start.x) / length;
+        const float y_step = (end.y - start.y) / length;
 
         for(size_t j=0;j<length;j++)
         {
@@ -158,14 +160,14 @@ void CPixelArray::MapCoordinates(Config config)
 void CPixelArray::AutoMapCorners(Config config)
 {
     const bool   side_at_edge    = NumLegs() == 4 || NumLegs() == 8;
-    const double center_distance = side_at_edge ?
+    const float center_distance = side_at_edge ?
                                    0.50 / cos(180 / NumLegs()) :
                                    0.50;
 
     for(size_t i=0;i<NumLegs();i++)
     {
         Coordinate& start_corner = config.m_start_coordinate[i];
-        const double pi          = 3.14159265358979323846;
+        const float pi           = 3.14159265358979323846;
         start_corner.x           = cos(2 * pi * i / NumLegs()) * config.m_scale + config.m_origin.x;
         start_corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * config.m_scale + config.m_origin.y;
 
@@ -223,8 +225,8 @@ void CPixelArray::SmartCopy(CPixelArray* rhs, size_t size, size_t offset)
     {   
         size_t index = (i + offset) % GetSize();
         CRGB   rgb = rhs->GetPixel(i);
-        uint8_t brightness = rgb2hsv_approximate(GetPixel(index)).v;
-        if(brightness < 30)
+        
+        if(rgb == CRGB(CRGB::Black))
         {
             SetPixel(index, rgb);
         }

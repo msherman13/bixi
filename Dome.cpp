@@ -20,9 +20,11 @@ CDome::CDome() :
         leg_offset += config.m_shape_num_legs[i];
     }
 
-    //StartRoutineBall(20, 2);
-    StartRoutineBalls(4);
-//    StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
+    //StartRoutineSolid(CRGB::Red);
+    //StartRoutineBall(40, 2);
+    //StartRoutineBalls(4);
+    StartRoutineFire();
+    //StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 
     /*
     for(size_t shape=0;shape<c_num_shapes;shape++)

@@ -28,5 +28,4 @@ class CRoutineBalls : public CRoutine
     private:
         size_t        m_num_balls = 0;
         CRoutineBall* m_balls[c_max_num_balls] = {};
-        CPixelArray   m_buffer;
 };

@@ -15,12 +15,12 @@ class CPixelArray
     public:
         struct Coordinate
         {
-            double x      = 0.0;
-            double y      = 0.0;
+            float x      = 0.0;
+            float y      = 0.0;
 
             Coordinate() {}
 
-            Coordinate(double x_in, double y_in) :
+            Coordinate(float x_in, float y_in) :
                 x(x_in),
                 y(y_in)
             {
@@ -29,6 +29,7 @@ class CPixelArray
 
         struct Config
         {
+            size_t     m_num_raw_pixels        = 0;
             size_t     m_num_legs              = 0;
             size_t     m_start_index[c_max_num_legs] = {};
             size_t     m_end_index[c_max_num_legs]   = {};
@@ -38,7 +39,7 @@ class CPixelArray
             // optional: used for automatic coordinate mapping of polygons
             bool       m_auto_coordinates      = false;
             Coordinate m_origin;
-            double     m_scale                 = 1.00;
+            float     m_scale                 = 1.00;
 
             virtual ~Config()
             {
@@ -72,6 +73,7 @@ class CPixelArray
         size_t      GetSize() const                               { return m_length; }
         size_t      GetSize(size_t index) const                   { return m_legs[index]->GetSize(); }
         CRGB*       GetRaw(size_t index=0);
+        size_t      GetRawSize() const                            { return m_raw_size; }
         size_t      NumLegs()                                     { return m_num_legs; }
         Coordinate& GetCoordinate(size_t index) const             { return m_coordinates[index]; }
         size_t      GetLocation(size_t index) const               { return m_locations[index]; }
@@ -96,6 +98,7 @@ class CPixelArray
         bool         m_owner       = false;
         CRGB*        m_pixels      = nullptr;
         size_t       m_length      = 0;
+        size_t       m_raw_size    = 0;
 
     private:
         size_t              m_num_legs             = 0;

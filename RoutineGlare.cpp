@@ -29,7 +29,7 @@ void CRoutineGlare::Continue()
 {
     uint32_t now = millis();
 
-    double move_by = (double)(now - m_last_run) / (PeriodSec() * 1000);
+    float move_by = (float)(now - m_last_run) / (PeriodSec() * 1000);
 
     if(Forward() == true)
     {
@@ -54,11 +54,11 @@ void CRoutineGlare::Continue()
 
     for(size_t i=0;i<m_pixels->GetSize();i++)
     {
-        double this_index = (double)i / m_pixels->GetSize();
-        double ratio = std::max<double>(1 - fabs(this_index - m_midpoint), 0.0001);
+        float this_index = (float)i / m_pixels->GetSize();
+        float ratio = std::max<float>(1 - fabs(this_index - m_midpoint), 0.0001);
         ratio = fabs(ratio - 0.50) * 2;
-        ratio = pow(ratio, m_q);
-        hsv.val = std::min<double>(255, 255 * ratio);
+        ratio = powf(ratio, m_q);
+        hsv.val = std::min<float>(255, 255 * ratio);
         if(hsv.val < 15)
             hsv.val = 0;
 

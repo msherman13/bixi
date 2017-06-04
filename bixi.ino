@@ -11,8 +11,8 @@ void setup()
 
 void loop()
 { 
-    while(!CBixi::ShuttingDown())
+    while(!CBixi::Instance().ShuttingDown())
     {
         CBixi::Instance().Continue();
     }
-}
+}  

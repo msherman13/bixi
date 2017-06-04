@@ -14,12 +14,13 @@ namespace GridMappings
             CPixelArray::Config()
         {
             m_num_legs  = c_resolution;
+            m_num_raw_pixels = c_resolution * c_resolution;
 
             for(size_t i=0;i<c_resolution;i++)
             {
                 m_start_index[i]      = i * c_resolution;
                 m_end_index[i]        = m_start_index[i] + c_resolution - 1;
-                double raster_y       = 2 * (i / (double)c_resolution) - 0.99;
+                float raster_y       = 2 * (i / (float)c_resolution) - 0.99;
                 m_start_coordinate[i] = CPixelArray::Coordinate(-1.00, raster_y);
                 m_end_coordinate[i]   = CPixelArray::Coordinate(1.00, raster_y);
             }

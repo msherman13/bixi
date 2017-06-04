@@ -5,6 +5,8 @@ ARDUINO_LIBS = FastLED
 BOARD_TAG 	 = teensy36
 MONITOR_PORT = /dev/ttyACM0
 
+OPTIMIZATION_LEVEL = 3
+
 ifeq ($(TECHNOLOGY), teensy)
 MAKE_PATH=${ARDMK_DIR}/Teensy.mk
 $(info TECHNOLOGY = teensy)

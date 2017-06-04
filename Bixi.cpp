@@ -6,7 +6,7 @@
 #include "Dome.h"
 #include "Grid.h"
 
-//#define LOG_REFRESH_RATE
+#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
 {
@@ -30,10 +30,13 @@ CBixi::CBixi()
 #elif GEOM_GRID
     CLogging::log("CBixi::CBixi: Geometry = GEOM_GRID");
     m_geometry = new CGrid();
+#else
+    CLogging::log("CBixi::CBixi: ERROR no geometry is defined. Exiting");
+    exit(-1);
 #endif
 
     // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(), m_geometry->GetSize());
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(), m_geometry->GetRawSize() / Addressing::c_num_strands);
 }
 
 CBixi::~CBixi()
@@ -56,6 +59,8 @@ void CBixi::Continue()
 
     m_geometry->Continue();
 
+    size_t cont = millis();
+
     Show(m_geometry);
 
     if(now - m_lastIndicator >= c_indicatorDelayMs)
@@ -66,9 +71,9 @@ void CBixi::Continue()
     }
 
 #ifdef LOG_REFRESH_RATE
-    size_t timer = millis() - now;
+    size_t timer = millis();
     char logString[128];
-    sprintf(logString, "CBixi::Continue: This iteration took %u ms", timer);
+    sprintf(logString, "CBixi::Continue: Calculations took %u ms, Show took %u ms", cont - now, timer - cont);
     CLogging::log(logString);
 #endif
 }

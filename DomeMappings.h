@@ -17,6 +17,7 @@ namespace DomeMappings
             CPixelArray::Config()
         {
             m_num_legs  = 24;
+            m_num_raw_pixels = 9000;
 
             // top right outer-hex
             m_shape_start[0]    = 0;

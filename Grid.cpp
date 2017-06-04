@@ -7,9 +7,10 @@
 CGrid::CGrid() :
     CPixelArray(GridMappings::Mappings())
 {
-    //StartRoutineBall(20, 2);
-    StartRoutineBalls(5);
-//    StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
+//    StartRoutineBall(20, 2);
+    StartRoutineFire();
+//    StartRoutineBalls(5);
+//    StartRoutineGlare(ColorPallete::ChromeBlue, 40, true, 10);
 
     /*
     for(size_t shape=0;shape<c_num_shapes;shape++)

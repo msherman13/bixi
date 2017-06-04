@@ -8,7 +8,7 @@ class CBixi
 {
     public:
         static constexpr size_t c_indicatorPin     = 13;
-        static constexpr size_t c_indicatorDelayMs = 5000;
+        static constexpr size_t c_indicatorDelayMs = 1000;
         static constexpr size_t c_num_shapes       = 4;
 
     public: // singleton

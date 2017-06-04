@@ -31,5 +31,5 @@ class CRoutineGlare : public CRoutine
         bool         m_forward    = true;
         uint32_t     m_period_sec = 10;
         uint32_t     m_last_run   = 0;
-        double       m_midpoint   = 0.0;
+        float        m_midpoint   = 0.0;
 };

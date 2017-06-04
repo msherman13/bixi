@@ -2,7 +2,6 @@
 #include <math.h>
 
 #include "RoutineBall.h"
-#include "PixelArray.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
 #include "Arduino.h"
@@ -10,11 +9,8 @@
 CRoutineBall::CRoutineBall(CPixelArray* arrays,
                                  size_t       q,
                                  uint32_t     period_sec) :
-    CRoutine(arrays),
-    m_q(q),
-    m_period_sec(period_sec)
+    CRoutineBall(1, &arrays, q, period_sec)
 {
-    m_last_run = millis();
 }
 
 CRoutineBall::CRoutineBall(size_t        num_arrays,
@@ -26,13 +22,15 @@ CRoutineBall::CRoutineBall(size_t        num_arrays,
     m_period_sec(period_sec)
 {
     m_last_run = millis();
+
+    m_radius = c_longest_distance * (1.00 - powf(14 / 255.0, 1.0 / m_q));
 }
 
 CRoutineBall::~CRoutineBall()
 {
 }
 
-void CRoutineBall::Continue()
+CPixelArray::Coordinate CRoutineBall::RecalculateMidpoint()
 {
     uint32_t now = millis();
 
@@ -46,11 +44,11 @@ void CRoutineBall::Continue()
             side = rand() % 4;
         }
 
-        m_midpoint.x = ((double)(rand() % 200) / 200) - 1.00;
-        m_midpoint.y = ((double)(rand() % 200) / 200) - 1.00;
+        m_midpoint.x = ((float)(rand() % 200) / 200) - 1.00;
+        m_midpoint.y = ((float)(rand() % 200) / 200) - 1.00;
 
-        m_x_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
-        m_y_step     = ((double)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+        m_x_step     = ((float)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
+        m_y_step     = ((float)(rand() % 100) / 100) * 2 / (m_period_sec * 1000);
 
         switch(side)
         {
@@ -83,28 +81,49 @@ void CRoutineBall::Continue()
         m_last_side = side;
     }
 
-    m_midpoint.x += (double)(now - m_last_run) * m_x_step;
-    m_midpoint.y += (double)(now - m_last_run) * m_y_step;
+    m_midpoint.x += (float)(now - m_last_run) * m_x_step;
+    m_midpoint.y += (float)(now - m_last_run) * m_y_step;
 
     m_last_run = now;
 
+    return m_midpoint;
+}
+
+CHSV CRoutineBall::RecalculateColor(size_t array, size_t index)
+{
     CHSV hsv = m_color;
 
-    const double longest_distance = 3.46;
+    CPixelArray::Coordinate coord = m_arrays[array]->GetCoordinate(index);
+
+    float x_dist                 = fabs(m_midpoint.x - coord.x);
+    float y_dist                 = fabs(m_midpoint.y - coord.y);
+
+    // optimization to try and speed this up a bit
+    if(x_dist > m_radius || y_dist > m_radius)
+    {
+        hsv.val = 0;
+        return hsv;
+    }
+
+    float distance               = sqrtf(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
+    float brightness             = powf(1 - distance, m_q);
+
+    hsv.val = brightness * 255;
+    if(hsv.val < 15)
+        hsv.val = 0;
+
+    return hsv;
+}
+
+void CRoutineBall::Continue()
+{
+    RecalculateMidpoint();
 
     for(size_t array=0;array<m_num_arrays;array++)
     {
         for(size_t i=0;i<m_arrays[array]->GetSize();i++)
         {
-            CPixelArray::Coordinate coord = m_arrays[array]->GetCoordinate(i);
-            double x_dist                 = fabs(m_midpoint.x - coord.x);
-            double y_dist                 = fabs(m_midpoint.y - coord.y);
-            double distance               = sqrt(pow(x_dist, 2) + pow(y_dist, 2)) / longest_distance;
-            double brightness             = pow(1 - distance, m_q);
-            hsv.val = brightness * 255;
-            if(hsv.val < 15)
-                hsv.val = 0;
-
+            CHSV hsv = RecalculateColor(array, i);
             m_arrays[array]->SetPixel(i, hsv);
         }
     }

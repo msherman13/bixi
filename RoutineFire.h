@@ -12,7 +12,7 @@ class CRoutineFire : public CRoutine
     public:
         static constexpr size_t c_num_colors          = 256;
         static constexpr int    c_num_pixels_per_axis = 100;
-        static constexpr double c_max_axis_val        = .25;
+        static constexpr double c_max_axis_val        = 1.00;
 
     public:
         CRoutineFire(CPixelArray* arrays);
