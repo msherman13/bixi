@@ -6,7 +6,7 @@
 #include "Dome.h"
 #include "Grid.h"
 
-#define LOG_REFRESH_RATE
+//#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
 {

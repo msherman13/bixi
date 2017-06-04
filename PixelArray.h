@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -10,13 +11,13 @@ class  CPolygon;
 class CPixelArray
 {
     public:
-        static constexpr size_t c_max_num_legs = 256;
+        static constexpr size_t c_max_num_legs   = 256;
 
     public:
         struct Coordinate
         {
-            float x      = 0.0;
-            float y      = 0.0;
+            float x      = -10.0; // just somewhere out of the frame
+            float y      = -10.0; // just somewhere out of the frame
 
             Coordinate() {}
 
@@ -39,16 +40,60 @@ class CPixelArray
             // optional: used for automatic coordinate mapping of polygons
             bool       m_auto_coordinates      = false;
             Coordinate m_origin;
-            float     m_scale                 = 1.00;
+            float      m_scale                 = 1.00;
+
+            virtual bool isComplete() { return false; }
 
             virtual ~Config()
             {
             }
         };
 
+        // necessary for map projection method
+        struct CompleteConfig : public Config
+        {
+            static constexpr size_t c_max_num_logical_pixels = 10000;
+
+            size_t m_num_logical_pixels = 0;
+
+            size_t* m_location = nullptr;
+
+            // note that the below uses logical indexing (not raw)
+            Coordinate* m_coordinate = nullptr;
+
+            CompleteConfig() :
+                Config(),
+                m_location(new size_t[c_max_num_logical_pixels]),
+                m_coordinate(new Coordinate[c_max_num_logical_pixels])
+            {
+            }
+
+            CompleteConfig(const CompleteConfig& rhs) :
+                Config(rhs),
+                m_num_logical_pixels(rhs.m_num_logical_pixels),
+                m_location(new size_t[c_max_num_logical_pixels]),
+                m_coordinate(new Coordinate[c_max_num_logical_pixels])
+            {
+                for(size_t i=0;i<m_num_logical_pixels;i++)
+                {
+                    m_location[i]   = rhs.m_location[i];
+                    m_coordinate[i] = rhs.m_coordinate[i];
+                }
+            }
+
+            virtual ~CompleteConfig()
+            {
+                delete[] m_location;
+                delete[] m_coordinate;
+            }
+
+            virtual bool isComplete() { return true; }
+        };
+
     public:
         CPixelArray(size_t len); // owner
         CPixelArray(Config config); // owner
+        CPixelArray(CompleteConfig config); // owner
         CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
         CPixelArray(CPixelArray* pixels); // reference to external pixels
         CPixelArray(CPixelArray* pixels, size_t len, size_t offset = 0, size_t num_legs=0, size_t leg_offset=0); // reference to external pixels
@@ -90,9 +135,10 @@ class CPixelArray
         bool   HasCoordinates() { return m_coordinates != nullptr; }
 
     private:
-        void Init(Config config);
-        void MapCoordinates(Config config);
-        void AutoMapCorners(Config config);
+        void Init(Config* config);
+        void HandleCompleteConfig(CompleteConfig* config);
+        void MapCoordinates(Config* config);
+        void AutoMapCorners(Config* config);
 
     private:
         bool         m_owner       = false;

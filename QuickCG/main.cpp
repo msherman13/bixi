@@ -1,5 +1,6 @@
 #include "BixiQuickCG.h"
 #include "Logging.h"
+#include "MapProjection.h"
 
 int main()
 {

@@ -2,14 +2,12 @@
 
 #include <stdlib.h>
 #include "PixelArray.h"
+#include "DomeMappings.h"
 
 class CRoutine;
 
 class CDome : public CPixelArray
 {
-    public:
-        static constexpr size_t c_num_shapes = 4;
-
     public:
         CDome();
         ~CDome();
@@ -18,5 +16,5 @@ class CDome : public CPixelArray
         virtual void Continue() override;
 
     private:
-        CPixelArray* m_shapes[c_num_shapes] = {};
+        CPixelArray* m_shapes[DomeMappings::Mappings::c_num_shapes] = {};
 };

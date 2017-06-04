@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 
 #include "RoutineBall.h"
 #include "ColorPallete.h"

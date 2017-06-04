@@ -39,12 +39,23 @@ CPixelArray::CPixelArray(size_t len) :
 }
 
 CPixelArray::CPixelArray(Config config) :
+    m_owner(true),
     m_pixels(new CRGB[config.m_num_raw_pixels]),
     m_raw_size(config.m_num_raw_pixels)
 {
-    m_owner = true;
+    Init(&config);
 
-    Init(config);
+    char logstr[256];
+    sprintf(logstr, "CPixelArray::CPixelArray: Constructed parent array of length %u", GetSize());
+    CLogging::log(logstr);
+}
+
+CPixelArray::CPixelArray(CompleteConfig config) :
+    m_owner(true),
+    m_pixels(new CRGB[config.m_num_raw_pixels]),
+    m_raw_size(config.m_num_raw_pixels)
+{
+    Init(dynamic_cast<CompleteConfig*>(&config));
 
     char logstr[256];
     sprintf(logstr, "CPixelArray::CPixelArray: Constructed parent array of length %u", GetSize());
@@ -89,21 +100,65 @@ CPixelArray::~CPixelArray()
     }
 }
 
-void CPixelArray::Init(Config config)
+void CPixelArray::HandleCompleteConfig(CompleteConfig* config)
 {
-    m_num_legs = config.m_num_legs;
+    m_length = config->m_num_logical_pixels;
+
+    if(GetSize() > CompleteConfig::c_max_num_logical_pixels)
+    {
+        char logstr[256];
+        sprintf(logstr, "CPixelArray::MapCoordinates: ERROR num_logical_pixels of %u exceeds maximum of "
+                "%u. Exiting",
+                GetSize(), CompleteConfig::c_max_num_logical_pixels);
+        CLogging::log(logstr);
+        exit(-1);
+    }
+
+    m_locations   = new size_t[GetSize()];
+    m_coordinates = new Coordinate[GetSize()];
+
+    for(size_t i=0;i<GetSize();i++)
+    {
+        m_locations[i]   = config->m_location[i];
+        m_coordinates[i] = config->m_coordinate[i];
+    }
+
+    CLogging::log("CPixelArray::MapCoordinates: Successfully mapped complete coordinates from config");
+
+    return;
+}
+
+void CPixelArray::Init(Config* config)
+{
+    if(config->isComplete())
+    {
+        auto complete_config = dynamic_cast<CompleteConfig*>(config);
+        HandleCompleteConfig(complete_config);
+        return;
+    }
+
+    m_num_legs = config->m_num_legs;
+
+    if(NumLegs() > c_max_num_legs)
+    {
+        char logstr[256];
+        sprintf(logstr, "CPixelArray::Init: ERROR num_legs = %u exceeds maximum of %u. Exiting",
+                NumLegs(), c_max_num_legs);
+        CLogging::log(logstr);
+        exit(-1);
+    }
 
     if(NumLegs() == 0)
     {
         return;
     }
 
-    size_t length[config.m_num_legs] = {};
+    size_t length[config->m_num_legs] = {};
 
     m_length = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
-        length[i]  = abs((int)config.m_end_index[i] - (int)config.m_start_index[i]) + 1;
+        length[i]  = abs((int)config->m_end_index[i] - (int)config->m_start_index[i]) + 1;
         m_length  += length[i];
     }
 
@@ -113,13 +168,13 @@ void CPixelArray::Init(Config config)
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
-        bool forward = config.m_start_index[i] <= config.m_end_index[i];
+        bool forward = config->m_start_index[i] <= config->m_end_index[i];
         m_legs[i]    = new CPixelArray(this, length[i], index);
 
         for(size_t j=0;j<length[i];j++)
         {
-            m_locations[index++] = config.m_start_index[i] + (forward ? j : -j);
-            m_legs[i]->SetLocation(j, config.m_start_index[i] + (forward ? j : -j));
+            m_locations[index++] = config->m_start_index[i] + (forward ? j : -j);
+            m_legs[i]->SetLocation(j, config->m_start_index[i] + (forward ? j : -j));
         }
     }
 
@@ -131,9 +186,9 @@ void CPixelArray::Init(Config config)
     CLogging::log(logstr);
 }
 
-void CPixelArray::MapCoordinates(Config config)
+void CPixelArray::MapCoordinates(Config* config)
 {
-    if(config.m_auto_coordinates == true)
+    if(config->m_auto_coordinates == true)
     {
         AutoMapCorners(config);
     }
@@ -142,8 +197,8 @@ void CPixelArray::MapCoordinates(Config config)
     for(size_t i=0;i<NumLegs();i++)
     {
         const size_t length = m_legs[i]->GetSize();
-        Coordinate&  start  = config.m_start_coordinate[i];
-        Coordinate&  end    = config.m_end_coordinate[i];
+        Coordinate&  start  = config->m_start_coordinate[i];
+        Coordinate&  end    = config->m_end_coordinate[i];
         const float x_step = (end.x - start.x) / length;
         const float y_step = (end.y - start.y) / length;
 
@@ -157,7 +212,7 @@ void CPixelArray::MapCoordinates(Config config)
 }
 
 // assume regular polygon, map corners to coordinates
-void CPixelArray::AutoMapCorners(Config config)
+void CPixelArray::AutoMapCorners(Config* config)
 {
     const bool   side_at_edge    = NumLegs() == 4 || NumLegs() == 8;
     const float center_distance = side_at_edge ?
@@ -166,12 +221,12 @@ void CPixelArray::AutoMapCorners(Config config)
 
     for(size_t i=0;i<NumLegs();i++)
     {
-        Coordinate& start_corner = config.m_start_coordinate[i];
+        Coordinate& start_corner = config->m_start_coordinate[i];
         const float pi           = 3.14159265358979323846;
-        start_corner.x           = cos(2 * pi * i / NumLegs()) * config.m_scale + config.m_origin.x;
-        start_corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * config.m_scale + config.m_origin.y;
+        start_corner.x           = cos(2 * pi * i / NumLegs()) * config->m_scale + config->m_origin.x;
+        start_corner.y           = center_distance * sin(2 * pi * i / NumLegs()) * config->m_scale + config->m_origin.y;
 
-        config.m_end_coordinate[i > 0 ? i - 1 : NumLegs() - 1] = start_corner;
+        config->m_end_coordinate[i > 0 ? i - 1 : NumLegs() - 1] = start_corner;
     }
 }
 
