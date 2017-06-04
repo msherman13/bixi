@@ -25,7 +25,7 @@ else ifeq ($(GEOM), periph)
 CXXFLAGS += -DGEOM_PERIPH
 $(info GEOM = periph)
 else
-$(error GEOM must be defines as dome or periph)
+$(error GEOM must be defines as dome, periph, or grid)
 endif
 
 include ${MAKE_PATH}

@@ -59,7 +59,9 @@ void CBixi::Continue()
 
     m_geometry->Continue();
 
+#ifdef LOG_REFRESH_RATE
     size_t cont = millis();
+#endif
 
     Show(m_geometry);
 
@@ -73,7 +75,8 @@ void CBixi::Continue()
 #ifdef LOG_REFRESH_RATE
     size_t timer = millis();
     char logString[128];
-    sprintf(logString, "CBixi::Continue: Calculations took %u ms, Show took %u ms", cont - now, timer - cont);
+    sprintf(logString, "CBixi::Continue: Calculations took %u ms, Show took %u ms, Total %u ms",
+            cont - now, timer - cont, timer - now);
     CLogging::log(logString);
 #endif
 }

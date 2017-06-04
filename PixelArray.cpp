@@ -2,6 +2,7 @@
 #include "FastLED.h"
 #include "Logging.h"
 #include "Routine.h"
+#include "RoutineTest.h"
 #include "RoutineGlare.h"
 #include "RoutineCrawl.h"
 #include "RoutineSticks.h"
@@ -50,18 +51,6 @@ CPixelArray::CPixelArray(Config config) :
     CLogging::log(logstr);
 }
 
-CPixelArray::CPixelArray(CompleteConfig config) :
-    m_owner(true),
-    m_pixels(new CRGB[config.m_num_raw_pixels]),
-    m_raw_size(config.m_num_raw_pixels)
-{
-    Init(dynamic_cast<CompleteConfig*>(&config));
-
-    char logstr[256];
-    sprintf(logstr, "CPixelArray::CPixelArray: Constructed parent array of length %u", GetSize());
-    CLogging::log(logstr);
-}
-
 CPixelArray::CPixelArray(CPixelArray* pixels) :
     CPixelArray(pixels, pixels->GetSize(), 0, pixels->NumLegs(), 0)
 {
@@ -100,43 +89,8 @@ CPixelArray::~CPixelArray()
     }
 }
 
-void CPixelArray::HandleCompleteConfig(CompleteConfig* config)
-{
-    m_length = config->m_num_logical_pixels;
-
-    if(GetSize() > CompleteConfig::c_max_num_logical_pixels)
-    {
-        char logstr[256];
-        sprintf(logstr, "CPixelArray::MapCoordinates: ERROR num_logical_pixels of %u exceeds maximum of "
-                "%u. Exiting",
-                GetSize(), CompleteConfig::c_max_num_logical_pixels);
-        CLogging::log(logstr);
-        exit(-1);
-    }
-
-    m_locations   = new size_t[GetSize()];
-    m_coordinates = new Coordinate[GetSize()];
-
-    for(size_t i=0;i<GetSize();i++)
-    {
-        m_locations[i]   = config->m_location[i];
-        m_coordinates[i] = config->m_coordinate[i];
-    }
-
-    CLogging::log("CPixelArray::MapCoordinates: Successfully mapped complete coordinates from config");
-
-    return;
-}
-
 void CPixelArray::Init(Config* config)
 {
-    if(config->isComplete())
-    {
-        auto complete_config = dynamic_cast<CompleteConfig*>(config);
-        HandleCompleteConfig(complete_config);
-        return;
-    }
-
     m_num_legs = config->m_num_legs;
 
     if(NumLegs() > c_max_num_legs)
@@ -312,6 +266,15 @@ void CPixelArray::ClearRoutines()
     {
         m_legs[i]->ExitRoutine();
     }   
+}
+
+void CPixelArray::StartRoutineTest()
+{
+    ClearRoutines();
+
+    CLogging::log("CPixelArray::StartRoutineTest: Starting routine");
+
+    m_routine = new CRoutineTest(this);
 }
 
 void CPixelArray::StartRoutineSolid(CRGB rgb)

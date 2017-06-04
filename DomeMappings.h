@@ -2,40 +2,24 @@
 
 #include "PixelArray.h"
 #include "MapProjection.h"
+#include "Logging.h"
 
 // - mapping of logical index to hardware index
 // - mapping of logical index to 2d coordinates
 
 namespace DomeMappings
 {
-    struct Mappings : public CPixelArray::CompleteConfig
-    {
-        static constexpr size_t c_num_shapes = 0;
+    constexpr size_t c_num_raw_pixels     = 10000;
+    constexpr size_t c_num_logical_pixels = 370;
+    constexpr size_t c_num_shapes         = 0; // TODO
 
-        size_t m_shape_start[c_num_shapes]    = {};
-        size_t m_shape_length[c_num_shapes]   = {};
-        size_t m_shape_num_legs[c_num_shapes] = {};
+    constexpr size_t c_shape_length[c_num_shapes] = {}; // TODO
+    constexpr size_t c_shape_start[c_num_shapes] = {}; // TODO
+    constexpr size_t c_shape_num_legs[c_num_shapes] = {}; // TODO
 
-        Mappings() :
-            CPixelArray::CompleteConfig()
-        {
-            m_num_raw_pixels = 9000;
+    // takes logical index as argument, returns raw index
+    size_t GetLocation(size_t index);
 
-            // we provide latitude and longitude for now, map to 2d via lambert projection
-            m_num_logical_pixels = 0;
-            for(int latitude=0;latitude<91;latitude+=10)
-            {
-                for(int longitude=0;longitude<361;longitude+=10)
-                {
-                    MapProjection::GeographicCoord geog;
-                    geog.latitude  = MapProjection::DegreesToRadians(latitude);
-                    geog.longitude = MapProjection::DegreesToRadians(longitude);
-
-                    m_coordinate[m_num_logical_pixels] = MapProjection::LambertProjection(geog);
-                    m_location[m_num_logical_pixels]   = m_num_logical_pixels;
-                    m_num_logical_pixels++;
-                }
-            }
-        }
-    };
+    // takes logical index as argument
+    CPixelArray::Coordinate GetCoordinate(size_t index);
 };

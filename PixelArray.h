@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -42,64 +41,24 @@ class CPixelArray
             Coordinate m_origin;
             float      m_scale                 = 1.00;
 
-            virtual bool isComplete() { return false; }
+            virtual bool LoadLocationsExternally() { return false; }
+            virtual bool LoadCoordsExternally()    { return false; }
 
             virtual ~Config()
             {
             }
         };
 
-        // necessary for map projection method
-        struct CompleteConfig : public Config
-        {
-            static constexpr size_t c_max_num_logical_pixels = 10000;
-
-            size_t m_num_logical_pixels = 0;
-
-            size_t* m_location = nullptr;
-
-            // note that the below uses logical indexing (not raw)
-            Coordinate* m_coordinate = nullptr;
-
-            CompleteConfig() :
-                Config(),
-                m_location(new size_t[c_max_num_logical_pixels]),
-                m_coordinate(new Coordinate[c_max_num_logical_pixels])
-            {
-            }
-
-            CompleteConfig(const CompleteConfig& rhs) :
-                Config(rhs),
-                m_num_logical_pixels(rhs.m_num_logical_pixels),
-                m_location(new size_t[c_max_num_logical_pixels]),
-                m_coordinate(new Coordinate[c_max_num_logical_pixels])
-            {
-                for(size_t i=0;i<m_num_logical_pixels;i++)
-                {
-                    m_location[i]   = rhs.m_location[i];
-                    m_coordinate[i] = rhs.m_coordinate[i];
-                }
-            }
-
-            virtual ~CompleteConfig()
-            {
-                delete[] m_location;
-                delete[] m_coordinate;
-            }
-
-            virtual bool isComplete() { return true; }
-        };
-
     public:
         CPixelArray(size_t len); // owner
         CPixelArray(Config config); // owner
-        CPixelArray(CompleteConfig config); // owner
         CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
         CPixelArray(CPixelArray* pixels); // reference to external pixels
         CPixelArray(CPixelArray* pixels, size_t len, size_t offset = 0, size_t num_legs=0, size_t leg_offset=0); // reference to external pixels
         virtual ~CPixelArray();
 
     public:
+        void StartRoutineTest();
         void StartRoutineSolid(CRGB rgb);
         void StartRoutineGlare(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
         void StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
@@ -116,6 +75,7 @@ class CPixelArray
 
     public:
         size_t      GetSize() const                               { return m_length; }
+        void        SetSize(size_t len)                           { m_length = len; }
         size_t      GetSize(size_t index) const                   { return m_legs[index]->GetSize(); }
         CRGB*       GetRaw(size_t index=0);
         size_t      GetRawSize() const                            { return m_raw_size; }
@@ -136,7 +96,6 @@ class CPixelArray
 
     private:
         void Init(Config* config);
-        void HandleCompleteConfig(CompleteConfig* config);
         void MapCoordinates(Config* config);
         void AutoMapCorners(Config* config);
 

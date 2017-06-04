@@ -16,5 +16,5 @@ class CDome : public CPixelArray
         virtual void Continue() override;
 
     private:
-        CPixelArray* m_shapes[DomeMappings::Mappings::c_num_shapes] = {};
+        CPixelArray* m_shapes[DomeMappings::c_num_shapes] = {};
 };

@@ -4,36 +4,44 @@
 #include "FastLED.h"
 
 CDome::CDome() :
-    CPixelArray(DomeMappings::Mappings())
+    CPixelArray(DomeMappings::c_num_raw_pixels)
 {
-    auto config = DomeMappings::Mappings();
+    SetSize(DomeMappings::c_num_logical_pixels);
 
-    size_t leg_offset = 0;
-    for(size_t i=0;i<DomeMappings::Mappings::c_num_shapes;i++)
+    // manually override locations and coordinates
+    for(size_t i=0;i<GetSize();i++)
     {
-        m_shapes[i] = new CPixelArray(this,
-                                      config.m_shape_length[i],
-                                      config.m_shape_start[i],
-                                      config.m_shape_num_legs[i],
-                                      leg_offset);
-        leg_offset += config.m_shape_num_legs[i];
+        SetLocation(i, DomeMappings::GetLocation(i));
+        SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
 
+    size_t leg_offset = 0;
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        m_shapes[i] = new CPixelArray(this,
+                                      DomeMappings::c_shape_length[i],
+                                      DomeMappings::c_shape_start[i],
+                                      DomeMappings::c_shape_num_legs[i],
+                                      leg_offset);
+        leg_offset += DomeMappings::c_shape_num_legs[i];
+    }
+
+    StartRoutineTest();
     //StartRoutineSolid(CRGB::Blue);
     //StartRoutineBall(40, 2);
-    StartRoutineBalls(8);
+    //StartRoutineBalls(10);
     //StartRoutineFire();
     //StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
 
     /*
-    for(size_t shape=0;shape<DomeMappings::Mappings::c_num_shapes;shape++)
+    for(size_t shape=0;shape<DomeMappings::c_num_shapes;shape++)
     {
         m_shapes[shape]->StartRoutineGlare(ColorPallete::Turquoise, 4, true, 1);
     }
     */
     
     /*
-    for(size_t shape=0;shape<DomeMappings::Mappings::c_num_shapes;shape++)
+    for(size_t shape=0;shape<DomeMappings::c_num_shapes;shape++)
     {
         m_shapes[shape]->StartRoutineGlareLegs(CRGB(ColorPallete::Turquoise), 4, true, 1);
     }
@@ -42,7 +50,7 @@ CDome::CDome() :
 
 CDome::~CDome()
 {
-    for(size_t i=0;i<DomeMappings::Mappings::c_num_shapes;i++)
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         delete m_shapes[i];
     }
@@ -50,7 +58,7 @@ CDome::~CDome()
 
 void CDome::Continue()
 {
-    for(size_t i=0;i<DomeMappings::Mappings::c_num_shapes;i++)
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->Continue();
     }
