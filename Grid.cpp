@@ -5,7 +5,7 @@
 #include "GridMappings.h"
 
 CGrid::CGrid() :
-    CPixelArray(GridMappings::Mappings())
+    CPixelArray()
 {
 //    StartRoutineBall(20, 2);
     //StartRoutineFire();

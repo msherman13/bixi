@@ -9,7 +9,6 @@
 
 namespace DomeMappings
 {
-    constexpr size_t c_num_raw_pixels     = 10000;
     constexpr size_t c_num_logical_pixels = 370;
     constexpr size_t c_num_shapes         = 0; // TODO
 

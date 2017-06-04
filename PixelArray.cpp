@@ -1,5 +1,4 @@
 #include "PixelArray.h"
-#include "FastLED.h"
 #include "Logging.h"
 #include "Routine.h"
 #include "RoutineTest.h"
@@ -10,13 +9,16 @@
 #include "RoutineBalls.h"
 #include "RoutineFire.h"
 
+CMemoryPool<CPixelArray::Block, CPixelArray::Block::c_num_blocks> CPixelArray::s_data_pool;
+CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s_obj_pool;
+
 CPixelArray::CPixelArray(const CPixelArray& rhs) :
+    m_block(new(s_data_pool.alloc()) Block()),
     m_owner(true),
-    m_pixels(new CRGB[rhs.GetSize()]),
+    m_pixels(m_block->m_pixels),
     m_length(rhs.GetSize()),
-    m_raw_size(rhs.GetSize()),
-    m_locations(new size_t[GetSize()]),
-    m_coordinates(new Coordinate[GetSize()])
+    m_locations(m_block->m_locations),
+    m_coordinates(m_block->m_coordinates)
 {
     for(size_t i=0;i<GetSize();i++)
     {
@@ -25,13 +27,13 @@ CPixelArray::CPixelArray(const CPixelArray& rhs) :
     }
 }
 
-CPixelArray::CPixelArray(size_t len) :
+CPixelArray::CPixelArray() :
+    m_block(new(s_data_pool.alloc()) Block()),
     m_owner(true),
-    m_pixels(new CRGB[len]),
-    m_length(len),
-    m_raw_size(len),
-    m_locations(new size_t[GetSize()]),
-    m_coordinates(new Coordinate[GetSize()])
+    m_pixels(m_block->m_pixels),
+    m_length(GetRawSize()),
+    m_locations(m_block->m_locations),
+    m_coordinates(m_block->m_coordinates)
 {
     for(size_t i=0;i<GetSize();i++)
     {
@@ -40,9 +42,9 @@ CPixelArray::CPixelArray(size_t len) :
 }
 
 CPixelArray::CPixelArray(Config config) :
+    m_block(new (s_data_pool.alloc()) Block()),
     m_owner(true),
-    m_pixels(new CRGB[config.m_num_raw_pixels]),
-    m_raw_size(config.m_num_raw_pixels)
+    m_pixels(m_block->m_pixels)
 {
     Init(&config);
 
@@ -79,12 +81,11 @@ CPixelArray::~CPixelArray()
 
     if(m_owner == true)
     {
-        delete[] m_pixels;
-        delete[] m_coordinates;
-        delete[] m_locations;
+        s_data_pool.free(m_block);
+        s_data_pool.free(m_block);
         for(size_t i=0;i<NumLegs();i++)
         {
-            delete m_legs[i];
+            s_obj_pool.free(m_legs[i]);
         }
     }
 }
@@ -116,14 +117,11 @@ void CPixelArray::Init(Config* config)
         m_length  += length[i];
     }
 
-    m_locations      = new size_t[GetSize()];
-    m_coordinates    = new Coordinate[GetSize()];
-
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
         bool forward = config->m_start_index[i] <= config->m_end_index[i];
-        m_legs[i]    = new CPixelArray(this, length[i], index);
+        m_legs[i]    = new(s_obj_pool.alloc()) CPixelArray(this, length[i], index);
 
         for(size_t j=0;j<length[i];j++)
         {

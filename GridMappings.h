@@ -16,7 +16,6 @@ namespace GridMappings
             CPixelArray::Config()
         {
             m_num_legs  = c_resolution;
-            m_num_raw_pixels = c_resolution * c_resolution;
 
             for(size_t i=0;i<c_resolution;i++)
             {

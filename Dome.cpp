@@ -4,7 +4,7 @@
 #include "FastLED.h"
 
 CDome::CDome() :
-    CPixelArray(DomeMappings::c_num_raw_pixels)
+    CPixelArray()
 {
     SetSize(DomeMappings::c_num_logical_pixels);
 

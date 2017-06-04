@@ -3,13 +3,16 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-struct CRGB;
+#include "MemoryPool.h"
+#include "FastLED.h"
+
 class  CRoutine;
 class  CPolygon;
 
 class CPixelArray
 {
     public:
+        static constexpr size_t c_alloc_qty      = 32;
         static constexpr size_t c_max_num_legs   = 256;
 
     public:
@@ -27,9 +30,18 @@ class CPixelArray
             }
         };
 
+        struct Block
+        {
+            static constexpr size_t c_pixels_per_block = 8000;
+            static constexpr size_t c_num_blocks = 2;
+
+            CRGB                    m_pixels[c_pixels_per_block];
+            size_t                  m_locations[c_pixels_per_block] = {};
+            CPixelArray::Coordinate m_coordinates[c_pixels_per_block];
+        };
+
         struct Config
         {
-            size_t     m_num_raw_pixels        = 0;
             size_t     m_num_legs              = 0;
             size_t     m_start_index[c_max_num_legs] = {};
             size_t     m_end_index[c_max_num_legs]   = {};
@@ -50,7 +62,7 @@ class CPixelArray
         };
 
     public:
-        CPixelArray(size_t len); // owner
+        CPixelArray(); // owner
         CPixelArray(Config config); // owner
         CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
         CPixelArray(CPixelArray* pixels); // reference to external pixels
@@ -78,7 +90,7 @@ class CPixelArray
         void        SetSize(size_t len)                           { m_length = len; }
         size_t      GetSize(size_t index) const                   { return m_legs[index]->GetSize(); }
         CRGB*       GetRaw(size_t index=0);
-        size_t      GetRawSize() const                            { return m_raw_size; }
+        size_t      GetRawSize() const                            { return Block::c_pixels_per_block; }
         size_t      NumLegs()                                     { return m_num_legs; }
         Coordinate& GetCoordinate(size_t index) const             { return m_coordinates[index]; }
         size_t      GetLocation(size_t index) const               { return m_locations[index]; }
@@ -100,16 +112,20 @@ class CPixelArray
         void AutoMapCorners(Config* config);
 
     private:
-        bool         m_owner       = false;
-        CRGB*        m_pixels      = nullptr;
-        size_t       m_length      = 0;
-        size_t       m_raw_size    = 0;
+        Block* m_block    = nullptr;
+        bool   m_owner    = false;
+        CRGB*  m_pixels   = nullptr;
+        size_t m_length   = 0;
 
     private:
         size_t              m_num_legs             = 0;
         size_t*             m_locations            = nullptr;
         Coordinate*         m_coordinates          = nullptr;
         CPixelArray*        m_legs[c_max_num_legs] = {};
+
+    private:
+        static CMemoryPool<Block, Block::c_num_blocks> s_data_pool;
+        static CMemoryPool<CPixelArray, c_alloc_qty>   s_obj_pool;
 
     protected:
         CRoutine*    m_routine = nullptr;
