@@ -8,6 +8,9 @@
 class CRoutineGlare : public CRoutine
 {
     public:
+        static constexpr size_t c_alloc_qty = CPixelArray::c_max_num_legs;
+
+    public:
         CRoutineGlare(CPixelArray* pixels,
                       CRGB         base_color,
                       size_t       q,
@@ -32,4 +35,18 @@ class CRoutineGlare : public CRoutine
         uint32_t     m_period_sec = 10;
         uint32_t     m_last_run   = 0;
         float        m_midpoint   = 0.0;
+
+    private:
+        static CMemoryPool<CRoutineGlare, c_alloc_qty> s_pool;
+
+    public:
+        void* operator new(size_t)
+        {
+            return s_pool.alloc();
+        }
+
+        void operator delete(void* ptr)
+        {
+            s_pool.free(reinterpret_cast<CRoutineGlare*>(ptr));
+        }   
 };

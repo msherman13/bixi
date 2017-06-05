@@ -7,6 +7,8 @@
 #include "ColorPallete.h"
 #include "Logging.h"
 
+CMemoryPool<CRoutineSticks, CRoutineSticks::c_alloc_qty> CRoutineSticks::s_pool;
+
 CRoutineSticks::CRoutineSticks(CPixelArray* pixels,
                                size_t       num_sticks) :
     CRoutine(pixels),

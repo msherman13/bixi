@@ -1,10 +1,10 @@
 #pragma once
 
+#include "FastLED.h"
+#include "MemoryPool.h"
+
 #include <stdlib.h>
 #include <stdint.h>
-
-#include "MemoryPool.h"
-#include "FastLED.h"
 
 class  CRoutine;
 class  CPolygon;
@@ -12,8 +12,8 @@ class  CPolygon;
 class CPixelArray
 {
     public:
-        static constexpr size_t c_alloc_qty      = 32;
-        static constexpr size_t c_max_num_legs   = 256;
+        static constexpr size_t c_max_num_legs   = 128;
+        static constexpr size_t c_alloc_qty      = c_max_num_legs * 2;
 
     public:
         struct Coordinate
@@ -32,12 +32,24 @@ class CPixelArray
 
         struct Block
         {
-            static constexpr size_t c_pixels_per_block = 8000;
-            static constexpr size_t c_num_blocks = 2;
+            static constexpr size_t c_pixels_per_block = 10000;
+            static constexpr size_t c_num_blocks = 1;
+
+            static CMemoryPool<Block, c_num_blocks> s_pool;
 
             CRGB                    m_pixels[c_pixels_per_block];
             size_t                  m_locations[c_pixels_per_block] = {};
             CPixelArray::Coordinate m_coordinates[c_pixels_per_block];
+
+            void* operator new(size_t)
+            {
+                return s_pool.alloc();
+            }
+
+            void operator delete(void* ptr)
+            {
+                s_pool.free(reinterpret_cast<Block*>(ptr));
+            }
         };
 
         struct Config
@@ -62,7 +74,8 @@ class CPixelArray
         };
 
     public:
-        CPixelArray(); // owner
+        CPixelArray(); // default constructor doesn't allocate, leaves default initializations
+        CPixelArray(size_t logical_len); // owner
         CPixelArray(Config config); // owner
         CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
         CPixelArray(CPixelArray* pixels); // reference to external pixels
@@ -88,7 +101,8 @@ class CPixelArray
     public:
         size_t      GetSize() const                               { return m_length; }
         void        SetSize(size_t len)                           { m_length = len; }
-        size_t      GetSize(size_t index) const                   { return m_legs[index]->GetSize(); }
+        size_t      GetSize(size_t index) const                   { return m_legs[index].GetSize(); }
+        void        SetRaw(CRGB* pixels)                          { m_pixels = pixels; }
         CRGB*       GetRaw(size_t index=0);
         size_t      GetRawSize() const                            { return Block::c_pixels_per_block; }
         size_t      NumLegs()                                     { return m_num_legs; }
@@ -121,12 +135,23 @@ class CPixelArray
         size_t              m_num_legs             = 0;
         size_t*             m_locations            = nullptr;
         Coordinate*         m_coordinates          = nullptr;
-        CPixelArray*        m_legs[c_max_num_legs] = {};
+//        CPixelArray*        m_legs[c_max_num_legs] = {};
+        CPixelArray*        m_legs                 = nullptr;
 
     private:
-        static CMemoryPool<Block, Block::c_num_blocks> s_data_pool;
-        static CMemoryPool<CPixelArray, c_alloc_qty>   s_obj_pool;
+        static CMemoryPool<CPixelArray, c_alloc_qty> s_pool;
+
+    public:
+        void* operator new(size_t size)
+        {
+            return s_pool.alloc();
+        }
+
+        void operator delete(void* ptr)
+        {
+            s_pool.free(reinterpret_cast<CPixelArray*>(ptr));
+        }
 
     protected:
-        CRoutine*    m_routine = nullptr;
+        CRoutine* m_routine = nullptr;
 };

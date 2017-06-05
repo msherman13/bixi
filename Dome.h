@@ -17,4 +17,19 @@ class CDome : public CPixelArray
 
     private:
         CPixelArray* m_shapes[DomeMappings::c_num_shapes] = {};
+
+    private:
+        static CMemoryPool<CDome, 1> s_pool;
+
+    public:
+        void* operator new(size_t size)
+        {
+            return s_pool.alloc();
+        }
+
+        void operator delete(void* ptr)
+        {
+            s_pool.free(reinterpret_cast<CDome*>(ptr));
+        }
+
 };

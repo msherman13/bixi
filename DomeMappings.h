@@ -10,7 +10,7 @@
 namespace DomeMappings
 {
     constexpr size_t c_num_logical_pixels = 370;
-    constexpr size_t c_num_shapes         = 0; // TODO
+    constexpr size_t c_num_shapes         = 1; // TODO
 
     constexpr size_t c_shape_length[c_num_shapes] = {}; // TODO
     constexpr size_t c_shape_start[c_num_shapes] = {}; // TODO

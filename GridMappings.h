@@ -11,7 +11,7 @@ namespace GridMappings
 {
     struct Mappings : public CPixelArray::Config
     {
-        static constexpr size_t c_resolution = 128;
+        static constexpr size_t c_resolution = 64;
         Mappings() :
             CPixelArray::Config()
         {

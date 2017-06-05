@@ -5,6 +5,8 @@
 #include "FastLED.h"
 #include "Arduino.h"
 
+CMemoryPool<CRoutineCrawl, CRoutineCrawl::c_alloc_qty> CRoutineCrawl::s_pool;
+
 CRoutineCrawl::CRoutineCrawl(CPixelArray* pixels,
                              CRGB         base_color,
                              size_t       width,

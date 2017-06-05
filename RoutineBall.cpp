@@ -6,18 +6,12 @@
 #include "FastLED.h"
 #include "Arduino.h"
 
-CRoutineBall::CRoutineBall(CPixelArray* arrays,
+CMemoryPool<CRoutineBall, CRoutineBall::c_alloc_qty> CRoutineBall::s_pool;
+
+CRoutineBall::CRoutineBall(CPixelArray* pixels,
                                  size_t       q,
                                  uint32_t     period_sec) :
-    CRoutineBall(1, &arrays, q, period_sec)
-{
-}
-
-CRoutineBall::CRoutineBall(size_t        num_arrays,
-                                 CPixelArray** arrays,
-                                 size_t        q,
-                                 uint32_t      period_sec) :
-    CRoutine(num_arrays, arrays),
+    CRoutine(pixels),
     m_q(q),
     m_period_sec(period_sec)
 {
@@ -89,11 +83,11 @@ CPixelArray::Coordinate CRoutineBall::RecalculateMidpoint()
     return m_midpoint;
 }
 
-CHSV CRoutineBall::RecalculateColor(size_t array, size_t index)
+CHSV CRoutineBall::RecalculateColor(size_t index)
 {
     CHSV hsv = m_color;
 
-    CPixelArray::Coordinate coord = m_arrays[array]->GetCoordinate(index);
+    CPixelArray::Coordinate coord = m_pixels->GetCoordinate(index);
 
     float x_dist                 = fabs(m_midpoint.x - coord.x);
     float y_dist                 = fabs(m_midpoint.y - coord.y);
@@ -119,12 +113,9 @@ void CRoutineBall::Continue()
 {
     RecalculateMidpoint();
 
-    for(size_t array=0;array<m_num_arrays;array++)
+    for(size_t i=0;i<m_pixels->GetSize();i++)
     {
-        for(size_t i=0;i<m_arrays[array]->GetSize();i++)
-        {
-            CHSV hsv = RecalculateColor(array, i);
-            m_arrays[array]->SetPixel(i, hsv);
-        }
+        CHSV hsv = RecalculateColor(i);
+        m_pixels->SetPixel(i, hsv);
     }
 }

@@ -4,8 +4,10 @@
 #include "FastLED.h"
 #include "GridMappings.h"
 
+CMemoryPool<CGrid, 1> CGrid::s_pool;
+
 CGrid::CGrid() :
-    CPixelArray()
+    CPixelArray(GridMappings::Mappings())
 {
 //    StartRoutineBall(20, 2);
     //StartRoutineFire();

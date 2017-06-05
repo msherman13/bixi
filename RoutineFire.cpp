@@ -7,14 +7,10 @@
 #include "FastLED.h"
 #include "Arduino.h"
 
-CRoutineFire::CRoutineFire(CPixelArray* arrays) :
-    CRoutine(arrays)
-{
-    Init();
-}
+//CMemoryPool<CRoutineFire, CRoutineFire::c_alloc_qty> CRoutineFire::s_pool;
 
-CRoutineFire::CRoutineFire(size_t num_arrays, CPixelArray** arrays) :
-    CRoutine(num_arrays, arrays)
+CRoutineFire::CRoutineFire(CPixelArray* pixels) :
+    CRoutine(pixels)
 {
     Init();
 }
@@ -73,14 +69,11 @@ void CRoutineFire::Continue()
         }
     }
 
-    for(size_t array=0;array<m_num_arrays;array++)
+    for(size_t i=0;i<m_pixels->GetSize();i++)
     {
-        for(size_t i=0;i<m_arrays[array]->GetSize();i++)
-        {
-            CPixelArray::Coordinate coord = m_arrays[array]->GetCoordinate(i);
-            size_t x_pixel = ((coord.x + c_max_axis_val) / 2) * c_num_pixels_per_axis;
-            size_t y_pixel = ((coord.y + c_max_axis_val) / 2) * c_num_pixels_per_axis;
-            m_arrays[array]->SetPixel(i, m_colors[m_fire[y_pixel][x_pixel]]);
-        }
+        CPixelArray::Coordinate coord = m_pixels->GetCoordinate(i);
+        size_t x_pixel = ((coord.x + c_max_axis_val) / 2) * c_num_pixels_per_axis;
+        size_t y_pixel = ((coord.y + c_max_axis_val) / 2) * c_num_pixels_per_axis;
+        m_pixels->SetPixel(i, m_colors[m_fire[y_pixel][x_pixel]]);
     }
 }

@@ -6,6 +6,8 @@
 #include "Arduino.h"
 #include "Logging.h"
 
+CMemoryPool<CRoutineGlare, CRoutineGlare::c_alloc_qty> CRoutineGlare::s_pool;
+
 CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
                              CRGB         base_color,
                              size_t       q,

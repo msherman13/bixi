@@ -1,7 +1,7 @@
 #pragma once
 
-#include "stdlib.h"
-#include "stdint.h"
+#include <stdlib.h>
+#include <stdint.h>
 
 #include "Logging.h"
 
@@ -9,11 +9,12 @@ template <typename T, size_t QTY> class CMemoryPool
 {
     public:
         CMemoryPool() {}
+
         ~CMemoryPool() {}
 
     private:
         using Block = uint8_t[sizeof(T)];
-        Block m_blocks[QTY];
+        Block m_blocks[QTY] = {};
         bool  m_in_use[QTY] = {};
 
     public:
@@ -31,7 +32,9 @@ template <typename T, size_t QTY> class CMemoryPool
                 return reinterpret_cast<T*>(m_blocks[i]);
             }
 
-            CLogging::log("CMemoryPool::alloc: ERROR No more free blocks");
+            char logstr[256];
+            sprintf(logstr, "CMemoryPool::alloc: ERROR: pool is empty");
+            CLogging::log(logstr);
 
             return nullptr;
         }
@@ -49,13 +52,17 @@ template <typename T, size_t QTY> class CMemoryPool
 
                 if(m_in_use[i] == false)
                 {
-                    CLogging::log("CMemoryPool::free: WARN Double-free");
+                    char logstr[256];
+                    sprintf(logstr, "CMemoryPool::free: WARN: double-free");
+                    CLogging::log(logstr);
                 }
 
                 m_in_use[i] = false;
                 return;
             }
 
-            CLogging::log("CMemoryPool::free: ERROR Tried to free unknown block");
+            char logstr[256];
+            sprintf(logstr, "CMemoryPool::free: ERROR: could not find memory block");
+            CLogging::log(logstr);
         }
 };

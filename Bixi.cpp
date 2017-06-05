@@ -5,6 +5,7 @@
 #include "ColorPallete.h"
 #include "Dome.h"
 #include "Grid.h"
+#include "FreeRam.h"
 
 //#define LOG_REFRESH_RATE
 
@@ -37,6 +38,10 @@ CBixi::CBixi()
 
     // Parallel Output
     FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(), m_geometry->GetRawSize() / Addressing::c_num_strands);
+
+    char logstr[256];
+    sprintf(logstr, "MILES_DEBUG: Initial allocations complete, %u byte remaining", FreeRam());
+    CLogging::log(logstr);
 }
 
 CBixi::~CBixi()

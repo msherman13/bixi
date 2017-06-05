@@ -9,11 +9,11 @@
 #include "RoutineBalls.h"
 #include "RoutineFire.h"
 
-CMemoryPool<CPixelArray::Block, CPixelArray::Block::c_num_blocks> CPixelArray::s_data_pool;
-CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s_obj_pool;
+CMemoryPool<CPixelArray::Block, CPixelArray::Block::c_num_blocks> CPixelArray::Block::s_pool;
+CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s_pool;
 
 CPixelArray::CPixelArray(const CPixelArray& rhs) :
-    m_block(new(s_data_pool.alloc()) Block()),
+    m_block(new Block),
     m_owner(true),
     m_pixels(m_block->m_pixels),
     m_length(rhs.GetSize()),
@@ -27,11 +27,25 @@ CPixelArray::CPixelArray(const CPixelArray& rhs) :
     }
 }
 
-CPixelArray::CPixelArray() :
-    m_block(new(s_data_pool.alloc()) Block()),
+CPixelArray::CPixelArray()
+//    m_block(new Block),
+//    m_owner(true),
+//    m_pixels(m_block->m_pixels),
+//    m_length(logical_len),
+//    m_locations(m_block->m_locations),
+//    m_coordinates(m_block->m_coordinates)
+{
+//    for(size_t i=0;i<GetSize();i++)
+//    {
+//        m_locations[i] = i;
+//    }
+}
+
+CPixelArray::CPixelArray(size_t logical_len) :
+    m_block(new Block),
     m_owner(true),
     m_pixels(m_block->m_pixels),
-    m_length(GetRawSize()),
+    m_length(logical_len),
     m_locations(m_block->m_locations),
     m_coordinates(m_block->m_coordinates)
 {
@@ -42,9 +56,11 @@ CPixelArray::CPixelArray() :
 }
 
 CPixelArray::CPixelArray(Config config) :
-    m_block(new (s_data_pool.alloc()) Block()),
+    m_block(new Block),
     m_owner(true),
-    m_pixels(m_block->m_pixels)
+    m_pixels(m_block->m_pixels),
+    m_locations(m_block->m_locations),
+    m_coordinates(m_block->m_coordinates)
 {
     Init(&config);
 
@@ -81,11 +97,10 @@ CPixelArray::~CPixelArray()
 
     if(m_owner == true)
     {
-        s_data_pool.free(m_block);
-        s_data_pool.free(m_block);
-        for(size_t i=0;i<NumLegs();i++)
+        delete m_block;
+        if(NumLegs() > 0)
         {
-            s_obj_pool.free(m_legs[i]);
+            delete[] m_legs;
         }
     }
 }
@@ -108,6 +123,8 @@ void CPixelArray::Init(Config* config)
         return;
     }
 
+    m_legs = new CPixelArray[NumLegs()];
+
     size_t length[config->m_num_legs] = {};
 
     m_length = 0;
@@ -121,12 +138,16 @@ void CPixelArray::Init(Config* config)
     for(size_t i=0;i<NumLegs();i++)
     {
         bool forward = config->m_start_index[i] <= config->m_end_index[i];
-        m_legs[i]    = new(s_obj_pool.alloc()) CPixelArray(this, length[i], index);
+        //m_legs[i]    = new CPixelArray(this, length[i], index);
+        m_legs[i].SetRaw(m_pixels);
+        m_legs[i].SetSize(length[i]);
+        m_legs[i].m_locations = m_locations + index;
+        m_legs[i].m_coordinates = m_coordinates + index;
 
         for(size_t j=0;j<length[i];j++)
         {
             m_locations[index++] = config->m_start_index[i] + (forward ? j : -j);
-            m_legs[i]->SetLocation(j, config->m_start_index[i] + (forward ? j : -j));
+            m_legs[i].SetLocation(j, config->m_start_index[i] + (forward ? j : -j));
         }
     }
 
@@ -148,7 +169,7 @@ void CPixelArray::MapCoordinates(Config* config)
     size_t index = 0;
     for(size_t i=0;i<NumLegs();i++)
     {
-        const size_t length = m_legs[i]->GetSize();
+        const size_t length = m_legs[i].GetSize();
         Coordinate&  start  = config->m_start_coordinate[i];
         Coordinate&  end    = config->m_end_coordinate[i];
         const float x_step = (end.x - start.x) / length;
@@ -262,7 +283,7 @@ void CPixelArray::ClearRoutines()
 
     for(size_t i=0;i<NumLegs();i++)
     {
-        m_legs[i]->ExitRoutine();
+        m_legs[i].ExitRoutine();
     }   
 }
 
@@ -319,7 +340,7 @@ void CPixelArray::StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward,
 
     for(size_t i=0;i<NumLegs();i++)
     {
-        m_legs[i]->StartRoutineGlare(base_color, q, forward, period_sec);
+        m_legs[i].StartRoutineGlare(base_color, q, forward, period_sec);
     }
 }
 
@@ -354,7 +375,7 @@ void CPixelArray::Continue()
 {
     for(size_t i=0;i<NumLegs();i++)
     {
-        m_legs[i]->Continue();
+        m_legs[i].Continue();
     }
 
     if(m_routine == nullptr)

@@ -1,7 +1,6 @@
-#include <cmath>
-
 #include "MapProjection.h"
 
+#include <cmath>
 
 float MapProjection::RadiansToDegrees(float radians)
 {

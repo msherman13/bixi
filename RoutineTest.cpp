@@ -5,6 +5,8 @@
 #include "FastLED.h"
 #include "Arduino.h"
 
+CMemoryPool<CRoutineTest, CRoutineTest::c_alloc_qty> CRoutineTest::s_pool;
+
 CRoutineTest::CRoutineTest(CPixelArray* pixels) :
     CRoutine(pixels)
 {

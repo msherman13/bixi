@@ -3,11 +3,11 @@
 #include "ColorPallete.h"
 #include "FastLED.h"
 
-CDome::CDome() :
-    CPixelArray()
-{
-    SetSize(DomeMappings::c_num_logical_pixels);
+CMemoryPool<CDome, 1> CDome::s_pool;
 
+CDome::CDome() :
+    CPixelArray(DomeMappings::c_num_logical_pixels)
+{
     // manually override locations and coordinates
     for(size_t i=0;i<GetSize();i++)
     {

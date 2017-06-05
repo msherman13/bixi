@@ -4,6 +4,8 @@
 #include "RoutineBall.h"
 #include "RoutineBalls.h"
 
+CMemoryPool<CRoutineBalls, CRoutineBalls::c_alloc_qty> CRoutineBalls::s_pool;
+
 CRoutineBalls::CRoutineBalls(CPixelArray* pixels, size_t num_balls) :
     CRoutine(pixels),
     m_num_balls(num_balls > c_max_num_balls ? c_max_num_balls : num_balls)
@@ -39,7 +41,7 @@ void CRoutineBalls::Continue()
     {
         for(size_t j=0;j<m_num_balls;j++)
         {
-            CHSV hsv = m_balls[j]->RecalculateColor(0, i);
+            CHSV hsv = m_balls[j]->RecalculateColor(i);
             if(j == 0 || hsv.v > 50)
             {
                 m_pixels->SetPixel(i, hsv);
