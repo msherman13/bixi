@@ -1,11 +1,11 @@
 #pragma once
 
 #include <stdlib.h>
-#include "PixelArray.h"
+#include "PixelArrayLegs.h"
 
 class CRoutine;
 
-class CGrid : public CPixelArray
+class CGrid : public CPixelArrayLegs
 {
     public:
         CGrid();

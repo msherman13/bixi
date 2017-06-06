@@ -7,7 +7,7 @@
 CMemoryPool<CGrid, 1> CGrid::s_pool;
 
 CGrid::CGrid() :
-    CPixelArray(GridMappings::Mappings())
+    CPixelArrayLegs(GridMappings::Mappings())
 {
 //    StartRoutineBall(20, 2);
     //StartRoutineFire();

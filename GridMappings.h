@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PixelArray.h"
+#include "PixelArrayLegs.h"
 
 // raster array
 
@@ -9,11 +9,11 @@
 
 namespace GridMappings
 {
-    struct Mappings : public CPixelArray::Config
+    struct Mappings : public CPixelArrayLegs::Config
     {
         static constexpr size_t c_resolution = 64;
         Mappings() :
-            CPixelArray::Config()
+            CPixelArrayLegs::Config()
         {
             m_num_legs  = c_resolution;
 

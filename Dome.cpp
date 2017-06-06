@@ -6,7 +6,7 @@
 CMemoryPool<CDome, 1> CDome::s_pool;
 
 CDome::CDome() :
-    CPixelArray(DomeMappings::c_num_logical_pixels)
+    CPixelArray(DomeMappings::c_num_physical_pixels, DomeMappings::c_num_logical_pixels)
 {
     // manually override locations and coordinates
     for(size_t i=0;i<GetSize();i++)
@@ -15,6 +15,7 @@ CDome::CDome() :
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
 
+    /*
     size_t leg_offset = 0;
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
@@ -25,6 +26,7 @@ CDome::CDome() :
                                       leg_offset);
         leg_offset += DomeMappings::c_shape_num_legs[i];
     }
+    */
 
     StartRoutineTest();
     //StartRoutineSolid(CRGB::Blue);
