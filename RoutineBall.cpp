@@ -107,14 +107,15 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
     float q = m_q;
     if(m_state > Running)
     {
-        const float shutdown_interval_ms = 500.0;
+        const float  shutdown_interval_ms = 500.0;
+        const size_t min_q                = 2;
 
         uint32_t time_since_shutdown = millis() - m_shutdown_time_ms + shutdown_interval_ms;
 
         m_radius = 10.0;
         q /= (float)time_since_shutdown / shutdown_interval_ms;
 
-        if(q < 3)
+        if(q < 2)
         {
             m_state = Stopped;
         }

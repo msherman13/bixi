@@ -195,4 +195,6 @@ void CPixelArrayLegs::StartRoutineGlareLegs(CRGB base_color, size_t q, bool forw
     {
         m_legs[i]->StartRoutineGlare(base_color, q, forward, period_sec);
     }
+
+    m_routine_start_ms = millis();
 }

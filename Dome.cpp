@@ -28,7 +28,7 @@ CDome::CDome() :
     }
     */
 
-    StartRoutineTest();
+    //StartRoutineTest();
     //StartRoutineSolid(CRGB::Blue);
     //StartRoutineBall(40, 2);
     //StartRoutineBalls(10);
@@ -58,8 +58,34 @@ CDome::~CDome()
     }
 }
 
+void CDome::ExitRoutine()
+{
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        m_shapes[i]->ExitRoutine();
+    }
+
+    CPixelArray::ExitRoutine();
+}
+
 void CDome::Continue()
 {
+    if(RoutineDone() == true)
+    {
+        ExitRoutine();
+        StartRoutineBalls(8);
+    }
+
+    if(millis() - m_routine_start_ms > 5000)
+    {
+        for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+        {
+            m_shapes[i]->ShutdownRoutine();
+        }
+
+        ShutdownRoutine();
+    }
+
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->Continue();
