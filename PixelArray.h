@@ -72,6 +72,7 @@ class CPixelArray
         virtual bool RoutineDone();
         virtual void ExitRoutine();
         virtual void Continue();
+        bool         RunningRoutine() { return m_routine != nullptr; }
 
     public:
         size_t      GetSize() const                               { return m_length; }

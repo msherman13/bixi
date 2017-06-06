@@ -165,12 +165,15 @@ bool CPixelArrayLegs::RoutineDone()
 {
     bool ret = true;
 
+    if(RunningRoutine() == true)
+    {
+        return CPixelArray::RoutineDone();
+    }
+
     for(size_t i=0;i<NumLegs();i++)
     {
         ret &= m_legs[i]->RoutineDone();
     }
-
-    ret &= CPixelArray::RoutineDone();
 
     return ret;
 }

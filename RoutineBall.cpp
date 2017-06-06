@@ -97,30 +97,29 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
     float x_dist                 = fabs(m_midpoint.x - coord.x);
     float y_dist                 = fabs(m_midpoint.y - coord.y);
 
-    // optimization to try and speed this up a bit
-    if(x_dist > m_radius || y_dist > m_radius)
-    {
-        hsv.val = 0;
-        return hsv;
-    }
-
-    float q = m_q;
+    size_t q = m_q;
     if(m_state > Running)
     {
-        const float  shutdown_interval_ms = 500.0;
-        const size_t min_q                = 2;
+        const float    shutdown_interval_ms  = 500.0;
+        const uint32_t max_shutdown_time_sec = 5;
 
         uint32_t time_since_shutdown = millis() - m_shutdown_time_ms + shutdown_interval_ms;
 
         m_radius = 10.0;
         q /= (float)time_since_shutdown / shutdown_interval_ms;
 
-        if(q < 2)
+        if(q < m_q / 5.0 || time_since_shutdown > max_shutdown_time_sec * 1000)
         {
             m_state = Stopped;
         }
     }
 
+    // optimization to try and speed this up a bit
+    if(x_dist > m_radius || y_dist > m_radius)
+    {
+        hsv.val = 0;
+        return hsv;
+    }
 
     float distance               = sqrtf(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
     float brightness             = powf(1 - distance, q);
