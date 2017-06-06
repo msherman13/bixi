@@ -11,7 +11,7 @@ CGrid::CGrid() :
 {
 //    StartRoutineBall(20, 2);
     //StartRoutineFire();
-    StartRoutineBalls(8);
+    //StartRoutineBalls(8);
 //    StartRoutineGlare(ColorPallete::ChromeBlue, 40, true, 10);
 
     /*
@@ -31,4 +31,20 @@ CGrid::CGrid() :
 
 CGrid::~CGrid()
 {
+}
+
+void CGrid::Continue()
+{
+    if(RoutineDone() == true)
+    {
+        ExitRoutine();
+        StartRoutineBalls(8);
+    }
+
+    if(millis() - m_routine_start_ms > 5000)
+    {
+        ShutdownRoutine();
+    }
+
+    CPixelArrayLegs::Continue();
 }

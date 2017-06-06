@@ -26,11 +26,16 @@ CRoutineBall::~CRoutineBall()
 
 CPixelArray::Coordinate CRoutineBall::RecalculateMidpoint()
 {
+    if(m_state != Running)
+    {
+        return m_midpoint;
+    }
+
     uint32_t now = millis();
 
-    if(m_ball_finish == 0 || now - m_ball_finish >= m_period_sec * 1000)
+    if(m_ball_start == 0 || now - m_ball_start >= m_period_sec * 1000)
     {
-        m_ball_finish = now;
+        m_ball_start = now;
 
         size_t side = m_last_side;
         while(side == m_last_side)
@@ -99,8 +104,25 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
         return hsv;
     }
 
+    float q = m_q;
+    if(m_state > Running)
+    {
+        const float shutdown_interval_ms = 500.0;
+
+        uint32_t time_since_shutdown = millis() - m_shutdown_time_ms + shutdown_interval_ms;
+
+        m_radius = 10.0;
+        q /= (float)time_since_shutdown / shutdown_interval_ms;
+
+        if(q < 3)
+        {
+            m_state = Stopped;
+        }
+    }
+
+
     float distance               = sqrtf(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
-    float brightness             = powf(1 - distance, m_q);
+    float brightness             = powf(1 - distance, q);
 
     hsv.val = brightness * 255;
     if(hsv.val < 15)

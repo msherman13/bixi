@@ -11,6 +11,9 @@ class CGrid : public CPixelArrayLegs
         CGrid();
         ~CGrid();
 
+    public:
+        virtual void Continue();
+
     private:
         static CMemoryPool<CGrid, 1> s_pool;
 

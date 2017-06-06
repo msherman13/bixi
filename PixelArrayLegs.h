@@ -56,6 +56,8 @@ class CPixelArrayLegs : public CPixelArray
 
     public:
         virtual void ExitRoutine();
+        virtual bool RoutineDone();
+        virtual void ShutdownRoutine();
         virtual void Continue();
 
     private:

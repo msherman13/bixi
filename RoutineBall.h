@@ -10,7 +10,7 @@ class CRoutineBall : public CRoutine
 {
     public:
         static constexpr size_t c_alloc_qty = 16;
-        static constexpr float c_frame_size = 4.0;
+        static constexpr float c_frame_size = 2.5;
         static constexpr float c_longest_distance = sqrtf(pow(c_frame_size, 2) + pow(c_frame_size, 2));
 
     public:
@@ -37,7 +37,7 @@ class CRoutineBall : public CRoutine
         float                   m_radius       = 0;
         uint32_t                m_period_sec   = 10;
         uint32_t                m_last_run     = 0;
-        uint32_t                m_ball_finish = 0;
+        uint32_t                m_ball_start   = 0;
         size_t                  m_last_side    = 0;
         float                   m_x_step       = 0.0;
         float                   m_y_step       = 0.0;

@@ -68,6 +68,8 @@ class CPixelArray
         void StartRoutineFire();
 
     public:
+        virtual void ShutdownRoutine();
+        virtual bool RoutineDone();
         virtual void ExitRoutine();
         virtual void Continue();
 
@@ -121,5 +123,6 @@ class CPixelArray
         }
 
     protected:
-        CRoutine* m_routine = nullptr;
+        CRoutine* m_routine          = nullptr;
+        uint32_t  m_routine_start_ms = 0;
 };

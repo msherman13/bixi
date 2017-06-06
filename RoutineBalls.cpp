@@ -33,9 +33,11 @@ CRoutineBalls::~CRoutineBalls()
 
 void CRoutineBalls::Continue()
 {
+    bool all_stopped = true;
     for(size_t i=0;i<m_num_balls;i++)
     {
         m_balls[i]->RecalculateMidpoint();
+        all_stopped &= m_balls[i]->Done();
     }
     for(size_t i=0;i<m_pixels->GetSize();i++)
     {
@@ -48,4 +50,18 @@ void CRoutineBalls::Continue()
             }
         }
     }
+    if(all_stopped == true)
+    {
+        m_state = Stopped;
+    }
+}
+
+void CRoutineBalls::Shutdown()
+{
+    for(size_t i=0;i<m_num_balls;i++)
+    {
+        m_balls[i]->Shutdown();
+    }
+
+    m_state = ShuttingDown;
 }

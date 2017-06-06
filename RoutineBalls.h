@@ -10,9 +10,9 @@ class CRoutineBalls : public CRoutine
     public:
         static constexpr size_t c_alloc_qty     = 1;
         static constexpr size_t c_max_num_balls = 16;
-        static constexpr size_t c_min_q         = 20;
-        static constexpr size_t c_max_q         = 60;
-        static constexpr size_t c_min_period    = 4;
+        static constexpr size_t c_min_q         = 10;
+        static constexpr size_t c_max_q         = 30;
+        static constexpr size_t c_min_period    = 2;
         static constexpr size_t c_max_period    = 10;
 
     public:
@@ -22,6 +22,7 @@ class CRoutineBalls : public CRoutine
     public:
         virtual void        Continue() override;
         virtual const char* GetName()  override { return "Balls"; }
+        virtual void        Shutdown() override;
 
     private:
         void InitBalls();

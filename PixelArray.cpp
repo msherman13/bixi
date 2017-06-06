@@ -130,6 +130,26 @@ void CPixelArray::ExitRoutine()
     m_routine = nullptr;
 }
 
+void CPixelArray::ShutdownRoutine()
+{
+    if(m_routine == nullptr)
+    {
+        return;
+    }
+
+    m_routine->Shutdown();
+}
+
+bool CPixelArray::RoutineDone()
+{
+    if(m_routine == nullptr)
+    {
+        return true;
+    }
+
+    return m_routine->Done();
+}
+
 void CPixelArray::StartRoutineTest()
 {
     ExitRoutine();
@@ -137,6 +157,7 @@ void CPixelArray::StartRoutineTest()
     CLogging::log("CPixelArray::StartRoutineTest: Starting routine");
 
     m_routine = new CRoutineTest(this);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::StartRoutineSolid(CRGB rgb)
@@ -155,6 +176,7 @@ void CPixelArray::StartRoutineGlare(CRGB base_color, size_t q, bool forward, uin
     CLogging::log("CPixelArray::StartRoutineGlare: Starting routine glare");
 
     m_routine = new CRoutineGlare(this, base_color, q, forward, period_sec);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec)
@@ -164,6 +186,7 @@ void CPixelArray::StartRoutineCrawl(CRGB base_color, size_t width, size_t start_
     CLogging::log("CPixelArray::StartRoutineCrawl: Starting routine Crawl");
 
     m_routine = new CRoutineCrawl(this, base_color, width, start_offset, forward, period_sec);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::StartRoutineSticks(size_t num_sticks)
@@ -173,6 +196,7 @@ void CPixelArray::StartRoutineSticks(size_t num_sticks)
     CLogging::log("CPixelArray::StartRoutineSticks: Starting routine Sticks");
 
     m_routine = new CRoutineSticks(this, num_sticks);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::StartRoutineBall(size_t q, uint32_t period_sec)
@@ -182,6 +206,7 @@ void CPixelArray::StartRoutineBall(size_t q, uint32_t period_sec)
     CLogging::log("CPixelArray::StartRoutineBall: Starting routine Ball");
 
     m_routine = new CRoutineBall(this, q, period_sec);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::StartRoutineBalls(size_t num_balls)
@@ -191,6 +216,7 @@ void CPixelArray::StartRoutineBalls(size_t num_balls)
     CLogging::log("CPixelArray::StartRoutineBalls: Starting routine Balls");
 
     m_routine = new CRoutineBalls(this, num_balls);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::StartRoutineFire()
@@ -200,6 +226,7 @@ void CPixelArray::StartRoutineFire()
     CLogging::log("CPixelArray::StartRoutineFire: Starting routine Fire");
 
     m_routine = new CRoutineFire(this);
+    m_routine_start_ms = millis();
 }
 
 void CPixelArray::Continue()
