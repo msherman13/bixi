@@ -21,9 +21,9 @@ CRoutineFire::~CRoutineFire()
 
 void CRoutineFire::Init()
 {
-    for(size_t i=0;i<m_pixels->GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
-        m_pixels->SetPixel(i, CRGB::Black);
+        SetPixel(i, CRGB::Black);
     }
 
   
@@ -42,7 +42,7 @@ void CRoutineFire::Init()
 
 void CRoutineFire::Continue()
 {
-    uint32_t now = millis();
+    size_t now = millis();
 
     if(m_last_run - now < 50)
     {
@@ -69,11 +69,11 @@ void CRoutineFire::Continue()
         }
     }
 
-    for(size_t i=0;i<m_pixels->GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
-        CPixelArray::Coordinate coord = m_pixels->GetCoordinate(i);
+        CPixelArray::Coordinate coord = GetCoordinate(i);
         size_t x_pixel = ((coord.x + c_max_axis_val) / 2) * c_num_pixels_per_axis;
         size_t y_pixel = ((coord.y + c_max_axis_val) / 2) * c_num_pixels_per_axis;
-        m_pixels->SetPixel(i, m_colors[m_fire[y_pixel][x_pixel]]);
+        SetPixel(i, m_colors[m_fire[y_pixel][x_pixel]]);
     }
 }

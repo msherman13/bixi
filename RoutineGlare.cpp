@@ -12,7 +12,7 @@ CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
                              CRGB         base_color,
                              size_t       q,
                              bool         forward,
-                             uint32_t     period_sec) :
+                             size_t     period_sec) :
     CRoutine(pixels),
     m_base_color(rgb2hsv_approximate(base_color)),
     m_q(q),
@@ -29,7 +29,7 @@ CRoutineGlare::~CRoutineGlare()
 
 void CRoutineGlare::Continue()
 {
-    uint32_t now = millis();
+    size_t now = millis();
 
     float move_by = (float)(now - m_last_run) / (PeriodSec() * 1000);
 
@@ -54,9 +54,9 @@ void CRoutineGlare::Continue()
 
     CHSV hsv = m_base_color;
 
-    for(size_t i=0;i<m_pixels->GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
-        float this_index = (float)i / m_pixels->GetSize();
+        float this_index = (float)i / GetSize();
         float ratio = std::max<float>(1 - fabs(this_index - m_midpoint), 0.0001);
         ratio = fabs(ratio - 0.50) * 2;
         ratio = powf(ratio, m_q);
@@ -64,6 +64,6 @@ void CRoutineGlare::Continue()
         if(hsv.val < 15)
             hsv.val = 0;
 
-        m_pixels->SetPixel(i, hsv);
+        SetPixel(i, hsv);
     }
 }

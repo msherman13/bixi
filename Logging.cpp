@@ -1,4 +1,5 @@
 #include "Logging.h"
+#include "Arduino.h"
 
 void CLogging::Init()
 {
@@ -17,5 +18,8 @@ void CLogging::log(const char* buff)
     if(!Serial)
         return;
 
-    Serial.println(buff);
+    char logstr[512];
+    sprintf(logstr, "[%u]: %s", millis(), buff);
+
+    Serial.println(logstr);
 }

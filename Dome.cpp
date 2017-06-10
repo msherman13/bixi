@@ -68,49 +68,8 @@ void CDome::ExitRoutine()
     CPixelArray::ExitRoutine();
 }
 
-void CDome::ShutdownRoutine()
-{
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
-    {
-        m_shapes[i]->ShutdownRoutine();
-    }
-
-    CPixelArray::ShutdownRoutine();
-}
-
-bool CDome::RoutineDone()
-{
-    if(RunningRoutine() == true)
-    {
-        return CPixelArray::RoutineDone();
-    }
-
-    bool ret = true;
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
-    {
-        ret &= m_shapes[i]->RoutineDone();
-    }
-    return ret;
-}
-
 void CDome::Continue()
 {
-    if(RoutineDone() == true)
-    {
-        ExitRoutine();
-        StartRoutineBalls(8);
-    }
-
-    if(millis() - m_routine_start_ms > 5000)
-    {
-        for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
-        {
-            m_shapes[i]->ShutdownRoutine();
-        }
-
-        ShutdownRoutine();
-    }
-
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->Continue();

@@ -151,33 +151,6 @@ void CPixelArrayLegs::ExitRoutine()
     CPixelArray::ExitRoutine();
 }
 
-void CPixelArrayLegs::ShutdownRoutine()
-{
-    for(size_t i=0;i<NumLegs();i++)
-    {
-        m_legs[i]->ShutdownRoutine();
-    }
-
-    CPixelArray::ShutdownRoutine();
-}
-
-bool CPixelArrayLegs::RoutineDone()
-{
-    bool ret = true;
-
-    if(RunningRoutine() == true)
-    {
-        return CPixelArray::RoutineDone();
-    }
-
-    for(size_t i=0;i<NumLegs();i++)
-    {
-        ret &= m_legs[i]->RoutineDone();
-    }
-
-    return ret;
-}
-
 void CPixelArrayLegs::Continue()
 {
     for(size_t i=0;i<NumLegs();i++)
@@ -186,18 +159,4 @@ void CPixelArrayLegs::Continue()
     }
 
     CPixelArray::Continue();
-}
-
-void CPixelArrayLegs::StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec)
-{
-    ExitRoutine();
-
-    CLogging::log("CPixelArrayLegs::StartRoutineGlareLegs: Starting routine GlareLegs");
-
-    for(size_t i=0;i<NumLegs();i++)
-    {
-        m_legs[i]->StartRoutineGlare(base_color, q, forward, period_sec);
-    }
-
-    m_routine_start_ms = millis();
 }

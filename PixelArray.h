@@ -58,21 +58,14 @@ class CPixelArray
         virtual ~CPixelArray();
 
     public:
-        void StartRoutineTest();
-        void StartRoutineSolid(CRGB rgb);
-        void StartRoutineGlare(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
-        void StartRoutineCrawl(CRGB base_color, size_t width, size_t start_offset, bool forward, uint32_t period_sec);
-        void StartRoutineSticks(size_t num_sticks);
-        void StartRoutineBall(size_t q, uint32_t period_sec);
-        void StartRoutineBalls(size_t num_balls);
-        void StartRoutineFire();
-
-    public:
-        virtual void ShutdownRoutine();
-        virtual bool RoutineDone();
+        void         SetRoutine(CRoutine* routine);
+        virtual void TransitionTo(CRoutine* routine);
+        void         FinishTransition();
         virtual void ExitRoutine();
         virtual void Continue();
-        bool         RunningRoutine() { return m_routine != nullptr; }
+        size_t       RoutineStartMs();
+        bool         InRoutine()      { return m_routine != nullptr; }
+        bool         InTransition()   { return m_next_routine != nullptr; }
 
     public:
         size_t      GetSize() const                               { return m_length; }
@@ -93,8 +86,8 @@ class CPixelArray
     public:
         CRGB   GetPixel(size_t index);
         void   SetPixel(size_t index, CRGB rgb);
+        void   BlendPixel(size_t index, CRGB rgb, float weight);
         void   SetAllPixels(CRGB rgb);
-        void   Shift(bool forward, size_t amount);
         void   Copy(CPixelArray* rhs, size_t size, size_t offset=0);
         void   SmartCopy(CPixelArray* rhs, size_t size, size_t offset=0);
         bool   HasCoordinates() { return m_coordinates != nullptr; }
@@ -124,6 +117,6 @@ class CPixelArray
         }
 
     protected:
-        CRoutine* m_routine          = nullptr;
-        uint32_t  m_routine_start_ms = 0;
+        CRoutine* m_routine           = nullptr;
+        CRoutine* m_next_routine      = nullptr;
 };

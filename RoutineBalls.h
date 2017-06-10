@@ -8,7 +8,7 @@ class CPixelArray;
 class CRoutineBalls : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty     = 1;
+        static constexpr size_t c_alloc_qty     = 2;
         static constexpr size_t c_max_num_balls = 16;
         static constexpr size_t c_min_q         = 10;
         static constexpr size_t c_max_q         = 30;
@@ -16,16 +16,12 @@ class CRoutineBalls : public CRoutine
         static constexpr size_t c_max_period    = 10;
 
     public:
-        CRoutineBalls(CPixelArray* pixels, size_t num_balls);
+        CRoutineBalls(CPixelArray* pixels, size_t transition_time_ms, size_t num_balls);
         ~CRoutineBalls();
 
     public:
         virtual void        Continue() override;
         virtual const char* GetName()  override { return "Balls"; }
-        virtual void        Shutdown() override;
-
-    private:
-        void InitBalls();
 
     private:
         size_t        m_num_balls = 0;

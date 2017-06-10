@@ -28,8 +28,8 @@ class CRoutineFire : public CRoutine
 
     private:
         CRGB     m_colors[c_num_colors];
-        uint32_t m_fire[c_num_pixels_per_axis][c_num_pixels_per_axis] = {};
-        uint32_t m_last_run = 0;
+        size_t m_fire[c_num_pixels_per_axis][c_num_pixels_per_axis] = {};
+        size_t m_last_run = 0;
 
         /*
     private:

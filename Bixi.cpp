@@ -40,7 +40,7 @@ CBixi::CBixi()
     FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(), m_geometry->GetRawSize() / Addressing::c_num_strands);
 
     char logstr[256];
-    sprintf(logstr, "MILES_DEBUG: Initial allocations complete, %u byte remaining", FreeRam());
+    sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());
     CLogging::log(logstr);
 }
 

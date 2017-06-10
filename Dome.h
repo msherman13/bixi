@@ -15,8 +15,6 @@ class CDome : public CPixelArray
     public:
         virtual void Continue()        override;
         virtual void ExitRoutine()     override;
-        virtual bool RoutineDone()     override;
-        virtual void ShutdownRoutine() override;
 
     private:
         CPixelArray* m_shapes[DomeMappings::c_num_shapes] = {};

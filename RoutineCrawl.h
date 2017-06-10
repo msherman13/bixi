@@ -8,15 +8,16 @@
 class CRoutineCrawl : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty = 1;
+        static constexpr size_t c_alloc_qty = 2;
 
     public:
         CRoutineCrawl(CPixelArray* pixels,
+                      size_t       transition_time_ms,
                       CRGB         base_color,
                       size_t       width,
                       size_t       start_offset,
                       bool         forward,
-                      uint32_t     period_sec);
+                      size_t       period_sec);
         ~CRoutineCrawl();
 
     public:
@@ -24,9 +25,12 @@ class CRoutineCrawl : public CRoutine
         virtual const char* GetName()  override { return "Crawl"; }
 
     private:
-        bool     m_forward  = true;
-        uint32_t m_delay_ms = 0;
-        uint32_t m_last_run = 0;
+        bool     m_forward    = true;
+        size_t   m_period_sec = 0;
+        size_t   m_last_run   = 0;
+        float    m_midpoint   = 0.0;
+        size_t   m_width      = 0;
+        CRGB     m_color;
 
     private:
         static CMemoryPool<CRoutineCrawl, c_alloc_qty> s_pool;

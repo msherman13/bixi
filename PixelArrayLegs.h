@@ -48,16 +48,11 @@ class CPixelArrayLegs : public CPixelArray
         virtual ~CPixelArrayLegs();
 
     public:
-        void StartRoutineGlareLegs(CRGB base_color, size_t q, bool forward, uint32_t period_sec);
-
-    public:
         size_t       NumLegs()             const { return m_num_legs; }
         CPixelArray* GetLeg(size_t index)        { return m_legs[index]; }
 
     public:
         virtual void ExitRoutine();
-        virtual bool RoutineDone();
-        virtual void ShutdownRoutine();
         virtual void Continue();
 
     private:

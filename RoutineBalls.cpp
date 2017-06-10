@@ -6,20 +6,15 @@
 
 CMemoryPool<CRoutineBalls, CRoutineBalls::c_alloc_qty> CRoutineBalls::s_pool;
 
-CRoutineBalls::CRoutineBalls(CPixelArray* pixels, size_t num_balls) :
-    CRoutine(pixels),
+CRoutineBalls::CRoutineBalls(CPixelArray* pixels, size_t transition_time_ms, size_t num_balls) :
+    CRoutine(pixels, transition_time_ms),
     m_num_balls(num_balls > c_max_num_balls ? c_max_num_balls : num_balls)
-{
-    InitBalls();
-}
-
-void CRoutineBalls::InitBalls()
 {
     for(size_t i=0;i<m_num_balls;i++)
     {
         size_t q      = c_min_q + (rand() % (c_max_q - c_min_q + 1));
         size_t period = c_min_period + (rand() % (c_max_period - c_min_period + 1));
-        m_balls[i]    = new CRoutineBall(m_pixels, q, period);
+        m_balls[i]    = new CRoutineBall(pixels, transition_time_ms, q, period);
     }
 }
 
@@ -33,35 +28,19 @@ CRoutineBalls::~CRoutineBalls()
 
 void CRoutineBalls::Continue()
 {
-    bool all_stopped = true;
     for(size_t i=0;i<m_num_balls;i++)
     {
         m_balls[i]->RecalculateMidpoint();
-        all_stopped &= m_balls[i]->Done();
     }
-    for(size_t i=0;i<m_pixels->GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
         for(size_t j=0;j<m_num_balls;j++)
         {
             CHSV hsv = m_balls[j]->RecalculateColor(i);
             if(j == 0 || hsv.v > 50)
             {
-                m_pixels->SetPixel(i, hsv);
+                SetPixel(i, hsv);
             }
         }
     }
-    if(all_stopped == true)
-    {
-        m_state = Stopped;
-    }
-}
-
-void CRoutineBalls::Shutdown()
-{
-    for(size_t i=0;i<m_num_balls;i++)
-    {
-        m_balls[i]->Shutdown();
-    }
-
-    m_state = ShuttingDown;
 }

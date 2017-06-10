@@ -14,9 +14,10 @@ class CRoutineBall : public CRoutine
         static constexpr float c_longest_distance = sqrtf(pow(c_frame_size, 2) + pow(c_frame_size, 2));
 
     public:
-        CRoutineBall(CPixelArray*    pixels,
-                        size_t          q,
-                        uint32_t        period_sec);
+        CRoutineBall(CPixelArray* pixels,
+                        size_t    transition_time_ms,
+                        size_t    q,
+                        size_t    period_sec);
         ~CRoutineBall();
 
     public:
@@ -35,9 +36,9 @@ class CRoutineBall : public CRoutine
         size_t                  m_color_index  = 0;
         size_t                  m_q            = 0;
         float                   m_radius       = 0;
-        uint32_t                m_period_sec   = 10;
-        uint32_t                m_last_run     = 0;
-        uint32_t                m_ball_start   = 0;
+        size_t                m_period_sec   = 10;
+        size_t                m_last_run     = 0;
+        size_t                m_ball_start   = 0;
         size_t                  m_last_side    = 0;
         float                   m_x_step       = 0.0;
         float                   m_y_step       = 0.0;

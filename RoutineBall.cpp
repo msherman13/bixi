@@ -9,9 +9,10 @@
 CMemoryPool<CRoutineBall, CRoutineBall::c_alloc_qty> CRoutineBall::s_pool;
 
 CRoutineBall::CRoutineBall(CPixelArray* pixels,
-                                 size_t       q,
-                                 uint32_t     period_sec) :
-    CRoutine(pixels),
+                           size_t       transition_time_ms,
+                           size_t       q,
+                           size_t       period_sec) :
+    CRoutine(pixels, transition_time_ms),
     m_q(q),
     m_period_sec(period_sec)
 {
@@ -26,12 +27,7 @@ CRoutineBall::~CRoutineBall()
 
 CPixelArray::Coordinate CRoutineBall::RecalculateMidpoint()
 {
-    if(m_state != Running)
-    {
-        return m_midpoint;
-    }
-
-    uint32_t now = millis();
+    size_t now = millis();
 
     if(m_ball_start == 0 || now - m_ball_start >= m_period_sec * 1000)
     {
@@ -92,27 +88,10 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
 {
     CHSV hsv = m_color;
 
-    CPixelArray::Coordinate coord = m_pixels->GetCoordinate(index);
+    CPixelArray::Coordinate coord = GetCoordinate(index);
 
     float x_dist                 = fabs(m_midpoint.x - coord.x);
     float y_dist                 = fabs(m_midpoint.y - coord.y);
-
-    size_t q = m_q;
-    if(m_state > Running)
-    {
-        const float    shutdown_interval_ms  = 500.0;
-        const uint32_t max_shutdown_time_sec = 5;
-
-        uint32_t time_since_shutdown = millis() - m_shutdown_time_ms + shutdown_interval_ms;
-
-        m_radius = 10.0;
-        q /= (float)time_since_shutdown / shutdown_interval_ms;
-
-        if(q < m_q / 5.0 || time_since_shutdown > max_shutdown_time_sec * 1000)
-        {
-            m_state = Stopped;
-        }
-    }
 
     // optimization to try and speed this up a bit
     if(x_dist > m_radius || y_dist > m_radius)
@@ -122,7 +101,7 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
     }
 
     float distance               = sqrtf(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
-    float brightness             = powf(1 - distance, q);
+    float brightness             = powf(1 - distance, m_q);
 
     hsv.val = brightness * 255;
     if(hsv.val < 15)
@@ -135,9 +114,9 @@ void CRoutineBall::Continue()
 {
     RecalculateMidpoint();
 
-    for(size_t i=0;i<m_pixels->GetSize();i++)
+    for(size_t i=0;i<GetSize();i++)
     {
         CHSV hsv = RecalculateColor(i);
-        m_pixels->SetPixel(i, hsv);
+        SetPixel(i, hsv);
     }
 }
