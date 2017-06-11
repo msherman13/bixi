@@ -24,9 +24,6 @@ MapProjection::GeographicCoord MapProjection::Coord3dToGeographic(Coord3d coord)
         ret.longitude = M_PI + M_PI - fabs(ret.longitude);
     }
 
-    printf("MILES_DEBUG: x = %f, y = %f, z = %f, lat = %f, lon = %f\n",
-            coord.x, coord.y, coord.z, RadiansToDegrees(ret.latitude), RadiansToDegrees(ret.longitude));
-
     return ret;
 }
 
@@ -86,18 +83,12 @@ CPixelArray::Coordinate MapProjection::LambertProjection(GeographicCoord geog)
     ret.x /= 2.0;
     ret.y /= -2.0;
 
-    static int i = 0;
-//    printf("MILES_DEBUG: index = %d, lat = %f, lon = %f, x = %f, y = %f\n",
-//            i++, geog.latitude, geog.longitude, ret.x, ret.y);
-
     return ret;
 }
 
 CPixelArray::Coordinate MapProjection::LambertProjection3d(Coord3d coord_3d)
 {
     GeographicCoord geog = Coord3dToGeographic(coord_3d);
-
-    printf("MILES_DEBUG: x = %f, y = %f\n", LambertProjection(geog).x, LambertProjection(geog).y);
 
     return LambertProjection(geog);
 }
