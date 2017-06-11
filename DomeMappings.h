@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PixelArray.h"
+#include "PixelArrayLegs.h"
 #include "MapProjection.h"
 #include "Logging.h"
 
@@ -11,7 +11,7 @@ namespace DomeMappings
 {
     constexpr size_t c_num_physical_pixels = 7000;
     constexpr size_t c_num_logical_pixels  = 4942;
-    constexpr size_t c_num_shapes          = 0; // TODO
+    constexpr size_t c_num_shapes          = 0;//23;
 
     constexpr size_t c_shape_length[c_num_shapes] = {}; // TODO
     constexpr size_t c_shape_start[c_num_shapes] = {}; // TODO
@@ -22,4 +22,9 @@ namespace DomeMappings
 
     // takes logical index as argument
     CPixelArray::Coordinate GetCoordinate(size_t index);
+
+    struct Mappings : public CPixelArrayLegs::Config
+    {
+        Mappings();
+    };
 };

@@ -63,4 +63,16 @@ for index, row in pixels.iterrows():
     ofile.write("        case %d: return MapProjection::LambertProjection3d(MapProjection::Coord3d(%f, %f, %f));\n" % (index, row['x'], row['y'], row['z']))
 ofile.write("        default: return CPixelArray::Coordinate();\n")
 ofile.write("    }\n")
+ofile.write("}\n\n")
+
+df = df.set_index('leg_index')
+
+ofile.write("DomeMappings::Mappings::Mappings() :\n")
+ofile.write("    CPixelArrayLegs::Config()\n")
+ofile.write("{\n")
+ofile.write("    m_num_legs = %d;\n" % (len(df)))
+ofile.write("    m_physical_size = c_num_physical_pixels;\n\n")
+for index, row in df.iterrows():
+    ofile.write("    m_start_index[%d] = %d;\n" % (index, row['start_index']))
+    ofile.write("    m_end_index[%d] = %d;\n" % (index, row['end_index']))
 ofile.write("}")

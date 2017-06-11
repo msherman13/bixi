@@ -9,17 +9,14 @@
 CMemoryPool<CDome, 1> CDome::s_pool;
 
 CDome::CDome() :
-    CPixelArray(DomeMappings::c_num_physical_pixels, DomeMappings::c_num_logical_pixels)
+    CPixelArrayLegs(DomeMappings::Mappings())
 {
     // manually override locations and coordinates
     for(size_t i=0;i<GetSize();i++)
     {
-        SetLocation(i, DomeMappings::GetLocation(i));
+        //SetLocation(i, DomeMappings::GetLocation(i));
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
-
-    //TransitionTo(new CRoutineRain(this, 5000, ColorPallete::Turquoise));
-    TransitionTo(new CRoutineBalls(this, 5000, 8));
 }
 
 CDome::~CDome()

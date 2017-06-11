@@ -6,7 +6,7 @@
 
 class CRoutine;
 
-class CDome : public CPixelArray
+class CDome : public CPixelArrayLegs
 {
     public:
         CDome();
