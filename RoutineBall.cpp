@@ -5,6 +5,7 @@
 #include "ColorPallete.h"
 #include "FastLED.h"
 #include "Arduino.h"
+#include "Math.h"
 
 CMemoryPool<CRoutineBall, CRoutineBall::c_alloc_qty> CRoutineBall::s_pool;
 
@@ -101,7 +102,7 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
     }
 
     float distance               = sqrtf(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
-    float brightness             = powf(1 - distance, m_q);
+    float brightness             = Math::exp_by_squaring(1 - distance, m_q);
 
     hsv.val = brightness * 255;
     if(hsv.val < 15)

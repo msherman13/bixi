@@ -3,6 +3,7 @@
 
 #include "RoutineRain.h"
 #include "PixelArray.h"
+#include "Math.h"
 
 CMemoryPool<CRoutineRain, CRoutineRain::c_alloc_qty> CRoutineRain::s_pool;
 
@@ -15,7 +16,6 @@ CRoutineRain::CRoutineRain(CPixelArray* pixels, size_t transition_time_ms, CRGB 
     for(size_t i=0;i<c_num_circles;i++)
     {
         m_radius[i] = i * c_max_radius / c_num_circles;
-        m_cos[i]    = rand() % c_num_circles;
     }
 }
 
@@ -23,7 +23,7 @@ CRoutineRain::~CRoutineRain()
 {
 }
 
-float CRoutineRain::RecalculateRadius()
+void CRoutineRain::RecalculateRadius()
 {
     size_t now = millis();
 
@@ -34,8 +34,7 @@ float CRoutineRain::RecalculateRadius()
         m_radius[i] += move_by;
         if(m_radius[i] > c_max_radius)
         {
-            m_radius[i] = -0.10;
-            m_cos[i]    = rand() % c_num_circles;
+            m_radius[i] = -0.20 + 0.01 * (rand() % 10);
         }
     }
 
@@ -69,9 +68,9 @@ CHSV CRoutineRain::RecalculateColor(size_t index)
 
     for(size_t i=0;i<c_num_circles;i++)
     {
-        float radius   = m_radius[i] + 0.05 * cos(m_cos[i] * theta);
+        float radius   = m_radius[i];
         float distance = fabs(radius - distance_from_midpoint);
-        brightness    += powf(1.0 - distance, c_q);
+        brightness    += Math::exp_by_squaring(1.0 - distance, c_q);
     }
 
     brightness = std::min<float>(brightness, 1.0);

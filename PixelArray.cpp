@@ -4,6 +4,7 @@
 #include "PixelArray.h"
 #include "Logging.h"
 #include "Routine.h"
+#include "Math.h"
 
 CMemoryPool<CPixelArray::Block, CPixelArray::Block::c_num_blocks> CPixelArray::Block::s_pool;
 CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s_pool;
@@ -25,6 +26,7 @@ CPixelArray::CPixelArray(size_t physical_len, size_t logical_len) :
     m_owner(true),
     m_pixels(m_block->m_pixels),
     m_length(logical_len),
+    m_raw_length(physical_len),
     m_locations(m_block->m_locations),
     m_coordinates(m_block->m_coordinates)
 {
@@ -72,9 +74,9 @@ void CPixelArray::BlendPixel(size_t index, CRGB rgb, float weight)
 
     float nweight = 1.0 - weight;
 
-    pixel.r = sqrtf(powf(nweight * pixel.r, 2) + powf(weight * rgb.r, 2));
-    pixel.g = sqrtf(powf(nweight * pixel.g, 2) + powf(weight * rgb.g, 2));
-    pixel.b = sqrtf(powf(nweight * pixel.b, 2) + powf(weight * rgb.b, 2));
+    pixel.r = sqrtf((nweight * pixel.r) * (nweight * pixel.r) + (weight * rgb.r) * (weight * rgb.r));
+    pixel.g = sqrtf((nweight * pixel.g) * (nweight * pixel.g) + (weight * rgb.g) * (weight * rgb.g));
+    pixel.b = sqrtf((nweight * pixel.b) * (nweight * pixel.b) + (weight * rgb.b) * (weight * rgb.b));
 
     SetPixel(index, pixel);
 }

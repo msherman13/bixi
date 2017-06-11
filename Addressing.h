@@ -6,5 +6,5 @@
 
 namespace Addressing
 {
-    constexpr size_t c_num_strands = 6;
+    constexpr size_t c_num_strands = 7;
 };

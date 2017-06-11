@@ -18,8 +18,8 @@ CDome::CDome() :
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
 
-    SetRoutine(new CRoutineSolid(this, 0, CRGB::Red));
-    //TransitionTo(new CRoutineBalls(this, 5000, 8));
+    //TransitionTo(new CRoutineRain(this, 5000, ColorPallete::Turquoise));
+    TransitionTo(new CRoutineBalls(this, 5000, 8));
 }
 
 CDome::~CDome()
@@ -42,12 +42,10 @@ void CDome::ExitRoutine()
 
 void CDome::Continue()
 {
-    /*
     if(InTransition() == false && millis() - RoutineStartMs() > 20000)
     {
         TransitionTo(new CRoutineRain(this, 10000, ColorPallete::Turquoise));
     }
-    */
 
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {

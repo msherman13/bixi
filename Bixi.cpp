@@ -7,7 +7,7 @@
 #include "Grid.h"
 #include "FreeRam.h"
 
-//#define LOG_REFRESH_RATE
+#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
 {
@@ -37,7 +37,9 @@ CBixi::CBixi()
 #endif
 
     // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(), m_geometry->GetRawSize() / Addressing::c_num_strands);
+    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(),
+            m_geometry->GetRawSize() / Addressing::c_num_strands);
+    //printf("MILES_DEBUG: per strand = %u\n", m_geometry->GetRawSize() / Addressing::c_num_strands);
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());
@@ -70,13 +72,6 @@ void CBixi::Continue()
 
     Show(m_geometry);
 
-    if(now - m_lastIndicator >= c_indicatorDelayMs)
-    {
-        m_indicatorOn   = !m_indicatorOn;
-        m_lastIndicator = now;
-        digitalWrite(c_indicatorPin, m_indicatorOn ? HIGH : LOW);
-    }
-
 #ifdef LOG_REFRESH_RATE
     size_t timer = millis();
     char logString[128];
@@ -84,4 +79,11 @@ void CBixi::Continue()
             cont - now, timer - cont, timer - now);
     CLogging::log(logString);
 #endif
+
+    if(now - m_lastIndicator >= c_indicatorDelayMs)
+    {
+        m_indicatorOn   = !m_indicatorOn;
+        m_lastIndicator = now;
+        digitalWrite(c_indicatorPin, m_indicatorOn ? HIGH : LOW);
+    }
 }

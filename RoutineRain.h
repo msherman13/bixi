@@ -24,13 +24,12 @@ class CRoutineRain : public CRoutine
         virtual const char* GetName()  override { return "Rain"; }
 
     private:
-        float RecalculateRadius();
+        void  RecalculateRadius();
         CHSV  RecalculateColor(size_t index);
 
     private:
         CHSV   m_color;
         float  m_radius[c_num_circles] = {};
-        size_t m_cos[c_num_circles]    = {};
         size_t m_last_run = 0;
 
     private:
