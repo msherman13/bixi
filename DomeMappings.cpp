@@ -10134,4 +10134,127 @@ DomeMappings::Mappings::Mappings() :
     m_end_index[111] = 6755;
     m_start_index[112] = 6756;
     m_end_index[112] = 6800;
+}size_t DomeMappings::ShapeStartIndex(size_t shape_index)
+{
+    switch(shape_index)
+    {
+        case 0: return 0;
+        case 1: return 169;
+        case 2: return 298;
+        case 3: return 1000;
+        case 4: return 1194;
+        case 5: return 1464;
+        case 6: return 1695;
+        case 7: return 2000;
+        case 8: return 2178;
+        case 9: return 2426;
+        case 10: return 2542;
+        case 11: return 2791;
+        case 12: return 3000;
+        case 13: return 3188;
+        case 14: return 4000;
+        case 15: return 5000;
+        case 16: return 5192;
+        case 17: return 5465;
+        case 18: return 5695;
+        case 19: return 6000;
+        case 20: return 6163;
+        case 21: return 6290;
+        case 22: return 6546;
+        default: return 0;
+    }
 }
+
+size_t DomeMappings::ShapeEndIndex(size_t shape_index)
+{
+    switch(shape_index)
+    {
+        case 0: return 168;
+        case 1: return 297;
+        case 2: return 540;
+        case 3: return 1193;
+        case 4: return 1463;
+        case 5: return 1694;
+        case 6: return 1940;
+        case 7: return 2177;
+        case 8: return 2425;
+        case 9: return 2541;
+        case 10: return 2790;
+        case 11: return 2962;
+        case 12: return 3187;
+        case 13: return 3459;
+        case 14: return 4283;
+        case 15: return 5191;
+        case 16: return 5464;
+        case 17: return 5694;
+        case 18: return 5951;
+        case 19: return 6162;
+        case 20: return 6289;
+        case 21: return 6545;
+        case 22: return 6800;
+        default: return 0;
+    }
+}
+
+size_t DomeMappings::ShapeStartLeg(size_t shape_index)
+{
+    switch(shape_index)
+    {
+        case 0: return 0;
+        case 1: return 3;
+        case 2: return 6;
+        case 3: return 11;
+        case 4: return 17;
+        case 5: return 23;
+        case 6: return 27;
+        case 7: return 32;
+        case 8: return 38;
+        case 9: return 44;
+        case 10: return 47;
+        case 11: return 53;
+        case 12: return 59;
+        case 13: return 64;
+        case 14: return 70;
+        case 15: return 76;
+        case 16: return 82;
+        case 17: return 88;
+        case 18: return 92;
+        case 19: return 97;
+        case 20: return 100;
+        case 21: return 103;
+        case 22: return 108;
+        default: return 0;
+    }
+}
+
+size_t DomeMappings::ShapeEndLeg(size_t shape_index)
+{
+    switch(shape_index)
+    {
+        case 0: return 2;
+        case 1: return 5;
+        case 2: return 10;
+        case 3: return 16;
+        case 4: return 22;
+        case 5: return 26;
+        case 6: return 31;
+        case 7: return 37;
+        case 8: return 43;
+        case 9: return 46;
+        case 10: return 52;
+        case 11: return 58;
+        case 12: return 63;
+        case 13: return 69;
+        case 14: return 75;
+        case 15: return 81;
+        case 16: return 87;
+        case 17: return 91;
+        case 18: return 96;
+        case 19: return 99;
+        case 20: return 102;
+        case 21: return 107;
+        case 22: return 112;
+        default: return 0;
+    }
+}
+

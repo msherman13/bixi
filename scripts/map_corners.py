@@ -76,3 +76,45 @@ for index, row in df.iterrows():
     ofile.write("    m_start_index[%d] = %d;\n" % (index, row['start_index']))
     ofile.write("    m_end_index[%d] = %d;\n" % (index, row['end_index']))
 ofile.write("}")
+
+ofile.write("size_t DomeMappings::ShapeStartIndex(size_t shape_index)\n")
+ofile.write("{\n")
+ofile.write("    switch(shape_index)\n")
+ofile.write("    {\n")
+for index, row in df.groupby('shape_index').first().iterrows():
+    ofile.write("        case %d: return %d;\n" % (index, row['start_index']))
+ofile.write("        default: return 0;\n")
+ofile.write("    }\n")
+ofile.write("}\n\n")
+
+df = df.reset_index().set_index('shape_index')
+
+ofile.write("size_t DomeMappings::ShapeEndIndex(size_t shape_index)\n")
+ofile.write("{\n")
+ofile.write("    switch(shape_index)\n")
+ofile.write("    {\n")
+for index, row in df.groupby('shape_index').last().iterrows():
+    ofile.write("        case %d: return %d;\n" % (index, row['end_index']))
+ofile.write("        default: return 0;\n")
+ofile.write("    }\n")
+ofile.write("}\n\n")
+
+ofile.write("size_t DomeMappings::ShapeStartLeg(size_t shape_index)\n")
+ofile.write("{\n")
+ofile.write("    switch(shape_index)\n")
+ofile.write("    {\n")
+for index, row in df.groupby('shape_index').first().iterrows():
+    ofile.write("        case %d: return %d;\n" % (index, row['leg_index']))
+ofile.write("        default: return 0;\n")
+ofile.write("    }\n")
+ofile.write("}\n\n")
+
+ofile.write("size_t DomeMappings::ShapeEndLeg(size_t shape_index)\n")
+ofile.write("{\n")
+ofile.write("    switch(shape_index)\n")
+ofile.write("    {\n")
+for index, row in df.groupby('shape_index').last().iterrows():
+    ofile.write("        case %d: return %d;\n" % (index, row['leg_index']))
+ofile.write("        default: return 0;\n")
+ofile.write("    }\n")
+ofile.write("}\n\n")

@@ -11,11 +11,20 @@ CMemoryPool<CDome, 1> CDome::s_pool;
 CDome::CDome() :
     CPixelArrayLegs(DomeMappings::Mappings())
 {
-    // manually override locations and coordinates
+    // manually override coordinates since projection is incompatible with auto-map
     for(size_t i=0;i<GetSize();i++)
     {
-        //SetLocation(i, DomeMappings::GetLocation(i));
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
+    }
+
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        size_t len        = DomeMappings::ShapeEndIndex(i) - DomeMappings::ShapeStartIndex(i) + 1;
+        size_t offset     = DomeMappings::ShapeStartIndex(i);
+        size_t num_legs   = DomeMappings::ShapeEndLeg(i) - DomeMappings::ShapeStartLeg(i) + 1;
+        size_t leg_offset = DomeMappings::ShapeStartLeg(i);
+
+        m_shapes[i] = new CPixelArrayLegs(this, len, offset, num_legs, leg_offset);
     }
 }
 
