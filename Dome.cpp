@@ -2,6 +2,7 @@
 #include "Logging.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
+#include "RoutineBalls.h"
 #include "RoutineRain.h"
 
 CMemoryPool<CDome, 1> CDome::s_pool;
@@ -16,7 +17,7 @@ CDome::CDome() :
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
 
-    SetRoutine(new CRoutineRain(this, 0, ColorPallete::Turquoise));
+    TransitionTo(new CRoutineBalls(this, 5000, 8));
 }
 
 CDome::~CDome()
@@ -39,6 +40,11 @@ void CDome::ExitRoutine()
 
 void CDome::Continue()
 {
+    if(InTransition() == false && millis() - RoutineStartMs() > 20000)
+    {
+        TransitionTo(new CRoutineRain(this, 10000, ColorPallete::Turquoise));
+    }
+
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->Continue();

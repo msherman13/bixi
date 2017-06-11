@@ -2,6 +2,8 @@
 
 #include "stdint.h"
 
+#include "Routine.h"
+
 class CRoutineBall;
 class CPixelArray;
 
