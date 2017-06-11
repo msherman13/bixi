@@ -72,11 +72,9 @@ void CPixelArray::BlendPixel(size_t index, CRGB rgb, float weight)
 
     float nweight = 1.0 - weight;
 
-//    printf("MILES_DEBUG: lhs = %u, rhs = %u\n", pixel.r, rgb.r);
-    pixel.r = sqrt(pow(nweight * pixel.r, 2) + pow(weight * rgb.r, 2));
-//    printf("MILES_DEBUG: avg = %u\n", pixel.r);
-    pixel.g = sqrt(pow(nweight * pixel.g, 2) + pow(weight * rgb.g, 2));
-    pixel.b = sqrt(pow(nweight * pixel.b, 2) + pow(weight * rgb.b, 2));
+    pixel.r = sqrtf(powf(nweight * pixel.r, 2) + powf(weight * rgb.r, 2));
+    pixel.g = sqrtf(powf(nweight * pixel.g, 2) + powf(weight * rgb.g, 2));
+    pixel.b = sqrtf(powf(nweight * pixel.b, 2) + powf(weight * rgb.b, 2));
 
     SetPixel(index, pixel);
 }

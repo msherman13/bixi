@@ -2,6 +2,7 @@
 #include "Logging.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
+#include "RoutineRain.h"
 
 CMemoryPool<CDome, 1> CDome::s_pool;
 
@@ -15,39 +16,7 @@ CDome::CDome() :
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
 
-    /*
-    size_t leg_offset = 0;
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
-    {
-        m_shapes[i] = new CPixelArray(this,
-                                      DomeMappings::c_shape_length[i],
-                                      DomeMappings::c_shape_start[i],
-                                      DomeMappings::c_shape_num_legs[i],
-                                      leg_offset);
-        leg_offset += DomeMappings::c_shape_num_legs[i];
-    }
-    */
-
-    //StartRoutineTest();
-    //StartRoutineSolid(CRGB::Blue);
-    //StartRoutineBall(40, 2);
-    //StartRoutineBalls(10);
-    //StartRoutineFire();
-    //StartRoutineGlare(ColorPallete::ChromeBlue, 4, true, 10);
-
-    /*
-    for(size_t shape=0;shape<DomeMappings::c_num_shapes;shape++)
-    {
-        m_shapes[shape]->StartRoutineGlare(ColorPallete::Turquoise, 4, true, 1);
-    }
-    */
-    
-    /*
-    for(size_t shape=0;shape<DomeMappings::c_num_shapes;shape++)
-    {
-        m_shapes[shape]->StartRoutineGlareLegs(CRGB(ColorPallete::Turquoise), 4, true, 1);
-    }
-    */
+    SetRoutine(new CRoutineRain(this, 0, ColorPallete::Turquoise));
 }
 
 CDome::~CDome()
