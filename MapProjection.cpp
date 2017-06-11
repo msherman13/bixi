@@ -19,6 +19,14 @@ MapProjection::GeographicCoord MapProjection::Coord3dToGeographic(Coord3d coord)
     ret.latitude  = atan2(coord.z, sqrtf(coord.x * coord.x + coord.y * coord.y));
     ret.longitude = atan2(coord.y, coord.x);
 
+    if(ret.longitude < 0)
+    {
+        ret.longitude = M_PI + M_PI - fabs(ret.longitude);
+    }
+
+    printf("MILES_DEBUG: x = %f, y = %f, z = %f, lat = %f, lon = %f\n",
+            coord.x, coord.y, coord.z, RadiansToDegrees(ret.latitude), RadiansToDegrees(ret.longitude));
+
     return ret;
 }
 
@@ -51,7 +59,9 @@ CPixelArray::Coordinate MapProjection::LambertProjection(GeographicCoord geog)
     const float std_par_1 = M_PI / 6; // 30 degrees
     const float std_par_2 = M_PI / 3; // 60 degrees
     const float ref_lat   = M_PI / 2; // 90 degrees (north pole)
-    const float ref_long  = -M_PI / 2.5;
+    //const float ref_long  = -M_PI / 2.5;
+    //const float ref_long  = -1.285 * M_PI;
+    const float ref_long  = M_PI;
 
     float n = log( cos(std_par_1) * (1 / cos(std_par_2) ) ) /
               log( tan(M_PI / 4 + std_par_2 / 2) * ( 1 / tan(M_PI / 4 + std_par_1 / 2) ) );
@@ -74,7 +84,11 @@ CPixelArray::Coordinate MapProjection::LambertProjection(GeographicCoord geog)
 
     // normalize to fit within -1.00 to 1.00 boundary
     ret.x /= 2.0;
-    ret.y /= 2.0;
+    ret.y /= -2.0;
+
+    static int i = 0;
+//    printf("MILES_DEBUG: index = %d, lat = %f, lon = %f, x = %f, y = %f\n",
+//            i++, geog.latitude, geog.longitude, ret.x, ret.y);
 
     return ret;
 }
@@ -82,6 +96,8 @@ CPixelArray::Coordinate MapProjection::LambertProjection(GeographicCoord geog)
 CPixelArray::Coordinate MapProjection::LambertProjection3d(Coord3d coord_3d)
 {
     GeographicCoord geog = Coord3dToGeographic(coord_3d);
+
+    printf("MILES_DEBUG: x = %f, y = %f\n", LambertProjection(geog).x, LambertProjection(geog).y);
 
     return LambertProjection(geog);
 }

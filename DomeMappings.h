@@ -9,8 +9,8 @@
 
 namespace DomeMappings
 {
-    constexpr size_t c_num_physical_pixels = CPixelArray::Block::c_pixels_per_block;
-    constexpr size_t c_num_logical_pixels  = 370;
+    constexpr size_t c_num_physical_pixels = 7000;
+    constexpr size_t c_num_logical_pixels  = 4942;
     constexpr size_t c_num_shapes          = 0; // TODO
 
     constexpr size_t c_shape_length[c_num_shapes] = {}; // TODO

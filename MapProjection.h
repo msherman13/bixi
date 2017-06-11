@@ -14,6 +14,12 @@ namespace MapProjection
 
     struct Coord3d
     {
+        Coord3d(float xin, float yin, float zin) :
+            x(xin),
+            y(yin),
+            z(zin)
+        {}
+
         // -1.0 to 1.0
         float x = 0.0;
         float y = 0.0;

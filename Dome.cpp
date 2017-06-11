@@ -4,6 +4,7 @@
 #include "FastLED.h"
 #include "RoutineBalls.h"
 #include "RoutineRain.h"
+#include "RoutineSolid.h"
 
 CMemoryPool<CDome, 1> CDome::s_pool;
 
