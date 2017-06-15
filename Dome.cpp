@@ -2,6 +2,7 @@
 #include "Logging.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
+#include "RoutineGlare.h"
 #include "RoutineBalls.h"
 #include "RoutineRain.h"
 #include "RoutineSolid.h"
@@ -17,6 +18,7 @@ CDome::CDome() :
         SetCoordinate(i, DomeMappings::GetCoordinate(i));
     }
 
+    // initialize all shapes
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         size_t len        = DomeMappings::ShapeEndIndex(i) - DomeMappings::ShapeStartIndex(i) + 1;
@@ -25,6 +27,16 @@ CDome::CDome() :
         size_t leg_offset = DomeMappings::ShapeStartLeg(i);
 
         m_shapes[i] = new CPixelArrayLegs(this, len, offset, num_legs, leg_offset);
+        for(size_t j=0;j<m_shapes[i]->NumLegs();j++)
+        {
+            m_shapes[i]->GetLeg(j)->TransitionTo(new CRoutineGlare(m_shapes[i]->GetLeg(j),
+                                                        10000,
+                                                        //ColorPallete::DarkPink,
+                                                        CRGB(23,35,28),
+                                                        10,
+                                                        true,
+                                                        5));
+        }
     }
 }
 
@@ -48,11 +60,6 @@ void CDome::ExitRoutine()
 
 void CDome::Continue()
 {
-    if(InTransition() == false && millis() - RoutineStartMs() > 20000)
-    {
-        TransitionTo(new CRoutineRain(this, 10000, ColorPallete::Turquoise));
-    }
-
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->Continue();

@@ -20,6 +20,7 @@ template <typename T, size_t QTY> class CMemoryPool
     public:
         T* alloc()
         {
+            CLogging::log("ALLOC");
             for(size_t i=0;i<QTY;i++)
             {
                 if(m_in_use[i] == true)
@@ -29,6 +30,7 @@ template <typename T, size_t QTY> class CMemoryPool
 
                 m_in_use[i] = true;
 
+                CLogging::log("ALLOC success");
                 return reinterpret_cast<T*>(m_blocks[i]);
             }
 

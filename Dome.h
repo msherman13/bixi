@@ -17,7 +17,8 @@ class CDome : public CPixelArrayLegs
         virtual void ExitRoutine()     override;
 
     private:
-        CPixelArray* m_shapes[DomeMappings::c_num_shapes] = {};
+        CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes] = {};
+        CPixelArrayLegs* m_all_hexagons                       = nullptr;
 
     private:
         static CMemoryPool<CDome, 1> s_pool;

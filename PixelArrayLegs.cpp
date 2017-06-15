@@ -21,7 +21,7 @@ CPixelArrayLegs::CPixelArrayLegs(Config config) :
 }
 
 CPixelArrayLegs::CPixelArrayLegs(CPixelArrayLegs* pixels, size_t len, size_t offset, size_t num_legs, size_t leg_offset) :
-    CPixelArray(pixels),
+    CPixelArray(pixels, len, offset),
     m_num_legs(num_legs)
 {
     for(size_t i=0;i<NumLegs();i++)

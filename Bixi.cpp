@@ -7,7 +7,7 @@
 #include "Grid.h"
 #include "FreeRam.h"
 
-//#define LOG_REFRESH_RATE
+#define LOG_REFRESH_RATE
 
 CBixi& CBixi::Instance()
 {
@@ -25,6 +25,7 @@ CBixi::CBixi()
     pinMode(c_indicatorPin, OUTPUT);
 
     // geometry
+        m_geometry = new CDome();
 #ifdef GEOM_DOME
     CLogging::log("CBixi::CBixi: Geometry = GEOM_DOME");
     m_geometry = new CDome();
@@ -33,7 +34,7 @@ CBixi::CBixi()
     m_geometry = new CGrid();
 #else
     CLogging::log("CBixi::CBixi: ERROR no geometry is defined. Exiting");
-    exit(-1);
+    //exit(-1);
 #endif
 
     // Parallel Output

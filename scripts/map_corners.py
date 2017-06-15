@@ -75,7 +75,7 @@ ofile.write("    m_physical_size = c_num_physical_pixels;\n\n")
 for index, row in df.iterrows():
     ofile.write("    m_start_index[%d] = %d;\n" % (index, row['start_index']))
     ofile.write("    m_end_index[%d] = %d;\n" % (index, row['end_index']))
-ofile.write("}")
+ofile.write("}\n\n")
 
 ofile.write("size_t DomeMappings::ShapeStartIndex(size_t shape_index)\n")
 ofile.write("{\n")

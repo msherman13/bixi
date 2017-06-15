@@ -15,7 +15,7 @@ CGrid::CGrid() :
 {
     if(InTransition() == false)
     {
-        SetRoutine(new CRoutineRain(this, 0, ColorPallete::Turquoise));
+        SetRoutine(new CRoutineRain(this, 0, ColorPallete::Mint));
         //TransitionTo(new CRoutineCrawl(this, 5000, CRGB::Blue, 16, 0, true, 20));
         //TransitionTo(new CRoutineSolid(this, 5000, CRGB::Blue));
     }
