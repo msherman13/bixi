@@ -5,6 +5,8 @@ import pandas as pd
 
 df = pd.read_csv(sys.argv[1])
 
+pixels_per_strand = df.groupby('strand_index').sum()['length'].max()
+
 # map to individual pixels
 pixels = pd.DataFrame(columns=['raw_index', 'logical_index', 'x', 'y', 'z'])
 logical_index = 0
@@ -65,8 +67,6 @@ ofile.write("        default: return CPixelArray::Coordinate();\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
 
-df = df.set_index('leg_index')
-
 ofile.write("DomeMappings::Mappings::Mappings() :\n")
 ofile.write("    CPixelArrayLegs::Config()\n")
 ofile.write("{\n")
@@ -77,12 +77,14 @@ for index, row in df.iterrows():
     ofile.write("    m_end_index[%d] = %d;\n" % (index, row['end_index']))
 ofile.write("}\n\n")
 
+pixels = pixels.reset_index().set_index('raw_index')
+
 ofile.write("size_t DomeMappings::ShapeStartIndex(size_t shape_index)\n")
 ofile.write("{\n")
 ofile.write("    switch(shape_index)\n")
 ofile.write("    {\n")
 for index, row in df.groupby('shape_index').first().iterrows():
-    ofile.write("        case %d: return %d;\n" % (index, row['start_index']))
+    ofile.write("        case %d: return %d;\n" % (index, pixels.loc[int(row['start_index'])]['logical_index']))
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -94,7 +96,7 @@ ofile.write("{\n")
 ofile.write("    switch(shape_index)\n")
 ofile.write("    {\n")
 for index, row in df.groupby('shape_index').last().iterrows():
-    ofile.write("        case %d: return %d;\n" % (index, row['end_index']))
+    ofile.write("        case %d: return %d;\n" % (index, pixels.loc[int(row['end_index'])]['logical_index']))
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -104,7 +106,7 @@ ofile.write("{\n")
 ofile.write("    switch(shape_index)\n")
 ofile.write("    {\n")
 for index, row in df.groupby('shape_index').first().iterrows():
-    ofile.write("        case %d: return %d;\n" % (index, row['leg_index']))
+    ofile.write("        case %d: return %d;\n" % (index, row['index']))
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -114,7 +116,7 @@ ofile.write("{\n")
 ofile.write("    switch(shape_index)\n")
 ofile.write("    {\n")
 for index, row in df.groupby('shape_index').last().iterrows():
-    ofile.write("        case %d: return %d;\n" % (index, row['leg_index']))
+    ofile.write("        case %d: return %d;\n" % (index, row['index']))
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")

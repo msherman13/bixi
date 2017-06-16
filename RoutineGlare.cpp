@@ -5,6 +5,7 @@
 #include "FastLED.h"
 #include "Arduino.h"
 #include "Logging.h"
+#include "Math.h"
 
 CMemoryPool<CRoutineGlare, CRoutineGlare::c_alloc_qty> CRoutineGlare::s_pool;
 
@@ -60,7 +61,7 @@ void CRoutineGlare::Continue()
         float this_index = (float)i / GetSize();
         float ratio = std::max<float>(1 - fabs(this_index - m_midpoint), 0.0001);
         ratio = fabs(ratio - 0.50) * 2;
-        ratio = powf(ratio, m_q);
+        ratio = Math::exp_by_squaring(ratio, m_q);
         hsv.val = std::min<float>(255, 255 * ratio);
         if(hsv.val < 15)
             hsv.val = 0;

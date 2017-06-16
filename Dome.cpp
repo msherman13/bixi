@@ -5,6 +5,7 @@
 #include "RoutineGlare.h"
 #include "RoutineBalls.h"
 #include "RoutineRain.h"
+#include "RoutineSpin.h"
 #include "RoutineSolid.h"
 
 CMemoryPool<CDome, 1> CDome::s_pool;
@@ -27,16 +28,43 @@ CDome::CDome() :
         size_t leg_offset = DomeMappings::ShapeStartLeg(i);
 
         m_shapes[i] = new CPixelArrayLegs(this, len, offset, num_legs, leg_offset);
-        for(size_t j=0;j<m_shapes[i]->NumLegs();j++)
+    }
+
+    // initialize hexagon containers
+    for(size_t i=0;i<DomeMappings::c_num_double_hex;i++)
+    {
+        m_inner_hex[i] = m_shapes[DomeMappings::c_inner_hex_index[i]];
+        m_outer_hex[i] = m_shapes[DomeMappings::c_outer_hex_index[i]];
+    }
+
+    // non hex
+    size_t index = 0;
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        bool is_hex = false;
+        for(size_t j=0;j<DomeMappings::c_num_double_hex;j++)
         {
-            m_shapes[i]->GetLeg(j)->TransitionTo(new CRoutineGlare(m_shapes[i]->GetLeg(j),
-                                                        10000,
-                                                        //ColorPallete::DarkPink,
-                                                        CRGB(23,35,28),
-                                                        10,
-                                                        true,
-                                                        5));
+            is_hex |= i == DomeMappings::c_inner_hex_index[j];
+            is_hex |= i == DomeMappings::c_outer_hex_index[j];
         }
+
+        if(is_hex == false)
+        {
+            m_non_hex[index++] = m_shapes[i];
+        }
+    }
+
+//    TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
+
+    for(size_t i=0;i<DomeMappings::c_num_double_hex;i++)
+    {
+        m_inner_hex[i]->TransitionTo(new CRoutineSolid(m_inner_hex[i], 10000, ColorPallete::Mint));
+        m_outer_hex[i]->TransitionTo(new CRoutineSolid(m_outer_hex[i], 10000, ColorPallete::Mint));
+    }
+
+    for(size_t i=0;i<DomeMappings::c_num_non_hex;i++)
+    {
+        m_non_hex[i]->TransitionTo(new CRoutineRain(m_non_hex[i], 10000, ColorPallete::DarkPink));
     }
 }
 

@@ -47,24 +47,11 @@ CHSV CRoutineRain::RecalculateColor(size_t index)
 
     CPixelArray::Coordinate coord = GetCoordinate(index);
 
-    float x_dist = std::max<float>(fabs(coord.x), 0.0001);
-    float y_dist = std::max<float>(fabs(coord.y), 0.0001);
+    float x_dist = std::max<float>(fabs(coord.x - c_midpoint_x), 0.0001);
+    float y_dist = std::max<float>(fabs(coord.y - c_midpoint_y), 0.0001);
 
     float brightness = 0;
     float distance_from_midpoint = sqrtf(powf(x_dist, 2) + powf(y_dist, 2));
-    float theta                  = atan(y_dist / x_dist);
-    if(coord.x < 0 && coord.y > 0)
-    {
-        theta += M_PI;
-    }
-    else if(coord.x < 0 && coord.y < 0)
-    {
-        theta += M_PI;
-    }
-    else if(coord.x > 0 && coord.y < 0)
-    {
-        theta += 2 * M_PI;
-    }
 
     for(size_t i=0;i<c_num_circles;i++)
     {

@@ -23,7 +23,7 @@ void CRoutine::SetPixel(size_t index, CRGB rgb)
 {
     if(InTransition() == true)
     {
-        m_pixels->BlendPixel(index, rgb, (float)(millis() - StartMs()) / m_transition_time_ms);
+        m_pixels->BlendPixel(index, rgb, (float)(millis() - StartMs()) / (m_transition_time_ms - 200));
         return;
     }
 

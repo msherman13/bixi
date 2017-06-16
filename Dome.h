@@ -17,8 +17,10 @@ class CDome : public CPixelArrayLegs
         virtual void ExitRoutine()     override;
 
     private:
-        CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes] = {};
-        CPixelArrayLegs* m_all_hexagons                       = nullptr;
+        CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes]        = {};
+        CPixelArrayLegs* m_inner_hex[DomeMappings::c_num_double_hex] = {};
+        CPixelArrayLegs* m_outer_hex[DomeMappings::c_num_double_hex] = {};
+        CPixelArrayLegs* m_non_hex[DomeMappings::c_num_non_hex]      = {};
 
     private:
         static CMemoryPool<CDome, 1> s_pool;

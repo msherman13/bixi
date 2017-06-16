@@ -2,7 +2,8 @@ CC = /usr/bin/g++
 INC += -I.
 INC += -IFastLEDEmulator
 INC += -IArduinoEmulator
-OBJ = FastLEDEmulator/*.cpp ArduinoEmulator/*.cpp *.cpp
+INC += -Ifixmath
+OBJ = FastLEDEmulator/*.cpp ArduinoEmulator/*.cpp *.cpp fixmath/*.c
 SIM_DIR = build-sim
 
 ifeq ($(TECHNOLOGY), none)

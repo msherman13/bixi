@@ -8,12 +8,14 @@
 class CRoutineRain : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty    = 4;
+        static constexpr size_t c_alloc_qty    = 32;
         static constexpr size_t c_period_ms    = 10000;
         static constexpr float  c_max_radius   = sqrt(2);
         static constexpr float  c_radius_delta = c_max_radius / c_period_ms;
         static constexpr float  c_q            = 20;
         static constexpr size_t c_num_circles  = 8;
+        static constexpr float  c_midpoint_x   = 0.15;
+        static constexpr float  c_midpoint_y   = 0.10;
 
     public:
         CRoutineRain(CPixelArray* pixels, size_t transition_time_ms, CRGB rgb);
@@ -29,7 +31,7 @@ class CRoutineRain : public CRoutine
 
     private:
         CHSV   m_color;
-        float  m_radius[c_num_circles] = {};
+        float  m_radius[c_num_circles]   = {};
         size_t m_last_run = 0;
 
     private:
