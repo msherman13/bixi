@@ -57,7 +57,7 @@ CHSV CRoutineRain::RecalculateColor(size_t index)
     {
         float radius   = m_radius[i];
         float distance = fabs(radius - distance_from_midpoint);
-        brightness    += Math::exp_by_squaring(1.0 - distance, c_q);
+        brightness    += Math::fast_pow(1.0 - distance, c_q);
     }
 
     brightness = std::min<float>(brightness, 1.0);

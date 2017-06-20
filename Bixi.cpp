@@ -7,7 +7,7 @@
 #include "Grid.h"
 #include "FreeRam.h"
 
-#define LOG_REFRESH_RATE
+//#define LOG_REFRESH_RATE
 #define GEOM_DOME
 
 CBixi& CBixi::Instance()

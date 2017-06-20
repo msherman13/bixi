@@ -58,7 +58,7 @@ CPixelArray::Coordinate MapProjection::LambertProjection(GeographicCoord geog)
     const float ref_lat   = M_PI / 2; // 90 degrees (north pole)
     //const float ref_long  = -M_PI / 2.5;
     //const float ref_long  = -1.285 * M_PI;
-    const float ref_long  = M_PI;
+    const float ref_long  = -M_PI * 1.30;
 
     float n = log( cos(std_par_1) * (1 / cos(std_par_2) ) ) /
               log( tan(M_PI / 4 + std_par_2 / 2) * ( 1 / tan(M_PI / 4 + std_par_1 / 2) ) );

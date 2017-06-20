@@ -54,8 +54,14 @@ CDome::CDome() :
         }
     }
 
-//    TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
-
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        CHSV color((i * 50) % 255, 255, 255);
+        m_shapes[i]->TransitionTo(new CRoutineSolid(m_shapes[i], 10000, color));
+    }
+    //TransitionTo(new CRoutineBalls(this, 10000, 8));
+    //TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
+/*
     for(size_t i=0;i<DomeMappings::c_num_double_hex;i++)
     {
         m_inner_hex[i]->TransitionTo(new CRoutineSolid(m_inner_hex[i], 10000, ColorPallete::Mint));
@@ -64,8 +70,9 @@ CDome::CDome() :
 
     for(size_t i=0;i<DomeMappings::c_num_non_hex;i++)
     {
-        m_non_hex[i]->TransitionTo(new CRoutineRain(m_non_hex[i], 10000, ColorPallete::DarkPink));
+        m_non_hex[i]->TransitionTo(new CRoutineSpin(m_non_hex[i], 10000, ColorPallete::DarkPink));
     }
+    */
 }
 
 CDome::~CDome()
@@ -88,6 +95,11 @@ void CDome::ExitRoutine()
 
 void CDome::Continue()
 {
+    //if(InTransition() == false && millis() - m_routine->StartMs() > 20000)
+    //{
+    //    TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::Mint));
+    //}
+
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->Continue();
