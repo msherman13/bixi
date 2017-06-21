@@ -69,8 +69,8 @@ CHSV CRoutineSpin::RecalculateColor(size_t index)
     {
         float distance = std::min<float>(fabs(m_theta[i] - theta), fabs(m_theta[i] + c_max_theta - theta));
         distance       = std::min<float>(distance, fabs(m_theta[i] - c_max_theta - theta));
-        //brightness    += Math::fast_pow((c_max_theta - distance) / c_max_theta, c_q);
-        brightness    += Math::exp_by_squaring((c_max_theta - distance) / c_max_theta, c_q);
+        brightness    += Math::fast_pow((c_max_theta - distance) / c_max_theta, c_q);
+        //brightness    += Math::exp_by_squaring((c_max_theta - distance) / c_max_theta, c_q);
         //brightness = distance;
     }
 

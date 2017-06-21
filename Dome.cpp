@@ -54,9 +54,9 @@ CDome::CDome() :
         }
     }
 
-    TransitionTo(new CRoutineSolid(this, 10000, ColorPallete::DarkPink));
+    //TransitionTo(new CRoutineSolid(this, 10000, ColorPallete::DarkPink));
     //TransitionTo(new CRoutineBalls(this, 10000, 8));
-    //TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
+    TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
 /*
     for(size_t i=0;i<DomeMappings::c_num_double_hex;i++)
     {
