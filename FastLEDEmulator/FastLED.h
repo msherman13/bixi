@@ -6,6 +6,7 @@
 
 #define WS2811_PORTD 1
 #define WS2813_PORTD 2
+#define OCTOWS2813 3
 
 class CFastLED
 {
@@ -20,15 +21,10 @@ class CFastLED
         template <size_t TYPE, size_t NUM_PINS>
         void addLeds(CRGB* leds, size_t numLedsPerPin)
         {
-            m_numLeds = NUM_PINS * numLedsPerPin;
-            m_leds = leds;
-
-            m_file << "time_ms";
-            for(size_t i=0;i<m_numLeds;i++)
-            {
-                m_file << ",pixel_" << i;
-            }
-            m_file << std::endl;
+        }
+        template <size_t TYPE>
+        void addLeds(CRGB* leds, size_t numLedsPerPin)
+        {
         }
         void show();
 
@@ -39,6 +35,7 @@ class CFastLED
 };
 
 extern CFastLED FastLED;
+extern CFastLED LEDS;
 
 struct FRGB
 {
