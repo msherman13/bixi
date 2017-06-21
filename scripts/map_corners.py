@@ -31,9 +31,9 @@ for name, group in df.groupby('shape_index'):
 pixels = pixels.set_index('logical_index')
 
 # scale so 0.99 is max coordinate
-max_x = max(df['x1'].max(), df['x2'].max())
-max_y = max(df['y1'].max(), df['y2'].max())
-max_z = max(df['z1'].max(), df['z2'].max())
+max_x = max(abs(df['x1']).max(), abs(df['x2']).max())
+max_y = max(abs(df['y1']).max(), abs(df['y2']).max())
+max_z = max(abs(df['z1']).max(), abs(df['z2']).max())
 x_scale = 0.99 / max_x
 y_scale = 0.99 / max_y
 z_scale = 0.99 / max_z
