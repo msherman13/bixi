@@ -25,6 +25,7 @@ void CFastLED::show()
 }
 
 CFastLED FastLED;
+CFastLED LEDS;
 
 CHSV rgb2hsv_approximate(const CRGB& rgb)
 {
