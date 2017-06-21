@@ -54,11 +54,12 @@ CDome::CDome() :
         }
     }
 
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    for(size_t i=1;i<DomeMappings::c_num_shapes;i++)
     {
         CHSV color((i * 50) % 255, 255, 255);
         m_shapes[i]->TransitionTo(new CRoutineSolid(m_shapes[i], 10000, color));
     }
+    m_shapes[0]->TransitionTo(new CRoutineSolid(m_shapes[0], 10000, CRGB::White));
     //TransitionTo(new CRoutineBalls(this, 10000, 8));
     //TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
 /*

@@ -42,4 +42,6 @@ namespace MapProjection
     CPixelArray::Coordinate LambertProjection(GeographicCoord geog);
 
     CPixelArray::Coordinate LambertProjection3d(Coord3d coord_3d);
+
+    CPixelArray::Coordinate AlbersProjection(GeographicCoord geog);
 };
