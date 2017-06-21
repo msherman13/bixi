@@ -1,5 +1,7 @@
 #pragma once
 
+#define USE_OCTOWS2811
+#include "OctoWS2811.h"
 #include "FastLED.h"
 #include "PixelArray.h"
 #include "Addressing.h"

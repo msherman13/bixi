@@ -7,7 +7,7 @@
 #include "Grid.h"
 #include "FreeRam.h"
 
-//#define LOG_REFRESH_RATE
+#define LOG_REFRESH_RATE
 #define GEOM_DOME
 
 CBixi& CBixi::Instance()
@@ -38,9 +38,7 @@ CBixi::CBixi()
 #endif
 
     // Parallel Output
-    FastLED.addLeds<WS2813_PORTD, Addressing::c_num_strands>(m_geometry->GetRaw(),
-            m_geometry->GetRawSize() / Addressing::c_num_strands);
-    //printf("MILES_DEBUG: per strand = %u\n", m_geometry->GetRawSize() / Addressing::c_num_strands);
+    LEDS.addLeds<OCTOWS2813>(m_geometry->GetRaw(), m_geometry->GetRawSize() / Addressing::c_num_strands);
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());
@@ -58,7 +56,7 @@ CBixi::~CBixi()
 
 void CBixi::Show(CPixelArray* pixels)
 {
-    FastLED.show();
+    LEDS.show();
 }
 
 void CBixi::Continue()
