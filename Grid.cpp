@@ -2,16 +2,16 @@
 #include "Logging.h"
 #include "ColorPallete.h"
 #include "FastLED.h"
-#include "GridMappings.h"
 #include "RoutineSolid.h"
 #include "RoutineBall.h"
 #include "RoutineCrawl.h"
 #include "RoutineRain.h"
 
-CMemoryPool<CGrid, 1> CGrid::s_pool;
+CMemoryPool<CGrid, 1>  CGrid::s_pool;
+GridMappings::Mappings CGrid::s_mappings;
 
 CGrid::CGrid() :
-    CPixelArrayLegs(GridMappings::Mappings())
+    CPixelArrayLegs(dynamic_cast<CPixelArray::Config*>(&s_mappings))
 {
     if(InTransition() == false)
     {

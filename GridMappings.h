@@ -19,11 +19,11 @@ namespace GridMappings
 
             for(size_t i=0;i<c_resolution;i++)
             {
-                m_start_index[i]      = i * c_resolution;
-                m_end_index[i]        = m_start_index[i] + c_resolution - 1;
-                float raster_y       = 2 * (i / (float)c_resolution) - 0.99;
-                m_start_coordinate[i] = CPixelArray::Coordinate(-1.00, raster_y);
-                m_end_coordinate[i]   = CPixelArray::Coordinate(1.00, raster_y);
+                m_leg_offset[i]      = i * c_resolution;
+                m_leg_size[i]        = c_resolution;
+//                float raster_y       = 2 * (i / (float)c_resolution) - 0.99;
+//                m_start_coordinate[i] = CPixelArray::Coordinate(-1.00, raster_y);
+//                m_end_coordinate[i]   = CPixelArray::Coordinate(1.00, raster_y);
             }
         }
     };

@@ -10,38 +10,27 @@ CMemoryPool<CPixelArray::Block, CPixelArray::Block::c_num_blocks> CPixelArray::B
 CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s_pool;
 
 CPixelArray::CPixelArray(const CPixelArray& rhs) :
-    CPixelArray(rhs.GetRawSize(), rhs.GetSize())
+    CPixelArray(rhs.GetConfig())
 {
-    m_length     = rhs.GetSize();
-    m_raw_length = rhs.GetRawSize();
-    for(size_t i=0;i<GetSize();i++)
-    {
-        m_locations[i]   = rhs.GetLocation(i);
-        m_coordinates[i] = rhs.GetCoordinate(i);
-    }
+    m_offset     = rhs.GetOffset();
 }
 
-CPixelArray::CPixelArray(size_t physical_len, size_t logical_len) :
+CPixelArray::CPixelArray(Config* config) :
     m_block(new Block),
     m_owner(true),
     m_pixels(m_block->m_pixels),
-    m_length(logical_len),
-    m_raw_length(physical_len),
-    m_locations(m_block->m_locations),
-    m_coordinates(m_block->m_coordinates)
+    m_length(config->m_logical_size),
+    m_raw_length(config->m_physical_size),
+    m_config(config)
 {
-    for(size_t i=0;i<GetSize();i++)
-    {
-        m_locations[i] = i;
-    }
 }
 
 CPixelArray::CPixelArray(CPixelArray* pixels, size_t len, size_t offset) :
     m_pixels(pixels->GetRaw()),
     m_length(len == 0 ? pixels->GetSize() : len),
     m_raw_length(pixels->GetRawSize() - offset),
-    m_locations(pixels->m_locations + offset),
-    m_coordinates(pixels->m_coordinates + offset)
+    m_config(pixels->GetConfig()),
+    m_offset(offset)
 {
 }
 
@@ -57,12 +46,12 @@ CPixelArray::~CPixelArray()
 
 CRGB CPixelArray::GetPixel(size_t index)
 {
-    return m_pixels[m_locations[index]];
+    return m_pixels[GetLocation(index)];
 }
 
 void CPixelArray::SetPixel(size_t index, CRGB rgb)
 {
-    m_pixels[m_locations[index]] = rgb;
+    m_pixels[GetLocation(index)] = rgb;
 }
 
 void CPixelArray::BlendPixel(size_t index, CRGB rgb, float weight)

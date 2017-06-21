@@ -36,4 +36,6 @@ class CDome : public CPixelArrayLegs
             s_pool.free(reinterpret_cast<CDome*>(ptr));
         }
 
+    private:
+        static DomeMappings::Mappings s_mappings;
 };

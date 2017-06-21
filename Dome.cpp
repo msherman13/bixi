@@ -8,17 +8,12 @@
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
 
-CMemoryPool<CDome, 1> CDome::s_pool;
+CMemoryPool<CDome, 1>  CDome::s_pool;
+DomeMappings::Mappings CDome::s_mappings;
 
 CDome::CDome() :
-    CPixelArrayLegs(DomeMappings::Mappings())
+    CPixelArrayLegs(dynamic_cast<CPixelArray::Config*>(&s_mappings))
 {
-    // manually override coordinates since projection is incompatible with auto-map
-    for(size_t i=0;i<GetSize();i++)
-    {
-        SetCoordinate(i, DomeMappings::GetCoordinate(i));
-    }
-
     // initialize all shapes
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {

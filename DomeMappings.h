@@ -9,19 +9,13 @@
 
 namespace DomeMappings
 {
-    constexpr size_t c_num_physical_pixels = 5536;
-    constexpr size_t c_num_logical_pixels  = 4687;
+    constexpr size_t c_num_physical_pixels = 5560;
+    constexpr size_t c_num_logical_pixels  = 4664;
     constexpr size_t c_num_shapes          = 22;
     constexpr size_t c_num_double_hex      = 4;
     constexpr size_t c_num_non_hex         = c_num_shapes - 2 * c_num_double_hex;
     constexpr size_t c_inner_hex_index[c_num_double_hex] = { 3, 6, 9, 12 };
     constexpr size_t c_outer_hex_index[c_num_double_hex] = { 4, 7, 10, 13 };
-
-    // takes logical index as argument, returns raw index
-    size_t GetLocation(size_t index);
-
-    // takes logical index as argument
-    CPixelArray::Coordinate GetCoordinate(size_t index);
 
     size_t ShapeStartIndex(size_t shape_index);
     size_t ShapeEndIndex(size_t shape_index);
@@ -31,5 +25,8 @@ namespace DomeMappings
     struct Mappings : public CPixelArrayLegs::Config
     {
         Mappings();
+
+        virtual size_t                  GetLocation(size_t index) final;
+        virtual CPixelArray::Coordinate GetCoordinate(size_t index) final;
     };
 };

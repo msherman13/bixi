@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include "GridMappings.h"
 #include "PixelArrayLegs.h"
 
 class CRoutine;
@@ -27,4 +28,7 @@ class CGrid : public CPixelArrayLegs
         {
             s_pool.free(reinterpret_cast<CGrid*>(ptr));
         }
+
+    private:
+        static GridMappings::Mappings s_mappings;
 };

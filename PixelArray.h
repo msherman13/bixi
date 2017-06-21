@@ -37,8 +37,6 @@ class CPixelArray
             static CMemoryPool<Block, c_num_blocks> s_pool;
 
             CRGB                    m_pixels[c_pixels_per_block];
-            size_t                  m_locations[c_pixels_per_block] = {};
-            CPixelArray::Coordinate m_coordinates[c_pixels_per_block];
 
             void* operator new(size_t)
             {
@@ -51,8 +49,31 @@ class CPixelArray
             }
         };
 
+        struct Config
+        {
+            size_t     m_physical_size               = Block::c_pixels_per_block;
+            size_t     m_logical_size                = Block::c_pixels_per_block;
+            size_t     m_num_legs                    = 0; // TODO: put into legs module
+            size_t     m_leg_offset[c_max_num_legs] = {};
+            size_t     m_leg_size[c_max_num_legs] = {};
+
+            virtual size_t GetLocation(size_t index)
+            {
+                return index;
+            }
+
+            virtual CPixelArray::Coordinate GetCoordinate(size_t index)
+            {
+                return CPixelArray::Coordinate();
+            }
+
+            virtual ~Config()
+            {
+            }
+        };
+
     public:
-        CPixelArray(size_t physical_len, size_t logical_len); // owner
+        CPixelArray(Config* config); // owner
         CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
         CPixelArray(CPixelArray* pixels, size_t len=0, size_t offset=0); // reference to external pixels
         virtual ~CPixelArray();
@@ -71,26 +92,25 @@ class CPixelArray
         size_t      GetSize() const                               { return m_length; }
         CRGB*       GetRaw(size_t index=0)                        { return &m_pixels[index]; }
         size_t      GetRawSize() const                            { return m_raw_length; }
-        Coordinate& GetCoordinate(size_t index) const             { return m_coordinates[index]; }
-        size_t      GetLocation(size_t index) const               { return m_locations[index]; }
+        Coordinate  GetCoordinate(size_t index) const             { return m_config->GetCoordinate(IndexOffset(index)); }
+        size_t      GetLocation(size_t index) const               { return m_config->GetLocation(IndexOffset(index)); }
+        size_t      IndexOffset(size_t index) const               { return index + m_offset; }
 
     public:
         void        SetSize(size_t len)                           { m_length = len; }
         void        SetRaw(CRGB* pixels)                          { m_pixels = pixels; }
         void        SetRawSize(size_t len)                        { m_raw_length = len; }
-        void        SetLocation(size_t index, size_t loc)         { m_locations[index] = loc; }
-        void        SetCoordinate(size_t index, Coordinate coord) { m_coordinates[index] = coord; }
-        void        ShiftLocations(size_t amount)                 { m_locations += amount; }
-        void        ShiftCoordinates(size_t amount)               { m_coordinates += amount; }
+        void        SetOffset(size_t val)                         { m_offset = val; }
 
     public:
-        CRGB   GetPixel(size_t index);
-        void   SetPixel(size_t index, CRGB rgb);
-        void   BlendPixel(size_t index, CRGB rgb, float weight);
-        void   SetAllPixels(CRGB rgb);
-        void   Copy(CPixelArray* rhs, size_t size, size_t offset=0);
-        void   SmartCopy(CPixelArray* rhs, size_t size, size_t offset=0);
-        bool   HasCoordinates() { return m_coordinates != nullptr; }
+        CRGB    GetPixel(size_t index);
+        void    SetPixel(size_t index, CRGB rgb);
+        void    BlendPixel(size_t index, CRGB rgb, float weight);
+        void    SetAllPixels(CRGB rgb);
+        void    Copy(CPixelArray* rhs, size_t size, size_t offset=0);
+        void    SmartCopy(CPixelArray* rhs, size_t size, size_t offset=0);
+        Config* GetConfig() const { return m_config; }
+        size_t  GetOffset() const { return m_offset; }
 
     protected:
         Block* m_block      = nullptr;
@@ -100,8 +120,8 @@ class CPixelArray
         size_t m_raw_length = 0;
 
     protected:
-        size_t*     m_locations   = nullptr;
-        Coordinate* m_coordinates = nullptr;
+        Config* m_config = nullptr;
+        size_t m_offset = 0;
 
     private: static CMemoryPool<CPixelArray, c_alloc_qty> s_pool;
 
