@@ -2,6 +2,7 @@
 
 import sys
 import pandas as pd
+import map_projection
 
 df = pd.read_csv(sys.argv[1])
 
@@ -21,9 +22,11 @@ for name, group in df.groupby('shape_index'):
             pixel = pd.Series()
             pixel['raw_index'] = j
             pixel['logical_index'] = logical_index
-            pixel['x']     = row['x1'] + slope_x * raw
-            pixel['y']     = row['y1'] + slope_y * raw
-            pixel['z']     = row['z1'] + slope_z * raw
+            [x, y] = map_projection.lambert_proj_cartesian(row['x1'] + slope_x * raw,\
+                                                            row['y1'] + slope_y * raw,\
+                                                            row['z1'] + slope_z * raw)
+            pixel['x']     = x
+            pixel['y']     = y
             pixels = pixels.append(pixel, ignore_index=True)
             logical_index += 1
             raw += 1
@@ -31,15 +34,12 @@ for name, group in df.groupby('shape_index'):
 pixels = pixels.set_index('logical_index')
 
 # scale so 0.99 is max coordinate
-max_x = max(abs(df['x1']).max(), abs(df['x2']).max())
-max_y = max(abs(df['y1']).max(), abs(df['y2']).max())
-max_z = max(abs(df['z1']).max(), abs(df['z2']).max())
-x_scale = 0.99 / max_x
-y_scale = 0.99 / max_y
-z_scale = 0.99 / max_z
-pixels['x'] = pixels['x'] * x_scale
-pixels['y'] = pixels['y'] * y_scale
-pixels['z'] = pixels['z'] * z_scale
+#max_x = max(abs(df['x1']).max(), abs(df['x2']).max())
+#max_y = max(abs(df['y1']).max(), abs(df['y2']).max())
+#x_scale = 0.99 / max_x
+#y_scale = 0.99 / max_y
+#pixels['x'] = pixels['x'] * x_scale
+#pixels['y'] = pixels['y'] * y_scale
 
 ofile = open(sys.argv[2], 'w')
 
@@ -62,7 +62,7 @@ ofile.write("{\n")
 ofile.write("    switch(index)\n")
 ofile.write("    {\n")
 for index, row in pixels.iterrows():
-    ofile.write("        case %d: return MapProjection::LambertProjection3d(MapProjection::Coord3d(%f, %f, %f));\n" % (index, row['x'], row['y'], row['z']))
+    ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (index, row['x'], row['y']))
 ofile.write("        default: return CPixelArray::Coordinate();\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")

@@ -70,7 +70,7 @@ CPixelArray::Coordinate MapProjection::LambertProjection(GeographicCoord geog)
     float f = ( cos(std_par_1) * pow( tan(M_PI / 4 + std_par_1 / 2), n) ) / n;
 
     // cot of 0 is 0, but the tangent part returns inf which evaluates to nan
-    float rho_tan = std::abs(geog.latitude - M_PI / 2) < epsilon || std::abs(-geog.latitude - M_PI / 2) < epsilon ?
+    float rho_tan = fabs(geog.latitude - M_PI / 2) < epsilon || fabs(-geog.latitude - M_PI / 2) < epsilon ?
                     0 :
                     1 / tan(M_PI / 4 + geog.latitude / 2);
     float rho = f * pow( rho_tan, n );

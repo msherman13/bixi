@@ -49,10 +49,17 @@ CDome::CDome() :
         }
     }
 
+    /*
+    for(size_t i=1;i<DomeMappings::c_num_shapes;i++)
+    {
+        m_shapes[i]->TransitionTo(new CRoutineSolid(m_shapes[i], 5000, ColorPallete::DarkPink));
+    }
+    m_shapes[0]->TransitionTo(new CRoutineSolid(m_shapes[0], 5000, CRGB::White));
+    */
     //TransitionTo(new CRoutineSolid(this, 10000, ColorPallete::DarkPink));
     //TransitionTo(new CRoutineBalls(this, 10000, 8));
     TransitionTo(new CRoutineSpin(this, 10000, ColorPallete::DarkPink));
-/*
+    /*
     for(size_t i=0;i<DomeMappings::c_num_double_hex;i++)
     {
         m_inner_hex[i]->TransitionTo(new CRoutineSolid(m_inner_hex[i], 10000, ColorPallete::Mint));
