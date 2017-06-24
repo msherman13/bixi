@@ -42,8 +42,6 @@ class CDome : public CPixelArrayLegs
             RoutineBalls,
             RoutineRain,
             RoutineRings,
-            RoutineGlareShapes,
-            //RoutineCycleAndGlare,
 
             RoutineQty,
             RoutineNone,

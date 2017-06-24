@@ -204,13 +204,6 @@ void CDome::AdvanceRoutine()
             TransitionTo(new CRoutineRings(this), c_transition_time_ms);
             break;
 
-        case RoutineGlareShapes:
-            for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
-            {
-                CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
-                m_shapes[i]->TransitionTo(new CRoutineGlare(m_shapes[i], rgb, 20, true, 10), c_transition_time_ms);
-            }
-            break;
     }
 
     TransitionOut();
