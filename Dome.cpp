@@ -8,6 +8,7 @@
 #include "RoutineRings.h"
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
+#include "RoutineIdle.h"
 #include "RoutineCyclePallete.h"
 
 CMemoryPool<CDome, 1>  CDome::s_pool;
@@ -16,6 +17,8 @@ DomeMappings::Mappings CDome::s_mappings;
 CDome::CDome() :
     CPixelArrayLegs(dynamic_cast<CPixelArray::Config*>(&s_mappings))
 {
+    SetName("Dome");
+
     // initialize all shapes
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
@@ -25,6 +28,10 @@ CDome::CDome() :
         size_t leg_offset = DomeMappings::ShapeStartLeg(i);
 
         m_shapes[i] = new CPixelArrayLegs(this, len, offset, num_legs, leg_offset);
+
+        char name[16];
+        sprintf(name, "DomeShape%u", i);
+        m_shapes[i]->SetName(name);
     }
 
     // initialize hexagon containers
@@ -51,8 +58,13 @@ CDome::CDome() :
         }
     }
 
-    SetRoutine(new CRoutineRings(this, 0));
-    m_routine_end_ms = -1;
+    // start at black, immediately transition out
+    SetRoutine(new CRoutineSolid(this, CRGB::Black));
+    m_dome_routine = RoutineSolid;
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        m_shapes[i]->SetRoutine(new CRoutineIdle(this));
+    }
 }
 
 CDome::~CDome()
@@ -63,14 +75,17 @@ CDome::~CDome()
     }
 }
 
-void CDome::ExitRoutine()
+bool CDome::IsShapeRoutine(Routine routine)
 {
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    switch(routine)
     {
-        m_shapes[i]->ExitRoutine();
-    }
+        case RoutineCyclePalleteShapes:
+        case RoutineGlareShapes:
+            return true;
 
-    CPixelArray::ExitRoutine();
+        default:
+            return false;
+    }
 }
 
 void CDome::Continue()
@@ -80,12 +95,25 @@ void CDome::Continue()
         AdvanceRoutine();
     }
 
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    // hack: this is only necessary so the transition blending doesn't do a hard overwrite
+    if(IsShapeRoutine(m_dome_routine) == true)
     {
-        m_shapes[i]->Continue();
-    }
+        for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+        {
+            m_shapes[i]->Continue();
+        }
 
-    CPixelArray::Continue();
+        CPixelArray::Continue();
+    }
+    else
+    {
+        CPixelArray::Continue();
+
+        for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+        {
+            m_shapes[i]->Continue();
+        }
+    }
 }
 
 CDome::Routine CDome::GetNextRoutine()
@@ -99,8 +127,9 @@ CDome::Routine CDome::GetNextRoutine()
             case RoutineCyclePallete:
             case RoutineCyclePalleteDimensional:
             case RoutineCyclePalleteShapes:
-            case RoutineRandomSolid:
-                ret = static_cast<Routine>(c_solid_routine_qty + (rand() % c_complex_routine_qty));
+            case RoutineSolid:
+                //ret = static_cast<Routine>(c_solid_routine_qty + (rand() % c_complex_routine_qty));
+                return RoutineGlareShapes;
                 break;
 
             default:
@@ -112,55 +141,79 @@ CDome::Routine CDome::GetNextRoutine()
     return ret;
 }
 
+void CDome::TransitionOut()
+{
+    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+    {
+        if(m_shapes[i]->InTransition() == false)
+        {
+            m_shapes[i]->TransitionTo(new CRoutineIdle(this), c_transition_time_ms);
+        }
+    }
+
+    if(InTransition() == false)
+    {
+        TransitionTo(new CRoutineIdle(this), c_transition_time_ms);
+    }
+}
+
 void CDome::AdvanceRoutine()
 {
     m_dome_routine = GetNextRoutine();
 
     switch(m_dome_routine)
     {
-        case RoutineRandomSolid:
+        case RoutineSolid:
             {
                 CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
-                TransitionTo(new CRoutineSolid(this, c_transition_time_ms, rgb));
+                TransitionTo(new CRoutineSolid(this, rgb), c_transition_time_ms);
             }
             break;
 
         case RoutineCyclePallete:
-            TransitionTo(new CRoutineCyclePallete(this, c_transition_time_ms, true, 15));
+            TransitionTo(new CRoutineCyclePallete(this, true, 15), c_transition_time_ms);
             break;
 
         case RoutineCyclePalleteDimensional:
-            TransitionTo(new CRoutineCyclePallete(this, c_transition_time_ms, true, 40, true));
+            TransitionTo(new CRoutineCyclePallete(this, true, 40, true), c_transition_time_ms);
             break;
 
         case RoutineCyclePalleteShapes:
-            TransitionTo(new CRoutineCyclePallete(this, c_transition_time_ms, true, 15, false));
+            TransitionTo(new CRoutineCyclePallete(this, true, 15, false), c_transition_time_ms);
             break;
 
         case RoutineSpin:
             {
                 CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
-                TransitionTo(new CRoutineSpin(this, c_transition_time_ms, rgb));
+                TransitionTo(new CRoutineSpin(this, rgb), c_transition_time_ms);
             }
             break;
 
         case RoutineBalls:
-            TransitionTo(new CRoutineBalls(this, c_transition_time_ms, 8));
+            TransitionTo(new CRoutineBalls(this, 8), c_transition_time_ms);
             break;
 
         case RoutineRain:
             {
                 CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
-                TransitionTo(new CRoutineRain(this, c_transition_time_ms, rgb));
+                TransitionTo(new CRoutineRain(this, rgb), c_transition_time_ms);
             }
             break;
 
         case RoutineRings:
+            TransitionTo(new CRoutineRings(this), c_transition_time_ms);
+            break;
+
+        case RoutineGlareShapes:
+            for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
             {
-                TransitionTo(new CRoutineRings(this, c_transition_time_ms));
+                CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
+                m_shapes[i]->TransitionTo(new CRoutineGlare(m_shapes[i], rgb, 20, true, 10), c_transition_time_ms);
             }
             break;
     }
+
+    TransitionOut();
 
     m_routine_end_ms = millis() + (rand() % (c_max_routine_time_ms - c_min_routine_time_ms)) + c_min_routine_time_ms;
 }

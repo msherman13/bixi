@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 class  CRoutine;
 
@@ -54,8 +55,8 @@ class CPixelArray
             size_t     m_physical_size               = Block::c_pixels_per_block;
             size_t     m_logical_size                = Block::c_pixels_per_block;
             size_t     m_num_legs                    = 0; // TODO: put into legs module
-            size_t     m_leg_offset[c_max_num_legs] = {};
-            size_t     m_leg_size[c_max_num_legs] = {};
+            size_t     m_leg_offset[c_max_num_legs]  = {};
+            size_t     m_leg_size[c_max_num_legs]    = {};
 
             virtual size_t GetLocation(size_t index)
             {
@@ -79,8 +80,9 @@ class CPixelArray
         virtual ~CPixelArray();
 
     public:
+        void         SetName(const char* name) { strcpy(m_name, name); }
         void         SetRoutine(CRoutine* routine);
-        virtual void TransitionTo(CRoutine* routine);
+        virtual void TransitionTo(CRoutine* routine, size_t duration_ms);
         void         FinishTransition();
         virtual void ExitRoutine();
         virtual void Continue();
@@ -142,6 +144,7 @@ class CPixelArray
         }
 
     protected:
+        char      m_name[16]          = {};
         CRoutine* m_routine           = nullptr;
         CRoutine* m_next_routine      = nullptr;
 };

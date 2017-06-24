@@ -16,7 +16,7 @@ class CRoutineSpin : public CRoutine
         static constexpr size_t c_num_spokes   = 6;
 
     public:
-        CRoutineSpin(CPixelArray* pixels, size_t transition_time_ms, CRGB rgb);
+        CRoutineSpin(CPixelArray* pixels, CRGB rgb);
         ~CRoutineSpin();
 
     public:

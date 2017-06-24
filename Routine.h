@@ -10,13 +10,14 @@ struct CRGB;
 class CRoutine
 {
     public:
-        CRoutine(CPixelArray* pixels, size_t transition_time_ms=0);
+        CRoutine(CPixelArray* pixels);
         virtual ~CRoutine();
 
     public:
         virtual void            Continue() = 0;
         virtual const char*     GetName()  = 0;
         size_t                  StartMs()   { return m_start_time_ms; }
+        void                    TransitionOut(size_t duration_ms);
         bool                    InTransition();
         void                    SetAllPixels();
         void                    SetPixel(size_t index, CRGB rgb);
@@ -26,7 +27,8 @@ class CRoutine
         CPixelArray::Coordinate GetCoordinate(size_t index);
 
     private:
-        CPixelArray* m_pixels             = nullptr;
-        size_t       m_start_time_ms      = 0;
-        size_t       m_transition_time_ms = 0;
+        CPixelArray* m_pixels              = nullptr;
+        size_t       m_start_time_ms       = 0;
+        size_t       m_transition_start_ms = 0;
+        size_t       m_transition_time_ms  = 0;
 };

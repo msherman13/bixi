@@ -10,12 +10,11 @@
 CMemoryPool<CRoutineGlare, CRoutineGlare::c_alloc_qty> CRoutineGlare::s_pool;
 
 CRoutineGlare::CRoutineGlare(CPixelArray* pixels,
-                             size_t       transition_time_ms,
                              CRGB         base_color,
                              size_t       q,
                              bool         forward,
                              size_t     period_sec) :
-    CRoutine(pixels, transition_time_ms),
+    CRoutine(pixels),
     m_base_color(rgb2hsv_approximate(base_color)),
     m_q(q),
     m_forward(forward),

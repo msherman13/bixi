@@ -15,7 +15,6 @@ class CRoutineBall : public CRoutine
 
     public:
         CRoutineBall(CPixelArray* pixels,
-                        size_t    transition_time_ms,
                         size_t    q,
                         size_t    period_sec);
         ~CRoutineBall();

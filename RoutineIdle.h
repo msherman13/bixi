@@ -3,24 +3,21 @@
 #include "Routine.h"
 #include "FastLED.h"
 
-class CRoutineSolid : public CRoutine
+class CRoutineIdle : public CRoutine
 {
     public:
         static constexpr size_t c_alloc_qty   = 32;
 
     public:
-        CRoutineSolid(CPixelArray* pixels, CRGB rgb);
-        ~CRoutineSolid();
+        CRoutineIdle(CPixelArray* pixels);
+        ~CRoutineIdle();
 
     public:
         virtual void        Continue() override;
-        virtual const char* GetName()  override { return "Solid"; }
+        virtual const char* GetName()  override { return "Idle"; }
 
     private:
-        CRGB m_color;
-
-    private:
-        static CMemoryPool<CRoutineSolid, c_alloc_qty> s_pool;
+        static CMemoryPool<CRoutineIdle, c_alloc_qty> s_pool;
 
     public:
         void* operator new(size_t)
@@ -30,6 +27,6 @@ class CRoutineSolid : public CRoutine
 
         void operator delete(void* ptr)
         {
-            s_pool.free(reinterpret_cast<CRoutineSolid*>(ptr));
+            s_pool.free(reinterpret_cast<CRoutineIdle*>(ptr));
         }   
 };

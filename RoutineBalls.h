@@ -18,7 +18,7 @@ class CRoutineBalls : public CRoutine
         static constexpr size_t c_max_period    = 20;
 
     public:
-        CRoutineBalls(CPixelArray* pixels, size_t transition_time_ms, size_t num_balls);
+        CRoutineBalls(CPixelArray* pixels, size_t num_balls);
         ~CRoutineBalls();
 
     public:

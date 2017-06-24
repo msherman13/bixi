@@ -18,7 +18,7 @@ class CRoutineRain : public CRoutine
         static constexpr float  c_max_midpoint_y = 0.50;
 
     public:
-        CRoutineRain(CPixelArray* pixels, size_t transition_time_ms, CRGB rgb);
+        CRoutineRain(CPixelArray* pixels, CRGB rgb);
         ~CRoutineRain();
 
     public:

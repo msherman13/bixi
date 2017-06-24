@@ -12,7 +12,6 @@ class CRoutineCrawl : public CRoutine
 
     public:
         CRoutineCrawl(CPixelArray* pixels,
-                      size_t       transition_time_ms,
                       CRGB         base_color,
                       size_t       width,
                       size_t       start_offset,

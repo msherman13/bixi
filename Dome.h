@@ -19,7 +19,6 @@ class CDome : public CPixelArrayLegs
 
     public:
         virtual void Continue()        override;
-        virtual void ExitRoutine()     override;
 
     public:
         enum State
@@ -33,7 +32,7 @@ class CDome : public CPixelArrayLegs
         enum Routine
         {
             // solid
-            RoutineRandomSolid,
+            RoutineSolid,
             RoutineCyclePallete,
             RoutineCyclePalleteDimensional,
             RoutineCyclePalleteShapes,
@@ -43,12 +42,15 @@ class CDome : public CPixelArrayLegs
             RoutineBalls,
             RoutineRain,
             RoutineRings,
+            RoutineGlareShapes,
+            //RoutineCycleAndGlare,
 
             RoutineQty,
             RoutineNone,
         };
         static constexpr size_t c_solid_routine_qty = 4;
         static constexpr size_t c_complex_routine_qty = 5;
+        bool IsShapeRoutine(Routine routine);
 
     private:
         State   m_state          = StateIdle;
@@ -56,6 +58,7 @@ class CDome : public CPixelArrayLegs
         size_t  m_routine_end_ms = 0;
         Routine GetNextRoutine();
         void    AdvanceRoutine();
+        void    TransitionOut();
 
     private:
         CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes]        = {};

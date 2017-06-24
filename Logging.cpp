@@ -1,5 +1,6 @@
 #include "Logging.h"
 #include "Arduino.h"
+#include "Bixi.h"
 
 void CLogging::Init()
 {
@@ -19,7 +20,7 @@ void CLogging::log(const char* buff)
         return;
 
     char logstr[512];
-    sprintf(logstr, "[%u]: %s", millis(), buff);
+    sprintf(logstr, "[%u (%u)]: %s", millis(), CBixi::Iteration(), buff);
 
     Serial.println(logstr);
 }

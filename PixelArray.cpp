@@ -127,7 +127,7 @@ void CPixelArray::ExitRoutine()
     }
 
     char logstr[256];
-    sprintf(logstr, "CPixelArray::ExitRoutine: Exiting routine [%s]", m_routine->GetName());
+    sprintf(logstr, "CPixelArray(%s)::ExitRoutine: Exiting routine [%s]", m_name, m_routine->GetName());
     CLogging::log(logstr);
 
     delete m_routine;
@@ -140,22 +140,29 @@ void CPixelArray::SetRoutine(CRoutine* routine)
     ExitRoutine();
 
     char logstr[256];
-    sprintf(logstr, "CPixelArray::SetRoutine: Setting routine to [%s]", routine->GetName());
+    sprintf(logstr, "CPixelArray(%s)::SetRoutine: Setting routine to [%s]", m_name, routine->GetName());
     CLogging::log(logstr);
 
-    m_routine      = routine;
+    m_routine = routine;
 }
 
-void CPixelArray::TransitionTo(CRoutine* routine)
+void CPixelArray::TransitionTo(CRoutine* routine, size_t duration_ms)
 {
     char logstr[256];
-    sprintf(logstr, "CPixelArray::TransitionTo: Transitioning to [%s]", routine->GetName());
+    sprintf(logstr, "CPixelArray(%s)::TransitionTo: Transitioning to [%s]", m_name, routine->GetName());
     CLogging::log(logstr);
 
     if(InTransition() == true)
     {
         CLogging::log("CPixelArray::TransitionTo: ERROR Already in transition");
         return;
+    }
+
+    if(m_routine != nullptr)
+    {
+        sprintf(logstr, "CPixelArray(%s)::TransitionTo: Transitioning out of [%s]", m_name, m_routine->GetName());
+        CLogging::log(logstr);
+        m_routine->TransitionOut(duration_ms);
     }
 
     m_next_routine = routine;
@@ -169,8 +176,8 @@ void CPixelArray::FinishTransition()
     }
 
     char logstr[256];
-    sprintf(logstr, "CPixelArray::FinishTransition: Transition to [%s] is complete",
-            m_next_routine->GetName());
+    sprintf(logstr, "CPixelArray(%s)::FinishTransition: Transition to [%s] is complete",
+            m_name, m_next_routine->GetName());
     CLogging::log(logstr);
 
     SetRoutine(m_next_routine);
@@ -184,7 +191,7 @@ size_t CPixelArray::RoutineStartMs()
 
 void CPixelArray::Continue()
 {
-    if(InTransition() == true && m_next_routine->InTransition() == false)
+    if(InTransition() == true && m_routine->InTransition() == false)
     {
         FinishTransition();
     }

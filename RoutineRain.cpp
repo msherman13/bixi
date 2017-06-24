@@ -7,8 +7,8 @@
 
 CMemoryPool<CRoutineRain, CRoutineRain::c_alloc_qty> CRoutineRain::s_pool;
 
-CRoutineRain::CRoutineRain(CPixelArray* pixels, size_t transition_time_ms, CRGB rgb) :
-    CRoutine(pixels, transition_time_ms),
+CRoutineRain::CRoutineRain(CPixelArray* pixels, CRGB rgb) :
+    CRoutine(pixels),
     m_color(rgb2hsv_approximate(rgb))
 {
     m_last_run = millis();

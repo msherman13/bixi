@@ -8,13 +8,12 @@
 CMemoryPool<CRoutineCrawl, CRoutineCrawl::c_alloc_qty> CRoutineCrawl::s_pool;
 
 CRoutineCrawl::CRoutineCrawl(CPixelArray* pixels,
-                             size_t       transition_time_ms,
                              CRGB         base_color,
                              size_t       width,
                              size_t       start_offset,
                              bool         forward,
                              size_t       period_sec) :
-    CRoutine(pixels, transition_time_ms),
+    CRoutine(pixels),
     m_forward(forward),
     m_period_sec(period_sec),
     m_midpoint((float)(start_offset + width/2) / GetSize()),

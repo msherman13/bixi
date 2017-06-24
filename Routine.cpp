@@ -3,10 +3,9 @@
 #include "FastLED.h"
 #include "Arduino.h"
 
-CRoutine::CRoutine(CPixelArray* pixels, size_t transition_time_ms) :
+CRoutine::CRoutine(CPixelArray* pixels) :
     m_pixels(pixels),
-    m_start_time_ms(millis()),
-    m_transition_time_ms(transition_time_ms)
+    m_start_time_ms(millis())
 {
 }
 
@@ -14,16 +13,25 @@ CRoutine::~CRoutine()
 {
 }
 
+void CRoutine::TransitionOut(size_t duration_ms)
+{
+    m_transition_time_ms = duration_ms;
+    m_transition_start_ms = millis();
+}
+
 bool CRoutine::InTransition()
 {
-    return millis() - StartMs() < m_transition_time_ms;
+    return millis() - m_transition_start_ms < m_transition_time_ms;
 }
 
 void CRoutine::SetPixel(size_t index, CRGB rgb)
 {
     if(InTransition() == true)
     {
-        m_pixels->BlendPixel(index, rgb, (float)(millis() - StartMs()) / (m_transition_time_ms - 200));
+        double weight =
+            std::max<float>(0.0, 1.0 - (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200));
+
+        m_pixels->BlendPixel(index, rgb, weight);
         return;
     }
 

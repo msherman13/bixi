@@ -8,6 +8,8 @@
 #include "FreeRam.h"
 #include "GammaCorrection.h"
 
+size_t CBixi::s_iteration = 0;
+
 #define GEOM_DOME
 
 CBixi& CBixi::Instance()
@@ -66,6 +68,8 @@ void CBixi::Show(CPixelArray* pixels)
 
 void CBixi::Continue()
 {
+    s_iteration++;
+
     size_t now = millis();
 
     m_geometry->Continue();

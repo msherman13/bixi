@@ -12,7 +12,6 @@ class CRoutineGlare : public CRoutine
 
     public:
         CRoutineGlare(CPixelArray* pixels,
-                      size_t       transition_time_ms,
                       CRGB         base_color,
                       size_t       q,
                       bool         forward,

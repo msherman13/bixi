@@ -10,10 +10,9 @@
 CMemoryPool<CRoutineBall, CRoutineBall::c_alloc_qty> CRoutineBall::s_pool;
 
 CRoutineBall::CRoutineBall(CPixelArray* pixels,
-                           size_t       transition_time_ms,
                            size_t       q,
                            size_t       period_sec) :
-    CRoutine(pixels, transition_time_ms),
+    CRoutine(pixels),
     m_q(q),
     m_period_sec(period_sec)
 {

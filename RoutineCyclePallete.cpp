@@ -11,11 +11,10 @@
 CMemoryPool<CRoutineCyclePallete, CRoutineCyclePallete::c_alloc_qty> CRoutineCyclePallete::s_pool;
 
 CRoutineCyclePallete::CRoutineCyclePallete(CPixelArray* pixels,
-                                           size_t       transition_time_ms,
                                            bool         forward,
                                            size_t       period_sec,
                                            bool         dimensional) :
-    CRoutine(pixels, transition_time_ms),
+    CRoutine(pixels),
     m_forward(forward),
     m_period_sec(period_sec),
     m_dimensional(dimensional)

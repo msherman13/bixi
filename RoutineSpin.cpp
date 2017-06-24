@@ -8,8 +8,8 @@
 
 CMemoryPool<CRoutineSpin, CRoutineSpin::c_alloc_qty> CRoutineSpin::s_pool;
 
-CRoutineSpin::CRoutineSpin(CPixelArray* pixels, size_t transition_time_ms, CRGB rgb) :
-    CRoutine(pixels, transition_time_ms),
+CRoutineSpin::CRoutineSpin(CPixelArray* pixels, CRGB rgb) :
+    CRoutine(pixels),
     m_color(rgb2hsv_approximate(rgb))
 {
     m_last_run = millis();

@@ -18,7 +18,7 @@ class CRoutineRings : public CRoutine
         static constexpr float  c_max_midpoint_y = 0.50;
 
     public:
-        CRoutineRings(CPixelArray* pixels, size_t transition_time_ms);
+        CRoutineRings(CPixelArray* pixels);
         ~CRoutineRings();
 
     public:

@@ -22,6 +22,7 @@ class CBixi
         void Continue();
         void ShutDown() { m_shutting_down = true; }
         bool ShuttingDown() { return m_shutting_down; }
+        static size_t Iteration() { return s_iteration; }
 
     protected:
         virtual void Show(CPixelArray* pixels);
@@ -32,4 +33,7 @@ class CBixi
         CPixelArray* m_geometry      = nullptr;
         CPixelArray* m_show          = nullptr;
         bool         m_shutting_down = false;
+
+    private:
+        static size_t s_iteration;
 };

@@ -12,7 +12,6 @@ class CRoutineCyclePallete : public CRoutine
 
     public:
         CRoutineCyclePallete(CPixelArray* pixels,
-                             size_t       transition_time_ms,
                              bool         forward,
                              size_t       period_sec,
                              bool         dimensional=false);

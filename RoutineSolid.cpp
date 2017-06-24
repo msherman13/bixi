@@ -5,8 +5,8 @@
 
 CMemoryPool<CRoutineSolid, CRoutineSolid::c_alloc_qty> CRoutineSolid::s_pool;
 
-CRoutineSolid::CRoutineSolid(CPixelArray* pixels, size_t transition_time_ms, CRGB rgb) :
-    CRoutine(pixels, transition_time_ms),
+CRoutineSolid::CRoutineSolid(CPixelArray* pixels, CRGB rgb) :
+    CRoutine(pixels),
     m_color(rgb)
 {
 }

@@ -8,8 +8,8 @@
 
 CMemoryPool<CRoutineRings, CRoutineRings::c_alloc_qty> CRoutineRings::s_pool;
 
-CRoutineRings::CRoutineRings(CPixelArray* pixels, size_t transition_time_ms) :
-    CRoutine(pixels, transition_time_ms)
+CRoutineRings::CRoutineRings(CPixelArray* pixels) :
+    CRoutine(pixels)
 {
     m_last_run = millis();
 
