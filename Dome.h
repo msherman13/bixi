@@ -9,12 +9,53 @@ class CRoutine;
 class CDome : public CPixelArrayLegs
 {
     public:
+        static constexpr size_t c_transition_time_ms  = 20 * 1000;
+        static constexpr size_t c_min_routine_time_ms = 30 * 1000;
+        static constexpr size_t c_max_routine_time_ms = 40 * 1000;
+
+    public:
         CDome();
         ~CDome();
 
     public:
         virtual void Continue()        override;
         virtual void ExitRoutine()     override;
+
+    public:
+        enum State
+        {
+            StateIdle,
+            StateDomeRoutine,
+            StateShapeRoutine,
+
+            StateQty,
+        };
+        enum Routine
+        {
+            // solid
+            RoutineRandomSolid,
+            RoutineCyclePallete,
+            RoutineCyclePalleteDimensional,
+            RoutineCyclePalleteShapes,
+
+            // complex
+            RoutineSpin,
+            RoutineBalls,
+            RoutineRain,
+            RoutineRings,
+
+            RoutineQty,
+            RoutineNone,
+        };
+        static constexpr size_t c_solid_routine_qty = 4;
+        static constexpr size_t c_complex_routine_qty = 5;
+
+    private:
+        State   m_state          = StateIdle;
+        Routine m_dome_routine   = RoutineNone;
+        size_t  m_routine_end_ms = 0;
+        Routine GetNextRoutine();
+        void    AdvanceRoutine();
 
     private:
         CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes]        = {};

@@ -1,4 +1,5 @@
 #include "MapProjection.h"
+#include "fixmath.h"
 
 #include <cmath>
 
@@ -29,6 +30,16 @@ MapProjection::GeographicCoord MapProjection::Coord3dToGeographic(Coord3d coord)
     {
         ret.longitude -= 2 * M_PI;
     }
+
+    return ret;
+}
+
+CPixelArray::Coordinate MapProjection::PolarToCartesian(double theta, double radius)
+{
+    CPixelArray::Coordinate ret;
+
+    ret.x = radius * fix16_to_float(fix16_cos(fix16_from_float(theta)));
+    ret.y = radius * fix16_to_float(fix16_sin(fix16_from_float(theta)));
 
     return ret;
 }

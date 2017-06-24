@@ -45,6 +45,20 @@ CHSV rgb2hsv_approximate(const CRGB& rgb)
     return ret;
 }
 
+void CFastLED::countFPS(int nFrames) {
+  static int br = 0;
+  static uint32_t lastframe = 0; // millis();
+
+  if(br++ >= nFrames) {
+		uint32_t now = millis();
+		now -= lastframe;
+		m_nFPS = (br * 1000) / now;
+    br = 0;
+    lastframe = millis();
+  }
+}
+
+
 /*
 CHSV rgb2hsv_approximate(const CRGB& rgb)
 {

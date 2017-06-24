@@ -30,5 +30,6 @@ class CBixi
         size_t       m_lastIndicator = 0;
         bool         m_indicatorOn   = false;
         CPixelArray* m_geometry      = nullptr;
+        CPixelArray* m_show          = nullptr;
         bool         m_shutting_down = false;
 };

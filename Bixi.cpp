@@ -6,8 +6,8 @@
 #include "Dome.h"
 #include "Grid.h"
 #include "FreeRam.h"
+#include "GammaCorrection.h"
 
-#define LOG_REFRESH_RATE
 #define GEOM_DOME
 
 CBixi& CBixi::Instance()
@@ -37,8 +37,13 @@ CBixi::CBixi()
     exit(-1);
 #endif
 
+    m_show = new CPixelArray(*m_geometry);
+
     // Parallel Output
-    LEDS.addLeds<OCTOWS2813>(m_geometry->GetRaw(), m_geometry->GetRawSize() / Addressing::c_num_strands);
+    LEDS.addLeds<OCTOWS2813>(m_show->GetRaw(), m_show->GetRawSize() / Addressing::c_num_strands);
+    LEDS.setBrightness(255);
+
+    GammaCorrection::Init(3.5);
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());
@@ -65,19 +70,23 @@ void CBixi::Continue()
 
     m_geometry->Continue();
 
-#ifdef LOG_REFRESH_RATE
-    size_t cont = millis();
-#endif
+    for(size_t i=0;i<m_geometry->GetRawSize();i++)
+    {
+        m_show->SetPixelRaw(i, GammaCorrection::CorrectGamma(m_geometry->GetPixelRaw(i)));
+    }
 
-    Show(m_geometry);
+    Show(m_show);
 
-#ifdef LOG_REFRESH_RATE
-    size_t timer = millis();
-    char logString[128];
-    sprintf(logString, "CBixi::Continue: Calculations took %u ms, Show took %u ms, Total %u ms",
-            cont - now, timer - cont, timer - now);
-    CLogging::log(logString);
-#endif
+    FastLED.countFPS();
+
+    static size_t last_log = 0;
+    if(now - last_log >= 10000)
+    {
+        last_log = now;
+        char logString[128];
+        sprintf(logString, "CBixi::Continue: Frame rate for last 10 seconds is %u", FastLED.getFPS());
+        CLogging::log(logString);
+    }
 
     if(now - m_lastIndicator >= c_indicatorDelayMs)
     {

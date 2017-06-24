@@ -27,11 +27,15 @@ class CFastLED
         {
         }
         void show();
+        void countFPS(int nFrames=25);
+        uint16_t getFPS() { return m_nFPS; }
+        void setBrightness(int val) {}
 
     private:
         size_t m_numLeds = 0;
         CRGB* m_leds = nullptr;
         std::ofstream m_file;
+        uint16_t m_nFPS = 0;
 };
 
 extern CFastLED FastLED;

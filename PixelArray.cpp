@@ -12,7 +12,7 @@ CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s
 CPixelArray::CPixelArray(const CPixelArray& rhs) :
     CPixelArray(rhs.GetConfig())
 {
-    m_offset     = rhs.GetOffset();
+    m_offset = rhs.GetOffset();
 }
 
 CPixelArray::CPixelArray(Config* config) :
@@ -46,28 +46,45 @@ CPixelArray::~CPixelArray()
 
 CRGB CPixelArray::GetPixel(size_t index)
 {
-    return m_pixels[GetLocation(index)];
+    return GetPixelRaw(GetLocation(index));
 }
 
 void CPixelArray::SetPixel(size_t index, CRGB rgb)
 {
-    m_pixels[GetLocation(index)] = rgb;
+    SetPixelRaw(GetLocation(index), rgb);
+}
+
+CRGB CPixelArray::GetPixelRaw(size_t index)
+{
+    return m_pixels[index];
+}
+
+void CPixelArray::SetPixelRaw(size_t index, CRGB rgb)
+{
+    m_pixels[index] = rgb;
+}
+
+CRGB CPixelArray::Blend(const CRGB& lhs, const CRGB& rhs, float rhs_weight)
+{
+    rhs_weight = std::min<float>(rhs_weight, 1.00);
+    rhs_weight = std::max<float>(rhs_weight, 0.00);
+
+    float nweight = 1.0 - rhs_weight;
+
+    CRGB ret;
+
+    ret.r = sqrtf((nweight * lhs.r) * (nweight * lhs.r) + (rhs_weight * rhs.r) * (rhs_weight * rhs.r));
+    ret.g = sqrtf((nweight * lhs.g) * (nweight * lhs.g) + (rhs_weight * rhs.g) * (rhs_weight * rhs.g));
+    ret.b = sqrtf((nweight * lhs.b) * (nweight * lhs.b) + (rhs_weight * rhs.b) * (rhs_weight * rhs.b));
+
+    return ret;
 }
 
 void CPixelArray::BlendPixel(size_t index, CRGB rgb, float weight)
 {
     CRGB pixel = GetPixel(index);
 
-    weight = std::min<float>(weight, 1.00);
-    weight = std::max<float>(weight, 0.00);
-
-    float nweight = 1.0 - weight;
-
-    pixel.r = sqrtf((nweight * pixel.r) * (nweight * pixel.r) + (weight * rgb.r) * (weight * rgb.r));
-    pixel.g = sqrtf((nweight * pixel.g) * (nweight * pixel.g) + (weight * rgb.g) * (weight * rgb.g));
-    pixel.b = sqrtf((nweight * pixel.b) * (nweight * pixel.b) + (weight * rgb.b) * (weight * rgb.b));
-
-    SetPixel(index, pixel);
+    SetPixel(index, Blend(pixel, rgb, weight));
 }
 
 void CPixelArray::SetAllPixels(CRGB rgb)

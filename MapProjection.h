@@ -29,6 +29,7 @@ namespace MapProjection
     float RadiansToDegrees(float radians);
     float DegreesToRadians(float degrees);
 
+    CPixelArray::Coordinate PolarToCartesian(double theta, double radius);
     GeographicCoord Coord3dToGeographic(Coord3d coord);
 
     // mercator projection

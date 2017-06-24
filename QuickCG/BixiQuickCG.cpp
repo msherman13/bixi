@@ -1,5 +1,6 @@
 #include "BixiQuickCG.h"
 #include "quickcg.h"
+#include "GammaCorrection.h"
 
 CBixiQuickCG& CBixiQuickCG::Instance()
 {
@@ -11,6 +12,8 @@ CBixiQuickCG::CBixiQuickCG() :
     CBixi()
 {
     QuickCG::screen(c_pixels_x, c_pixels_y, 0, "Bixi");
+
+    GammaCorrection::Init(1.5);
 }
 
 CBixiQuickCG::~CBixiQuickCG()

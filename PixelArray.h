@@ -31,8 +31,8 @@ class CPixelArray
 
         struct Block
         {
-            static constexpr size_t c_pixels_per_block = 8000;
-            static constexpr size_t c_num_blocks = 1;
+            static constexpr size_t c_pixels_per_block = 6000;
+            static constexpr size_t c_num_blocks = 2;
 
             static CMemoryPool<Block, c_num_blocks> s_pool;
 
@@ -105,12 +105,17 @@ class CPixelArray
     public:
         CRGB    GetPixel(size_t index);
         void    SetPixel(size_t index, CRGB rgb);
+        CRGB    GetPixelRaw(size_t index);
+        void    SetPixelRaw(size_t index, CRGB rgb);
         void    BlendPixel(size_t index, CRGB rgb, float weight);
         void    SetAllPixels(CRGB rgb);
         void    Copy(CPixelArray* rhs, size_t size, size_t offset=0);
         void    SmartCopy(CPixelArray* rhs, size_t size, size_t offset=0);
         Config* GetConfig() const { return m_config; }
         size_t  GetOffset() const { return m_offset; }
+
+    public:
+        static CRGB Blend(const CRGB& lhs, const CRGB& rhs, float rhs_weight);
 
     protected:
         Block* m_block      = nullptr;
