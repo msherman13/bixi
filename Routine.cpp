@@ -3,6 +3,8 @@
 #include "FastLED.h"
 #include "Arduino.h"
 
+#include <algorithm>
+
 CRoutine::CRoutine(CPixelArray* pixels) :
     m_pixels(pixels),
     m_start_time_ms(millis())

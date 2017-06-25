@@ -43,7 +43,7 @@ void CRoutineTraverse::Continue()
         {
             for(size_t i=0;i<LegsAndNeckMappings::c_shapes_per_leg;i++)
             {
-                m_shapes_in_run[i] = dynamic_cast<CLegsAndNeck*>(GetPixels())->GetLegShape(unit, i);
+                m_shapes_in_run[i] = reinterpret_cast<CLegsAndNeck*>(GetPixels())->GetLegShape(unit, i);
             }
         }
         else
@@ -51,7 +51,7 @@ void CRoutineTraverse::Continue()
             for(size_t i=0;i<LegsAndNeckMappings::c_shapes_per_neck;i++)
             {
                 m_shapes_in_run[i] =
-                    dynamic_cast<CLegsAndNeck*>(GetPixels())->GetNeckShape(unit - LegsAndNeckMappings::c_num_legs, i);
+                    reinterpret_cast<CLegsAndNeck*>(GetPixels())->GetNeckShape(unit - LegsAndNeckMappings::c_num_legs, i);
             }
         }
     }

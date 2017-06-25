@@ -1,19 +1,6 @@
-# common
-ARDUINO_LIBS = FastLED
-
 # teensy3.6
 BOARD_TAG 	 = teensy36
 MONITOR_PORT = /dev/ttyACM0
-
-OPTIMIZATION_LEVEL = 1
-
-ifeq ($(TECHNOLOGY), teensy)
-MAKE_PATH=${ARDMK_DIR}/Teensy.mk
-$(info TECHNOLOGY = teensy)
-else
-MAKE_PATH = sim.mk
-$(info TECHNOLOGY = sim)
-endif
 
 ifeq ($(GEOM), dome)
 CXXFLAGS += -DGEOM_DOME
@@ -29,6 +16,14 @@ CXXFLAGS += -DGEOM_PERIPH
 $(info GEOM = periph)
 else
 $(error GEOM must be defines as dome, periph, or grid)
+endif
+
+ifeq ($(TECHNOLOGY), teensy)
+MAKE_PATH = teensy.mk
+$(info TECHNOLOGY = teensy)
+else
+MAKE_PATH = sim.mk
+$(info TECHNOLOGY = sim)
 endif
 
 include ${MAKE_PATH}
