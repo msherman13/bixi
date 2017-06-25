@@ -10,9 +10,10 @@ class CPixelArray;
 class CRoutineFire : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty           = 1;
+        static constexpr size_t c_alloc_qty           = 2;
         static constexpr size_t c_num_colors          = 256;
-        static constexpr int    c_num_pixels_per_axis = 100;
+        static constexpr int    c_x_pixels            = 1;
+        static constexpr int    c_y_pixels            = 100;
         static constexpr float  c_max_axis_val        = 1.00;
 
     public:
@@ -27,11 +28,10 @@ class CRoutineFire : public CRoutine
         void Init();
 
     private:
-        CRGB     m_colors[c_num_colors];
-        size_t m_fire[c_num_pixels_per_axis][c_num_pixels_per_axis] = {};
+        CHSV   m_colors[c_num_colors];
+        size_t m_fire[c_y_pixels][c_x_pixels] = {};
         size_t m_last_run = 0;
 
-        /*
     private:
         static CMemoryPool<CRoutineFire, c_alloc_qty> s_pool;
 
@@ -45,5 +45,4 @@ class CRoutineFire : public CRoutine
         {
             s_pool.free(reinterpret_cast<CRoutineFire*>(ptr));
         }
-        */
 };

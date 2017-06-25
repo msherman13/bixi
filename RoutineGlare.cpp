@@ -62,8 +62,6 @@ void CRoutineGlare::Continue()
         ratio = fabs(ratio - 0.50) * 2;
         ratio = Math::exp_by_squaring(ratio, m_q);
         hsv.val = std::min<float>(255, 255 * ratio);
-        if(hsv.val < 15)
-            hsv.val = 0;
 
         SetPixel(i, hsv);
     }

@@ -24,7 +24,7 @@ class CRoutine
         void                    SetAllPixels(CRGB rgb);
         CRGB                    GetPixel(size_t index);
         CPixelArray*            GetPixels() { return m_pixels; }
-        CPixelArray*            SetPixels(CPixelArray* pixels) { m_pixels = pixels; }
+        void                    SetPixels(CPixelArray* pixels) { m_pixels = pixels; }
         size_t                  GetSize();
         CPixelArray::Coordinate GetCoordinate(size_t index);
         const char*             GetPixelName();

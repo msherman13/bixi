@@ -6,6 +6,7 @@
 #include "Dome.h"
 #include "Grid.h"
 #include "LegsAndNeck.h"
+#include "Head.h"
 #include "FreeRam.h"
 #include "GammaCorrection.h"
 
@@ -33,6 +34,9 @@ CBixi::CBixi()
 #elif GEOM_LEGS_NECK
     CLogging::log("CBixi::CBixi: Geometry = GEOM_LEGS_NECK");
     m_geometry = new CLegsAndNeck();
+#elif GEOM_HEAD
+    CLogging::log("CBixi::CBixi: Geometry = GEOM_HEAD");
+    m_geometry = new CHead();
 #elif GEOM_GRID
     CLogging::log("CBixi::CBixi: Geometry = GEOM_GRID");
     m_geometry = new CGrid();
@@ -45,9 +49,10 @@ CBixi::CBixi()
 
     // Parallel Output
     LEDS.addLeds<OCTOWS2813>(m_show->GetRaw(), m_show->GetRawSize() / m_geometry->GetNumStrands());
-    LEDS.setBrightness(255);
+    //LEDS.setBrightness(255);
+    //LEDS.setCorrection(CRGB(255, 0, 0));
 
-    GammaCorrection::Init(3.5);
+    GammaCorrection::Init(2.50);
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());

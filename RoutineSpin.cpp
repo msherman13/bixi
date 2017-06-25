@@ -77,8 +77,6 @@ CHSV CRoutineSpin::RecalculateColor(size_t index)
     brightness = std::min<float>(brightness, 1.0);
 
     hsv.val = brightness * 255;
-    if(hsv.val < 15)
-        hsv.val = 0;
 
     return hsv;
 }

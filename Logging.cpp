@@ -20,7 +20,7 @@ void CLogging::log(const char* buff)
         return;
 
     char logstr[512];
-    sprintf(logstr, "[%u (%u)]: %s", millis(), CBixi::Iteration(), buff);
+    sprintf(logstr, "[%lu (%u)]: %s", millis(), CBixi::Iteration(), buff);
 
     Serial.println(logstr);
 }

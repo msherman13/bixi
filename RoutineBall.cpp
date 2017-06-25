@@ -104,8 +104,6 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
     float brightness             = Math::exp_by_squaring(1 - distance, m_q);
 
     hsv.val = brightness * 255;
-    if(hsv.val < 15)
-        hsv.val = 0;
 
     return hsv;
 }
