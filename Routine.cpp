@@ -28,7 +28,7 @@ void CRoutine::SetPixel(size_t index, CRGB rgb)
 {
     if(InTransition() == true)
     {
-        double weight =
+        float weight =
             std::max<float>(0.0, 1.0 - (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200));
 
         m_pixels->BlendPixel(index, rgb, weight);
@@ -59,4 +59,9 @@ size_t CRoutine::GetSize()
 CPixelArray::Coordinate CRoutine::GetCoordinate(size_t index)
 {
     return m_pixels->GetCoordinate(index);
+}
+
+const char* CRoutine::GetPixelName()
+{
+    return m_pixels->GetName();
 }

@@ -43,6 +43,8 @@ pixels = pixels.set_index('logical_index')
 
 ofile = open(sys.argv[2], 'w')
 
+ofile.write("#ifdef GEOM_DOME\n\n")
+
 ofile.write("// Auto-Generated file, do not edit manually\n\n")
 
 ofile.write("#include \"DomeMappings.h\"\n\n")
@@ -121,3 +123,5 @@ for index, row in df.groupby('shape_index').last().iterrows():
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
+
+ofile.write("#endif // GEOM_DOME")

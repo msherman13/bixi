@@ -1,3 +1,5 @@
+#ifdef GEOM_DOME
+
 #pragma once
 
 #include <stdlib.h>
@@ -10,25 +12,18 @@ class CDome : public CPixelArrayLegs
 {
     public:
         static constexpr size_t c_transition_time_ms  = 20 * 1000;
-        static constexpr size_t c_min_routine_time_ms = 30 * 1000;
-        static constexpr size_t c_max_routine_time_ms = 40 * 1000;
+        static constexpr size_t c_min_routine_time_ms = 3 * 60 * 1000;
+        static constexpr size_t c_max_routine_time_ms = 5 * 60 * 1000;
 
     public:
         CDome();
         ~CDome();
 
     public:
-        virtual void Continue()        override;
+        virtual void   Continue()      override;
+        virtual size_t GetNumStrands() const final { return DomeMappings::c_num_strands; }
 
     public:
-        enum State
-        {
-            StateIdle,
-            StateDomeRoutine,
-            StateShapeRoutine,
-
-            StateQty,
-        };
         enum Routine
         {
             // solid
@@ -51,7 +46,6 @@ class CDome : public CPixelArrayLegs
         bool IsShapeRoutine(Routine routine);
 
     private:
-        State   m_state          = StateIdle;
         Routine m_dome_routine   = RoutineNone;
         size_t  m_routine_end_ms = 0;
         Routine GetNextRoutine();
@@ -81,3 +75,5 @@ class CDome : public CPixelArrayLegs
     private:
         static DomeMappings::Mappings s_mappings;
 };
+
+#endif // GEOM_DOME

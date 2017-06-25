@@ -5,12 +5,11 @@
 #include "ColorPallete.h"
 #include "Dome.h"
 #include "Grid.h"
+#include "LegsAndNeck.h"
 #include "FreeRam.h"
 #include "GammaCorrection.h"
 
 size_t CBixi::s_iteration = 0;
-
-#define GEOM_DOME
 
 CBixi& CBixi::Instance()
 {
@@ -31,6 +30,9 @@ CBixi::CBixi()
 #ifdef GEOM_DOME
     CLogging::log("CBixi::CBixi: Geometry = GEOM_DOME");
     m_geometry = new CDome();
+#elif GEOM_LEGS_NECK
+    CLogging::log("CBixi::CBixi: Geometry = GEOM_LEGS_NECK");
+    m_geometry = new CLegsAndNeck();
 #elif GEOM_GRID
     CLogging::log("CBixi::CBixi: Geometry = GEOM_GRID");
     m_geometry = new CGrid();
@@ -42,7 +44,7 @@ CBixi::CBixi()
     m_show = new CPixelArray(*m_geometry);
 
     // Parallel Output
-    LEDS.addLeds<OCTOWS2813>(m_show->GetRaw(), m_show->GetRawSize() / Addressing::c_num_strands);
+    LEDS.addLeds<OCTOWS2813>(m_show->GetRaw(), m_show->GetRawSize() / m_geometry->GetNumStrands());
     LEDS.setBrightness(255);
 
     GammaCorrection::Init(3.5);

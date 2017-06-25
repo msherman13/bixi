@@ -1,3 +1,5 @@
+#ifdef GEOM_DOME
+
 #pragma once
 
 #include "PixelArrayLegs.h"
@@ -9,6 +11,7 @@
 
 namespace DomeMappings
 {
+    constexpr size_t c_num_strands         = 8;
     constexpr size_t c_num_physical_pixels = 5560;
     constexpr size_t c_num_logical_pixels  = 4664;
     constexpr size_t c_num_shapes          = 22;
@@ -30,3 +33,5 @@ namespace DomeMappings
         virtual CPixelArray::Coordinate GetCoordinate(size_t index) final;
     };
 };
+
+#endif // GEOM_DOME

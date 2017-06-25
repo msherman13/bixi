@@ -74,9 +74,9 @@ class CPixelArray
         };
 
     public:
-        CPixelArray(Config* config); // owner
+        CPixelArray(const char* name, Config* config); // owner
         CPixelArray(const CPixelArray& rhs); // copy-ctor creates new underlying pixels (owner)
-        CPixelArray(CPixelArray* pixels, size_t len=0, size_t offset=0); // reference to external pixels
+        CPixelArray(const char* name, CPixelArray* pixels, size_t len=0, size_t offset=0); // reference to external pixels
         virtual ~CPixelArray();
 
     public:
@@ -91,12 +91,14 @@ class CPixelArray
         bool         InTransition()   { return m_next_routine != nullptr; }
 
     public:
-        size_t      GetSize() const                               { return m_length; }
-        CRGB*       GetRaw(size_t index=0)                        { return &m_pixels[index]; }
-        size_t      GetRawSize() const                            { return m_raw_length; }
-        Coordinate  GetCoordinate(size_t index) const             { return m_config->GetCoordinate(IndexOffset(index)); }
-        size_t      GetLocation(size_t index) const               { return m_config->GetLocation(IndexOffset(index)); }
-        size_t      IndexOffset(size_t index) const               { return index + m_offset; }
+        size_t         GetSize() const                               { return m_length; }
+        CRGB*          GetRaw(size_t index=0)                        { return &m_pixels[index]; }
+        size_t         GetRawSize() const                            { return m_raw_length; }
+        virtual size_t GetNumStrands() const                         { return 1; }
+        Coordinate     GetCoordinate(size_t index) const             { return m_config->GetCoordinate(IndexOffset(index)); }
+        size_t         GetLocation(size_t index) const               { return m_config->GetLocation(IndexOffset(index)); }
+        size_t         IndexOffset(size_t index) const               { return index + m_offset; }
+        const char*    GetName() const                               { return m_name; }
 
     public:
         void        SetSize(size_t len)                           { m_length = len; }
@@ -144,7 +146,7 @@ class CPixelArray
         }
 
     protected:
-        char      m_name[16]          = {};
+        char      m_name[32]          = {};
         CRoutine* m_routine           = nullptr;
         CRoutine* m_next_routine      = nullptr;
 };

@@ -45,7 +45,7 @@ def lambert_proj(lat, lon):
     y = rho_0 - rho * math.cos(n * (lon - ref_lon))
 
     x /= 2.0
-    y /= -2.0
+    y /= 2.0
 
     return [x, y]
 

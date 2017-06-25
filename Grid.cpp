@@ -11,7 +11,7 @@ CMemoryPool<CGrid, 1>  CGrid::s_pool;
 GridMappings::Mappings CGrid::s_mappings;
 
 CGrid::CGrid() :
-    CPixelArrayLegs(dynamic_cast<CPixelArray::Config*>(&s_mappings))
+    CPixelArrayLegs("Grid", dynamic_cast<CPixelArray::Config*>(&s_mappings))
 {
     if(InTransition() == false)
     {

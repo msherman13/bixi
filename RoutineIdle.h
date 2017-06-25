@@ -6,7 +6,7 @@
 class CRoutineIdle : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty   = 32;
+        static constexpr size_t c_alloc_qty = CPixelArray::c_max_num_legs;
 
     public:
         CRoutineIdle(CPixelArray* pixels);

@@ -16,7 +16,9 @@ CRoutineSticks::CRoutineSticks(CPixelArray* pixels,
 {
     for(size_t i=0;i<num_sticks;i++)
     {
-        m_arrays[i]        = new CPixelArray(pixels);
+        char name[32];
+        sprintf(name, "%sStick%u", GetPixelName(), i);
+        m_arrays[i]        = new CPixelArray(name, pixels);
         size_t period    = (rand() % (c_max_period_sec - c_min_period_sec + 1)) + c_min_period_sec;
         float   width_pct = fmod(rand(), (c_max_width_pct - c_min_width_pct + 0.01)) + c_min_width_pct;
         size_t   width     = width_pct * GetSize();

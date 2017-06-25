@@ -10,12 +10,12 @@ CMemoryPool<CPixelArray::Block, CPixelArray::Block::c_num_blocks> CPixelArray::B
 CMemoryPool<CPixelArray, CPixelArray::c_alloc_qty>                CPixelArray::s_pool;
 
 CPixelArray::CPixelArray(const CPixelArray& rhs) :
-    CPixelArray(rhs.GetConfig())
+    CPixelArray(rhs.GetName(), rhs.GetConfig())
 {
     m_offset = rhs.GetOffset();
 }
 
-CPixelArray::CPixelArray(Config* config) :
+CPixelArray::CPixelArray(const char* name, Config* config) :
     m_block(new Block),
     m_owner(true),
     m_pixels(m_block->m_pixels),
@@ -23,15 +23,22 @@ CPixelArray::CPixelArray(Config* config) :
     m_raw_length(config->m_physical_size),
     m_config(config)
 {
+    for(size_t i=0;i<GetRawSize();i++)
+    {
+        SetPixelRaw(i, CRGB::Black);
+    }
+
+    SetName(name);
 }
 
-CPixelArray::CPixelArray(CPixelArray* pixels, size_t len, size_t offset) :
+CPixelArray::CPixelArray(const char* name, CPixelArray* pixels, size_t len, size_t offset) :
     m_pixels(pixels->GetRaw()),
     m_length(len == 0 ? pixels->GetSize() : len),
     m_raw_length(pixels->GetRawSize() - offset),
     m_config(pixels->GetConfig()),
     m_offset(offset)
 {
+    SetName(name);
 }
 
 CPixelArray::~CPixelArray()
@@ -196,13 +203,13 @@ void CPixelArray::Continue()
         FinishTransition();
     }
 
-    if(InRoutine() == true)
-    {
-        m_routine->Continue();
-    }
-
     if(InTransition() == true)
     {
         m_next_routine->Continue();
+    }
+
+    if(InRoutine() == true)
+    {
+        m_routine->Continue();
     }
 }

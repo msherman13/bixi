@@ -10,8 +10,13 @@ class CPixelArrayLegs : public CPixelArray
         static constexpr size_t c_alloc_qty = 32;
 
     public:
-        CPixelArrayLegs(CPixelArray::Config* config); // owner
-        CPixelArrayLegs(CPixelArrayLegs* pixels, size_t len, size_t offset = 0, size_t num_legs=0, size_t leg_offset=0); // reference to external pixels
+        CPixelArrayLegs(const char* name, CPixelArray::Config* config); // owner
+        CPixelArrayLegs(const char* name,
+                        CPixelArrayLegs* pixels,
+                        size_t len,
+                        size_t offset = 0,
+                        size_t num_legs=0,
+                        size_t leg_offset=0); // reference to external pixels
         virtual ~CPixelArrayLegs();
 
     public:

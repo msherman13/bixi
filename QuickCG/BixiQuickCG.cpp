@@ -1,6 +1,7 @@
 #include "BixiQuickCG.h"
 #include "quickcg.h"
 #include "GammaCorrection.h"
+#include "Logging.h"
 
 CBixiQuickCG& CBixiQuickCG::Instance()
 {
@@ -34,7 +35,7 @@ void CBixiQuickCG::Show(CPixelArray* pixels)
         CPixelArray::Coordinate coord = pixels->GetCoordinate(i);
 
         size_t x = ((coord.x + 1.0) / 2) * c_pixels_x;
-        size_t y = ((coord.y + 1.0) / 2) * c_pixels_y;
+        size_t y = ((2.0 - (coord.y + 1.0)) / 2) * c_pixels_y;
 
         for(size_t x_w=0;x_w<c_pixel_width;x_w++)
         {

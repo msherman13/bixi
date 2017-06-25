@@ -18,6 +18,9 @@ endif
 ifeq ($(GEOM), dome)
 CXXFLAGS += -DGEOM_DOME
 $(info GEOM = dome)
+else ifeq ($(GEOM), legs_neck)
+CXXFLAGS += -DGEOM_LEGS_NECK
+$(info GEOM = legs_neck)
 else ifeq ($(GEOM), grid)
 CXXFLAGS += -DGEOM_GRID
 $(info GEOM = grid)

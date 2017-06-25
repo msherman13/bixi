@@ -1,3 +1,5 @@
+#ifdef GEOM_DOME
+
 #include "Dome.h"
 #include "Logging.h"
 #include "ColorPallete.h"
@@ -15,10 +17,8 @@ CMemoryPool<CDome, 1>  CDome::s_pool;
 DomeMappings::Mappings CDome::s_mappings;
 
 CDome::CDome() :
-    CPixelArrayLegs(dynamic_cast<CPixelArray::Config*>(&s_mappings))
+    CPixelArrayLegs("Dome", dynamic_cast<CPixelArray::Config*>(&s_mappings))
 {
-    SetName("Dome");
-
     // initialize all shapes
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
@@ -27,11 +27,9 @@ CDome::CDome() :
         size_t num_legs   = DomeMappings::ShapeEndLeg(i) - DomeMappings::ShapeStartLeg(i) + 1;
         size_t leg_offset = DomeMappings::ShapeStartLeg(i);
 
-        m_shapes[i] = new CPixelArrayLegs(this, len, offset, num_legs, leg_offset);
-
         char name[16];
         sprintf(name, "DomeShape%u", i);
-        m_shapes[i]->SetName(name);
+        m_shapes[i] = new CPixelArrayLegs(name, this, len, offset, num_legs, leg_offset);
     }
 
     // initialize hexagon containers
@@ -63,7 +61,7 @@ CDome::CDome() :
     m_dome_routine = RoutineSolid;
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
-        m_shapes[i]->SetRoutine(new CRoutineIdle(this));
+        m_shapes[i]->SetRoutine(new CRoutineIdle(m_shapes[i]));
     }
 }
 
@@ -80,7 +78,6 @@ bool CDome::IsShapeRoutine(Routine routine)
     switch(routine)
     {
         case RoutineCyclePalleteShapes:
-        case RoutineGlareShapes:
             return true;
 
         default:
@@ -128,8 +125,7 @@ CDome::Routine CDome::GetNextRoutine()
             case RoutineCyclePalleteDimensional:
             case RoutineCyclePalleteShapes:
             case RoutineSolid:
-                //ret = static_cast<Routine>(c_solid_routine_qty + (rand() % c_complex_routine_qty));
-                return RoutineGlareShapes;
+                ret = static_cast<Routine>(c_solid_routine_qty + (rand() % c_complex_routine_qty));
                 break;
 
             default:
@@ -210,3 +206,5 @@ void CDome::AdvanceRoutine()
 
     m_routine_end_ms = millis() + (rand() % (c_max_routine_time_ms - c_min_routine_time_ms)) + c_min_routine_time_ms;
 }
+
+#endif // GEOM_DOME
