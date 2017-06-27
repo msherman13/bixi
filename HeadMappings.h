@@ -17,6 +17,7 @@ namespace HeadMappings
         Mappings();
 
         virtual CPixelArray::Coordinate GetCoordinate(size_t index) final;
+        virtual bool                    ApplyGamma(size_t index)    final;
     };
 };
 

@@ -52,7 +52,7 @@ CBixi::CBixi()
     //LEDS.setBrightness(255);
     //LEDS.setCorrection(CRGB(255, 0, 0));
 
-    GammaCorrection::Init(2.50);
+    GammaCorrection::Init(1.75);
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());
@@ -70,6 +70,18 @@ CBixi::~CBixi()
 
 void CBixi::Show(CPixelArray* pixels)
 {
+    for(size_t i=0;i<m_geometry->GetSize();i++)
+    {
+        if(pixels->ApplyGamma(i))
+        {
+            m_show->SetPixel(i, GammaCorrection::CorrectGamma(pixels->GetPixel(i)));
+        }
+        else
+        {
+            m_show->SetPixel(i, pixels->GetPixel(i));
+        }
+    }
+
     LEDS.show();
 }
 
@@ -81,12 +93,7 @@ void CBixi::Continue()
 
     m_geometry->Continue();
 
-    for(size_t i=0;i<m_geometry->GetRawSize();i++)
-    {
-        m_show->SetPixelRaw(i, GammaCorrection::CorrectGamma(m_geometry->GetPixelRaw(i)));
-    }
-
-    Show(m_show);
+    Show(m_geometry);
 
     FastLED.countFPS();
 

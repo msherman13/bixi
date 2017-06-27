@@ -14,7 +14,6 @@ class CRoutineFire : public CRoutine
         static constexpr size_t c_num_colors          = 256;
         static constexpr int    c_x_pixels            = 1;
         static constexpr int    c_y_pixels            = 100;
-        static constexpr float  c_max_axis_val        = 1.00;
 
     public:
         CRoutineFire(CPixelArray* pixels);

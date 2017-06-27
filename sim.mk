@@ -11,7 +11,7 @@ OBJ += NoTech/*.cpp
 INC += -INoTech
 $(info TECHNOLOGY = none)
 else
-CXXFLAGS += -std=c++11 -g `sdl-config --cflags --libs`
+CXXFLAGS += -std=c++11 -g -DSIM `sdl-config --cflags --libs`
 OBJ += QuickCG/*.cpp
 INC += -IQuickCG
 $(info TECHNOLOGY = quickcg)

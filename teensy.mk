@@ -5,3 +5,5 @@ geom:
 
 upload: geom
 	arduino --board teensy:avr:teensy36 --upload bixi.ino --port ${PORT}
+   
+#   --pref build.path=build-teensy36

@@ -46,6 +46,7 @@ CHead::CHead() :
     m_side_right->SetName("HeadSideRight");
     m_side_right->SetRoutine(new CRoutineSolid(m_side_right, CRGB::Black));
     m_side_right->TransitionTo(new CRoutineCyclePallete(m_side_right, true, 15), c_transition_time_ms);
+    //m_side_right->SetRoutine(new CRoutineSolid(m_side_right, ColorPallete::Purple));
     m_flame_left = GetLeg(6);
     m_flame_left->SetName("HeadFlameLeft");
     m_flame_left->SetRoutine(new CRoutineFire(m_flame_left));
@@ -60,12 +61,33 @@ CHead::~CHead()
 
 void CHead::Continue()
 {
+    static uint32_t first_run = millis();
+    static uint32_t last_run = millis();
+
     m_mouth_left->Continue();
     m_mouth_right->Continue();
     m_nose_left->Continue();
     m_nose_right->Continue();
     m_side_left->Continue();
     m_side_right->Continue();
+
+#if 0
+    int now = millis();
+    if(now - last_run > 1000)
+    {
+        CHSV hsv = rgb2hsv_approximate(ColorPallete::DarkPink);
+        hsv.s = 255;
+        hsv.v = 255 - (((float)now - (float)first_run) / 1000) * 10;
+        CRGB rgb(hsv);
+        //rgb.r = 255 - (((float)now - (float)first_run) / 1000) * 10;
+        m_side_right->SetRoutine(new CRoutineSolid(m_side_right, rgb));
+        char logstr[256];
+        sprintf(logstr, "MILES_DEBUG: setting val to %u", hsv.v);
+        CLogging::log(logstr);
+        m_side_right->Continue();
+        last_run = now;
+    }
+#endif
     m_flame_left->Continue();
     m_flame_right->Continue();
 }

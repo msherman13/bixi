@@ -68,6 +68,11 @@ class CPixelArray
                 return CPixelArray::Coordinate();
             }
 
+            virtual bool ApplyGamma(size_t index)
+            {
+                return true;
+            }
+
             virtual ~Config()
             {
             }
@@ -97,6 +102,7 @@ class CPixelArray
         virtual size_t GetNumStrands() const                         { return 1; }
         Coordinate     GetCoordinate(size_t index) const             { return m_config->GetCoordinate(IndexOffset(index)); }
         size_t         GetLocation(size_t index) const               { return m_config->GetLocation(IndexOffset(index)); }
+        bool           ApplyGamma(size_t index) const                { return m_config->ApplyGamma(IndexOffset(index)); }
         size_t         IndexOffset(size_t index) const               { return index + m_offset; }
         const char*    GetName() const                               { return m_name; }
 

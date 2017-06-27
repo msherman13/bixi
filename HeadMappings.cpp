@@ -2461,4 +2461,16 @@ CPixelArray::Coordinate HeadMappings::Mappings::GetCoordinate(size_t index)
     }
 }
 
+bool HeadMappings::Mappings::ApplyGamma(size_t index)
+{
+    if(index >= 1800 && index < 2100 + 300)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 #endif // GEOM_HEAD

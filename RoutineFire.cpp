@@ -43,7 +43,7 @@ void CRoutineFire::Continue()
 {
     size_t now = millis();
 
-    if(now - m_last_run < 60)
+    if(now - m_last_run < 50)
     {
         return;
     }
@@ -51,11 +51,9 @@ void CRoutineFire::Continue()
     m_last_run = now;
 
     //randomize the bottom row of the fire buffer
-    for(int x = 0; x < 1; x++)
+    for(int x = 0; x < c_x_pixels; x++)
     {
         m_fire[c_y_pixels - 1][x] = abs(32768 + rand()) % 256;
-        if(m_fire[c_y_pixels - 1][x] < 100)
-            m_fire[c_y_pixels - 1][x] = 100;
     }
     for(int y=0;y<c_y_pixels;y++)
     {
@@ -73,13 +71,10 @@ void CRoutineFire::Continue()
     for(size_t i=0;i<GetSize();i++)
     {
         CPixelArray::Coordinate coord(0.0, (float)i / GetSize());
-        size_t x_pixel = ((coord.x + c_max_axis_val) / 2) * c_x_pixels;
-        size_t y_pixel = ((coord.y + c_max_axis_val) / 2) * c_y_pixels;
-        CHSV color = m_colors[m_fire[c_y_pixels - 1 - y_pixel][c_x_pixels - 1 - x_pixel]];
-        color.s = color.s * 0.70;
-        if(color.s < 100)
-            color.s = 100;
-        color.v = std::min<uint8_t>(255, color.v * 1.70);
+        size_t x_pixel = (1.0 - ((coord.x + 1.0) / 2)) * c_x_pixels;
+        size_t y_pixel = (1.0 - ((coord.y + 1.0) / 2)) * c_y_pixels;
+        CHSV color = m_colors[m_fire[y_pixel][x_pixel]];
+
         SetPixel(i, color);
     }
 }
