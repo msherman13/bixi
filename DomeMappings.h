@@ -12,8 +12,8 @@
 namespace DomeMappings
 {
     constexpr size_t c_num_strands         = 8;
-    constexpr size_t c_num_physical_pixels = 5560;
-    constexpr size_t c_num_logical_pixels  = 4664;
+    constexpr size_t c_num_physical_pixels = 5944;
+    constexpr size_t c_num_logical_pixels  = 4988;
     constexpr size_t c_num_shapes          = 22;
     constexpr size_t c_num_double_hex      = 4;
     constexpr size_t c_num_non_hex         = c_num_shapes - 2 * c_num_double_hex;
