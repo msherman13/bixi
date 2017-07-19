@@ -49,10 +49,7 @@ struct CHSV {
 
 struct CRGB
 {
-    CRGB() :
-        r(0),
-        g(0),
-        b(0)
+    CRGB()
     {
     }
     CRGB(uint8_t rloc, uint8_t gloc, uint8_t bloc) :

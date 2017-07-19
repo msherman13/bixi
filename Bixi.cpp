@@ -52,7 +52,7 @@ CBixi::CBixi()
     //LEDS.setBrightness(255);
     //LEDS.setCorrection(CRGB(255, 0, 0));
 
-    GammaCorrection::Init(1.75);
+    GammaCorrection::Init(1.00);
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());

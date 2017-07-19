@@ -48,7 +48,7 @@ void CRoutineRings::RecalculateRadius()
 
 CRGB CRoutineRings::RecalculateColor(size_t index)
 {
-    CRGB rgb;
+    CRGB rgb(0, 0, 0);
 
     CPixelArray::Coordinate coord = GetCoordinate(index);
 
