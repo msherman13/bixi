@@ -18,8 +18,10 @@ class CRoutineCyclePallete : public CRoutine
         ~CRoutineCyclePallete();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "CyclePallete"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         size_t m_last_run    = 0;

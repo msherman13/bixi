@@ -20,8 +20,10 @@ class CRoutineBall : public CRoutine
         ~CRoutineBall();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Ball"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         void                    Init();

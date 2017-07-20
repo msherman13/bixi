@@ -22,8 +22,10 @@ class CRoutineBalls : public CRoutine
         ~CRoutineBalls();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Balls"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         size_t        m_num_balls = 0;

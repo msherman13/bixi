@@ -20,8 +20,10 @@ class CRoutineCrawl : public CRoutine
         ~CRoutineCrawl();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Crawl"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         bool     m_forward    = true;

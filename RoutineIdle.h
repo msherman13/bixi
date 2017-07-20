@@ -13,8 +13,10 @@ class CRoutineIdle : public CRoutine
         ~CRoutineIdle();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Idle"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         static CMemoryPool<CRoutineIdle, c_alloc_qty> s_pool;

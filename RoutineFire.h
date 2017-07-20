@@ -20,8 +20,10 @@ class CRoutineFire : public CRoutine
         ~CRoutineFire();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Fire"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         void Init();

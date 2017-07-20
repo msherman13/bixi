@@ -15,25 +15,39 @@ CRoutine::~CRoutine()
 {
 }
 
+void CRoutine::onIteration()
+{
+    if(InTransition() == true)
+    {
+        RecalculateTransition();
+    }
+
+    Continue();
+}
+
 void CRoutine::TransitionOut(size_t duration_ms)
 {
     m_transition_time_ms = duration_ms;
     m_transition_start_ms = millis();
+    m_max_y_pixel = 1.0;
+    m_in_transition = true;
 }
 
 bool CRoutine::InTransition()
 {
-    return millis() - m_transition_start_ms < m_transition_time_ms;
+    return m_in_transition;
+}
+
+void CRoutine::RecalculateTransition()
+{
+    m_in_transition = millis() - m_transition_start_ms < m_transition_time_ms;
+    m_max_y_pixel = 1.0 - 2.0 * (float)(millis() - m_transition_start_ms) / (m_transition_time_ms);
 }
 
 void CRoutine::SetPixel(size_t index, CRGB rgb)
 {
-    if(InTransition() == true)
+    if(InTransition() == true && GetCoordinate(index).y > m_max_y_pixel)
     {
-        float weight =
-            std::max<float>(0.0, 1.0 - (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200));
-
-        m_pixels->BlendPixel(index, rgb, weight);
         return;
     }
 

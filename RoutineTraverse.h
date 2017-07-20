@@ -19,8 +19,10 @@ class CRoutineTraverse : public CRoutine
         ~CRoutineTraverse();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Traverse"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         size_t GetNextRunRand();

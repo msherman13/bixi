@@ -19,8 +19,10 @@ class CRoutineGlare : public CRoutine
         ~CRoutineGlare();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Glare"; }
+
+    protected:
+        virtual void        Continue() override;
 
     public:
         CRGB     BaseColorRGB() { return CRGB(m_base_color); }

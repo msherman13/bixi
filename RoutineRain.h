@@ -22,8 +22,10 @@ class CRoutineRain : public CRoutine
         ~CRoutineRain();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Rain"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         void  RecalculateRadius();

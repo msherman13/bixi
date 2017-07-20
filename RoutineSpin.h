@@ -20,8 +20,10 @@ class CRoutineSpin : public CRoutine
         ~CRoutineSpin();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Spin"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         void  RecalculateThetas();

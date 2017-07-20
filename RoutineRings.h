@@ -22,8 +22,10 @@ class CRoutineRings : public CRoutine
         ~CRoutineRings();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Rings"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         void  RecalculateRadius();

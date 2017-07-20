@@ -13,8 +13,10 @@ class CRoutineSolid : public CRoutine
         ~CRoutineSolid();
 
     public:
-        virtual void        Continue() override;
         virtual const char* GetName()  override { return "Solid"; }
+
+    protected:
+        virtual void        Continue() override;
 
     private:
         CRGB m_color;

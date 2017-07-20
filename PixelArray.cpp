@@ -205,11 +205,11 @@ void CPixelArray::Continue()
 
     if(InTransition() == true)
     {
-        m_next_routine->Continue();
+        m_next_routine->onIteration();
     }
 
     if(InRoutine() == true)
     {
-        m_routine->Continue();
+        m_routine->onIteration();
     }
 }
