@@ -186,7 +186,7 @@ void CDome::AdvanceRoutine()
             break;
 
         case RoutineBalls:
-            TransitionTo(new CRoutineBalls(this, 8), c_transition_time_ms);
+            TransitionTo(new CRoutineBalls(this, 6), c_transition_time_ms);
             break;
 
         case RoutineRain:
