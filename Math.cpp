@@ -1,4 +1,5 @@
 #include "Math.h"
+#include <cmath>
 
 // see https://en.wikipedia.org/wiki/Exponentiation_by_squaring
 float Math::exp_by_squaring(float x, uint32_t n)
@@ -27,11 +28,12 @@ float Math::exp_by_squaring(float x, uint32_t n)
 
 float Math::fast_pow(float a, float b)
 {
+    float in = fabs(a);
     union
     {
         double d;
         int x[2];
-    } u = { a };
+    } u = { in };
     u.x[1] = (int)(b * (u.x[1] - 1072632447) + 1072632447);
     u.x[0] = 0;
     return u.d;
