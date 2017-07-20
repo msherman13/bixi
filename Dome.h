@@ -42,7 +42,7 @@ class CDome : public CPixelArrayLegs
             RoutineNone,
         };
         static constexpr size_t c_solid_routine_qty = 4;
-        static constexpr size_t c_complex_routine_qty = 5;
+        static constexpr size_t c_complex_routine_qty = 4;
         bool IsShapeRoutine(Routine routine);
 
     private:
