@@ -12,8 +12,8 @@ class CDome : public CPixelArrayLegs
 {
     public:
         static constexpr size_t c_transition_time_ms  = 20 * 1000;
-        static constexpr size_t c_min_routine_time_ms = 30 * 1000;
-        static constexpr size_t c_max_routine_time_ms = 31 * 1000;
+        static constexpr size_t c_min_routine_time_ms = 3 * 60 * 1000;
+        static constexpr size_t c_max_routine_time_ms = 5 * 60 * 1000;
 
     public:
         CDome();
@@ -37,6 +37,7 @@ class CDome : public CPixelArrayLegs
             RoutineBalls,
             RoutineRain,
             RoutineRings,
+            RoutineRubics,
 
             RoutineQty,
             RoutineNone,

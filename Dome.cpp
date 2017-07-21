@@ -10,6 +10,7 @@
 #include "RoutineRings.h"
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
+#include "RoutineRubics.h"
 #include "RoutineIdle.h"
 #include "RoutineCyclePallete.h"
 
@@ -186,6 +187,10 @@ void CDome::AdvanceRoutine()
                 CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
                 TransitionTo(new CRoutineSpin(this, rgb), c_transition_time_ms);
             }
+            break;
+
+        case RoutineRubics:
+            TransitionTo(new CRoutineRubics(this), c_transition_time_ms);
             break;
 
         case RoutineBalls:
