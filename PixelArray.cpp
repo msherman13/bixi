@@ -80,9 +80,15 @@ CRGB CPixelArray::Blend(const CRGB& lhs, const CRGB& rhs, float rhs_weight)
 
     CRGB ret;
 
+#if 1
+    ret.r = Math::fast_sqrt((nweight * lhs.r) * (nweight * lhs.r) + (rhs_weight * rhs.r) * (rhs_weight * rhs.r));
+    ret.g = Math::fast_sqrt((nweight * lhs.g) * (nweight * lhs.g) + (rhs_weight * rhs.g) * (rhs_weight * rhs.g));
+    ret.b = Math::fast_sqrt((nweight * lhs.b) * (nweight * lhs.b) + (rhs_weight * rhs.b) * (rhs_weight * rhs.b));
+#else
     ret.r = sqrtf((nweight * lhs.r) * (nweight * lhs.r) + (rhs_weight * rhs.r) * (rhs_weight * rhs.r));
     ret.g = sqrtf((nweight * lhs.g) * (nweight * lhs.g) + (rhs_weight * rhs.g) * (rhs_weight * rhs.g));
     ret.b = sqrtf((nweight * lhs.b) * (nweight * lhs.b) + (rhs_weight * rhs.b) * (rhs_weight * rhs.b));
+#endif
 
     return ret;
 }
@@ -198,7 +204,7 @@ size_t CPixelArray::RoutineStartMs()
 
 void CPixelArray::Continue()
 {
-    if(InTransition() == true && m_routine->InTransition() == false)
+    if(InTransition() == true && m_routine->TransitionDone() == true)
     {
         FinishTransition();
     }

@@ -121,6 +121,9 @@ CDome::Routine CDome::GetNextRoutine()
     {
         switch(m_dome_routine)
         {
+            case RoutineBalls:
+                return RoutineSolid;
+
             case RoutineCyclePallete:
             case RoutineCyclePalleteDimensional:
             case RoutineCyclePalleteShapes:

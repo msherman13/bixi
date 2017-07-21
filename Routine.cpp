@@ -2,6 +2,7 @@
 #include "Logging.h"
 #include "FastLED.h"
 #include "Arduino.h"
+#include "Bixi.h"
 
 #include <algorithm>
 
@@ -19,21 +20,32 @@ void CRoutine::TransitionOut(size_t duration_ms)
 {
     m_transition_time_ms = duration_ms;
     m_transition_start_ms = millis();
+    m_in_transition = true;
 }
 
 bool CRoutine::InTransition()
 {
-    return millis() - m_transition_start_ms < m_transition_time_ms;
+    return m_in_transition;
+}
+
+bool CRoutine::TransitionDone()
+{
+    return millis() > m_transition_start_ms + m_transition_time_ms;
 }
 
 void CRoutine::SetPixel(size_t index, CRGB rgb)
 {
     if(InTransition() == true)
     {
-        float weight =
-            std::max<float>(0.0, 1.0 - (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200));
+        size_t iteration = CBixi::Iteration();
+        if(iteration != m_last_iteration)
+        {
+            m_transition_weight =
+                std::max<float>(0.0, 1.0 - (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200));
+            m_last_iteration = iteration;
+        }
 
-        m_pixels->BlendPixel(index, rgb, weight);
+        m_pixels->BlendPixel(index, rgb, m_transition_weight);
         return;
     }
 

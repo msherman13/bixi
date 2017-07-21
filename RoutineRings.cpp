@@ -55,7 +55,7 @@ CRGB CRoutineRings::RecalculateColor(size_t index)
     float x_dist = std::max<float>(fabs(coord.x - m_midpoint.x), 0.0001);
     float y_dist = std::max<float>(fabs(coord.y - m_midpoint.y), 0.0001);
 
-    float distance_from_midpoint = sqrtf(powf(x_dist, 2) + powf(y_dist, 2));
+    float distance_from_midpoint = Math::fast_sqrt(powf(x_dist, 2) + powf(y_dist, 2));
 
     for(size_t i=0;i<c_num_circles;i++)
     {

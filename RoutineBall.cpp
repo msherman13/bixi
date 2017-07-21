@@ -100,7 +100,7 @@ CHSV CRoutineBall::RecalculateColor(size_t index)
         return hsv;
     }
 
-    float distance               = sqrtf(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
+    float distance               = Math::fast_sqrt(powf(x_dist, 2) + powf(y_dist, 2)) / c_longest_distance;
     float brightness             = Math::exp_by_squaring(1 - distance, m_q);
 
     hsv.val = brightness * 255;

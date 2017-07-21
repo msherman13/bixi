@@ -39,6 +39,18 @@ float Math::fast_pow(float a, float b)
     return u.d;
 }
 
+float Math::fast_sqrt(float x)
+{
+    unsigned int i = *(unsigned int*) &x;
+
+    // adjust bias
+    i  += 127 << 23;
+    // approximation of square root
+    i >>= 1;
+
+    return *(float*) &i;
+}
+
 
 float Math::theta_from_cartesian(float x, float y)
 {
