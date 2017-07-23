@@ -13,6 +13,7 @@
 #include "RoutineIdle.h"
 #include "RoutineCyclePallete.h"
 #include "RoutineTraverse.h"
+#include "RoutineTest.h"
 
 CMemoryPool<CLegsAndNeck, 1>  CLegsAndNeck::s_pool;
 LegsAndNeckMappings::Mappings CLegsAndNeck::s_mappings;
@@ -100,6 +101,15 @@ void CLegsAndNeck::AdvanceRoutine()
                 CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
                 TransitionTo(new CRoutineTraverse(this, rgb), c_transition_time_ms);
             }
+            break;
+
+        case RoutineTest:
+            TransitionTo(new CRoutineTest(this), c_transition_time_ms);
+            break;
+
+        default:
+            CLogging::log("CLegsAndNeck::AdvanceRoutine: ERROR invalid routine type. exiting");
+            exit(-1);
             break;
     }
 

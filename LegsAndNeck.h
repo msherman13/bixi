@@ -32,6 +32,7 @@ class CLegsAndNeck : public CPixelArrayLegs
 
             RoutineQty,
             RoutineNone,
+            RoutineTest,
         };
 
     private:
