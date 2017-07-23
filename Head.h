@@ -26,10 +26,28 @@ class CHead : public CPixelArrayLegs
         CPixelArray* m_mouth_right = nullptr;
         CPixelArray* m_nose_left = nullptr;
         CPixelArray* m_nose_right = nullptr;
+        CPixelArray* m_nose_top = nullptr;
         CPixelArray* m_side_left = nullptr;
         CPixelArray* m_side_right = nullptr;
         CPixelArray* m_flame_left = nullptr;
         CPixelArray* m_flame_right = nullptr;
+
+    private:
+        enum Shape
+        {
+            MouthLeft,
+            MouthRight,
+            NoseLeft,
+            NoseRight,
+            NoseTop,
+            SideLeft,
+            FlameLeft,
+            SideRight,
+            FlameRight,
+
+            ShapeQty,
+            ShapeNull,
+        };
 
     private:
         static CMemoryPool<CHead, 1> s_pool;

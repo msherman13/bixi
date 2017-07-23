@@ -3,26 +3,9 @@
 import sys
 import pandas as pd
 
-NUM_STRANDS         = 6
-NUM_SHAPES_PER_LEG  = 4
-NUM_LEGS            = 4
-NUM_LEG_SHAPES      = NUM_SHAPES_PER_LEG * NUM_LEGS
-NUM_SHAPES_PER_NECK = 8
-NUM_NECKS           = 1
-NUM_NECK_SHAPES     = NUM_SHAPES_PER_NECK * NUM_NECKS
-LEG_SHAPE_PHYS_LEN  = 150
-LEG_SHAPE_LOG_LEN   = 123
-NECK_SHAPE_PHYS_LEN = 180
-NECK_SHAPE_LOG_LEN  = 150
-STRAND_LENGTH       = NUM_NECK_SHAPES * NECK_SHAPE_PHYS_LEN / 2
-LOGICAL_LEG_LEN     = NUM_LEG_SHAPES * LEG_SHAPE_LOG_LEN
-PHYSICAL_LEG_LEN    = NUM_LEG_SHAPES * LEG_SHAPE_PHYS_LEN
-LOGICAL_NECK_LEN    = NUM_NECK_SHAPES * NECK_SHAPE_LOG_LEN
-PHYSICAL_NECK_LEN   = NUM_NECK_SHAPES * NECK_SHAPE_PHYS_LEN
-
 mappings = pd.read_csv(sys.argv[1])
-physical_strand_length = max(mappings.groupby('strand_index').sum()['length'])
 num_strands = max(mappings['strand_index'] + 1)
+physical_strand_length = mappings[mappings['strand_index'] == 1].iloc[0]['start_index']
 num_shapes = len(mappings)
 shapes_per_leg = len(mappings[mappings['strand_index'] < 4]) / 4
 shapes_per_neck = len(mappings[mappings['strand_index'] > 4])
@@ -38,6 +21,8 @@ ofile.write("#include \"LegsAndNeckMappings.h\"\n\n")
 ofile.write("LegsAndNeckMappings::Mappings::Mappings() :\n")
 ofile.write("    CPixelArrayLegs::Config()\n")
 ofile.write("{\n")
+ofile.write("    static_assert(%d == c_num_physical_pixels, \"Mismatch in c_num_physical_pixels\");\n" % (physical_strand_length * num_strands))
+ofile.write("    static_assert(%d == c_num_logical_pixels, \"Mismatch in c_num_logical_pixels\");\n" % (sum(mappings['length'])))
 ofile.write("    m_num_legs      = " + str(num_shapes) + ";\n")
 ofile.write("    m_physical_size = " + str(physical_strand_length * num_strands) + ";\n")
 ofile.write("    m_logical_size  = " + str(sum(mappings['length'])) +";\n")

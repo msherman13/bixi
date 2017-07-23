@@ -21,38 +21,81 @@ HeadMappings::Mappings CHead::s_mappings;
 CHead::CHead() :
     CPixelArrayLegs("Head", dynamic_cast<CPixelArray::Config*>(&s_mappings))
 {
-    // initialize legs
-    m_mouth_left = GetLeg(0);
-    m_mouth_left->SetName("HeadMouthLeft");
+    // initialize shapes
+    size_t len = HeadMappings::ShapeSize(MouthLeft);
+    size_t offset = HeadMappings::ShapeStartIndex(MouthLeft);
+    size_t num_legs = HeadMappings::ShapeNumLegs(MouthLeft);
+    size_t leg_offset = 0;
+    m_mouth_left = new CPixelArrayLegs("HeadMouthLeft", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(MouthRight);
+    offset = HeadMappings::ShapeStartIndex(MouthRight);
+    num_legs = HeadMappings::ShapeNumLegs(MouthRight);
+    leg_offset = 0;
+    m_mouth_right = new CPixelArrayLegs("HeadMouthRight", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(NoseLeft);
+    offset = HeadMappings::ShapeStartIndex(NoseLeft);
+    num_legs = HeadMappings::ShapeNumLegs(NoseLeft);
+    m_nose_left = new CPixelArrayLegs("HeadNoseLeft", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(NoseRight);
+    offset = HeadMappings::ShapeStartIndex(NoseRight);
+    num_legs = HeadMappings::ShapeNumLegs(NoseRight);
+    m_nose_right = new CPixelArrayLegs("HeadNoseRight", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(NoseTop);
+    offset = HeadMappings::ShapeStartIndex(NoseTop);
+    num_legs = HeadMappings::ShapeNumLegs(NoseTop);
+    m_nose_top = new CPixelArrayLegs("HeadNoseTop", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(SideLeft);
+    offset = HeadMappings::ShapeStartIndex(SideLeft);
+    num_legs = HeadMappings::ShapeNumLegs(SideLeft);
+    m_side_left = new CPixelArrayLegs("HeadSideLeft", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(SideRight);
+    offset = HeadMappings::ShapeStartIndex(SideRight);
+    num_legs = HeadMappings::ShapeNumLegs(SideRight);
+    m_side_right = new CPixelArrayLegs("HeadSideRight", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(FlameLeft);
+    offset = HeadMappings::ShapeStartIndex(FlameLeft);
+    num_legs = HeadMappings::ShapeNumLegs(FlameLeft);
+    m_flame_left = new CPixelArrayLegs("HeadFlameLeft", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(FlameRight);
+    offset = HeadMappings::ShapeStartIndex(FlameRight);
+    num_legs = HeadMappings::ShapeNumLegs(FlameRight);
+    m_flame_right = new CPixelArrayLegs("HeadFlameRight", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
     m_mouth_left->SetRoutine(new CRoutineSolid(m_mouth_left, CRGB::Black));
-    m_mouth_left->TransitionTo(new CRoutineCyclePallete(m_mouth_left, true, 15), c_transition_time_ms);
-    m_mouth_right = GetLeg(1);
-    m_mouth_right->SetName("HeadMouthRight");
     m_mouth_right->SetRoutine(new CRoutineSolid(m_mouth_right, CRGB::Black));
-    m_mouth_right->TransitionTo(new CRoutineCyclePallete(m_mouth_right, true, 15), c_transition_time_ms);
-    m_nose_left = GetLeg(2);
-    m_nose_left->SetName("HeadNoseLeft");
     m_nose_left->SetRoutine(new CRoutineSolid(m_nose_left, CRGB::Black));
-    m_nose_left->TransitionTo(new CRoutineCyclePallete(m_nose_left, true, 15), c_transition_time_ms);
-    m_nose_right = GetLeg(3);
-    m_nose_right->SetName("HeadNoseRight");
     m_nose_right->SetRoutine(new CRoutineSolid(m_nose_right, CRGB::Black));
-    m_nose_right->TransitionTo(new CRoutineCyclePallete(m_nose_right, true, 15), c_transition_time_ms);
-    m_side_left = GetLeg(4);
-    m_side_left->SetName("HeadSideLeft");
+    m_nose_top->SetRoutine(new CRoutineSolid(m_nose_top, CRGB::Black));
     m_side_left->SetRoutine(new CRoutineSolid(m_side_left, CRGB::Black));
-    m_side_left->TransitionTo(new CRoutineCyclePallete(m_side_left, true, 15), c_transition_time_ms);
-    m_side_right = GetLeg(5);
-    m_side_right->SetName("HeadSideRight");
     m_side_right->SetRoutine(new CRoutineSolid(m_side_right, CRGB::Black));
-    m_side_right->TransitionTo(new CRoutineCyclePallete(m_side_right, true, 15), c_transition_time_ms);
-    //m_side_right->SetRoutine(new CRoutineSolid(m_side_right, ColorPallete::Purple));
-    m_flame_left = GetLeg(6);
-    m_flame_left->SetName("HeadFlameLeft");
+
     m_flame_left->SetRoutine(new CRoutineFire(m_flame_left));
-    m_flame_right = GetLeg(7);
-    m_flame_right->SetName("HeadFlameRight");
     m_flame_right->SetRoutine(new CRoutineFire(m_flame_right));
+
+    m_mouth_left->TransitionTo(new CRoutineCyclePallete(m_mouth_left, true, 15), c_transition_time_ms);
+    m_mouth_right->TransitionTo(new CRoutineCyclePallete(m_mouth_right, true, 15), c_transition_time_ms);
+    m_nose_left->TransitionTo(new CRoutineCyclePallete(m_nose_left, true, 15), c_transition_time_ms);
+    m_nose_right->TransitionTo(new CRoutineCyclePallete(m_nose_right, true, 15), c_transition_time_ms);
+    m_nose_top->TransitionTo(new CRoutineCyclePallete(m_nose_top, true, 15), c_transition_time_ms);
+    m_side_left->TransitionTo(new CRoutineCyclePallete(m_side_left, true, 15), c_transition_time_ms);
+    m_side_right->TransitionTo(new CRoutineCyclePallete(m_side_right, true, 15), c_transition_time_ms);
 }
 
 CHead::~CHead()
@@ -68,26 +111,9 @@ void CHead::Continue()
     m_mouth_right->Continue();
     m_nose_left->Continue();
     m_nose_right->Continue();
+    m_nose_top->Continue();
     m_side_left->Continue();
     m_side_right->Continue();
-
-#if 0
-    int now = millis();
-    if(now - last_run > 1000)
-    {
-        CHSV hsv = rgb2hsv_approximate(ColorPallete::DarkPink);
-        hsv.s = 255;
-        hsv.v = 255 - (((float)now - (float)first_run) / 1000) * 10;
-        CRGB rgb(hsv);
-        //rgb.r = 255 - (((float)now - (float)first_run) / 1000) * 10;
-        m_side_right->SetRoutine(new CRoutineSolid(m_side_right, rgb));
-        char logstr[256];
-        sprintf(logstr, "MILES_DEBUG: setting val to %u", hsv.v);
-        CLogging::log(logstr);
-        m_side_right->Continue();
-        last_run = now;
-    }
-#endif
     m_flame_left->Continue();
     m_flame_right->Continue();
 }
