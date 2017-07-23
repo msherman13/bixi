@@ -70,7 +70,7 @@ CBixi::~CBixi()
 
 void CBixi::Show(CPixelArray* pixels)
 {
-    for(size_t i=0;i<m_geometry->GetSize();i++)
+    for(size_t i=0;i<pixels->GetSize();i++)
     {
         if(pixels->ApplyGamma(i))
         {

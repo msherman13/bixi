@@ -40,8 +40,10 @@ void CRoutine::SetPixel(size_t index, CRGB rgb)
         size_t iteration = CBixi::Iteration();
         if(iteration != m_last_iteration)
         {
-            m_transition_weight =
-                std::max<float>(0.0, 1.0 - (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200));
+            m_transition_weight = (float)(millis() - m_transition_start_ms) / (m_transition_time_ms - 200);
+            m_transition_weight = powf(m_transition_weight, c_transition_q);
+            m_transition_weight = 1.0 - m_transition_weight;
+            m_transition_weight = std::max<float>(0.0, m_transition_weight);
             m_last_iteration = iteration;
         }
 

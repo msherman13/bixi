@@ -41,6 +41,7 @@ class CDome : public CPixelArrayLegs
 
             RoutineQty,
             RoutineNone,
+            RoutineTest,
         };
         static constexpr size_t c_solid_routine_qty = 4;
         static constexpr size_t c_complex_routine_qty = 4;

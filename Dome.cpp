@@ -10,6 +10,7 @@
 #include "RoutineRings.h"
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
+#include "RoutineTest.h"
 #include "RoutineRubics.h"
 #include "RoutineIdle.h"
 #include "RoutineCyclePallete.h"
@@ -208,6 +209,14 @@ void CDome::AdvanceRoutine()
             TransitionTo(new CRoutineRings(this), c_transition_time_ms);
             break;
 
+        case RoutineTest:
+            TransitionTo(new CRoutineTest(this), c_transition_time_ms);
+            break;
+
+        default:
+            CLogging::log("CDome::AdvanceRoutine: ERROR invalid routine, exiting");
+            exit(-1);
+            break;
     }
 
     TransitionOut();

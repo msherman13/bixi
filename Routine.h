@@ -10,6 +10,9 @@ struct CRGB;
 class CRoutine
 {
     public:
+        static constexpr float c_transition_q = 2.0;
+
+    public:
         CRoutine(CPixelArray* pixels);
         virtual ~CRoutine();
 
