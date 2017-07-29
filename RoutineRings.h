@@ -19,6 +19,7 @@ class CRoutineRings : public CRoutine
 
     public:
         CRoutineRings(CPixelArray* pixels);
+        CRoutineRings(CPixelArray* pixels, CPixelArray::Coordinate midpoint);
         ~CRoutineRings();
 
     public:

@@ -21,16 +21,22 @@ class CHead : public CPixelArrayLegs
         virtual void   Continue()      override;
         virtual size_t GetNumStrands() const final { return HeadMappings::c_num_strands; }
 
+    public:
+        CPixelArrayLegs* GetNoseLeft()  { return m_nose_left; }
+        CPixelArrayLegs* GetNoseRight() { return m_nose_right; }
+        CPixelArrayLegs* GetNoseTop()   { return m_nose_top; }
+
     private:
-        CPixelArray* m_mouth_left = nullptr;
-        CPixelArray* m_mouth_right = nullptr;
-        CPixelArray* m_nose_left = nullptr;
-        CPixelArray* m_nose_right = nullptr;
-        CPixelArray* m_nose_top = nullptr;
-        CPixelArray* m_side_left = nullptr;
-        CPixelArray* m_side_right = nullptr;
-        CPixelArray* m_flame_left = nullptr;
-        CPixelArray* m_flame_right = nullptr;
+        CPixelArrayLegs* m_nose = nullptr;
+        CPixelArrayLegs* m_mouth_left = nullptr;
+        CPixelArrayLegs* m_mouth_right = nullptr;
+        CPixelArrayLegs* m_nose_left = nullptr;
+        CPixelArrayLegs* m_nose_right = nullptr;
+        CPixelArrayLegs* m_nose_top = nullptr;
+        CPixelArrayLegs* m_side_left = nullptr;
+        CPixelArrayLegs* m_side_right = nullptr;
+        CPixelArrayLegs* m_flame_left = nullptr;
+        CPixelArrayLegs* m_flame_right = nullptr;
 
     private:
         enum Shape

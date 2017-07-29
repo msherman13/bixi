@@ -53,8 +53,10 @@ ofile.write("size_t DomeMappings::Mappings::GetLocation(size_t index)\n")
 ofile.write("{\n")
 ofile.write("    switch(index)\n")
 ofile.write("    {\n")
+locations = {}
 for index, row in pixels.iterrows():
     ofile.write("        case %d: return %d;\n" % (index, row['raw_index']))
+    locations[row['raw_index']] = index
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -76,7 +78,7 @@ ofile.write("    m_num_legs = %d;\n" % (len(df)))
 ofile.write("    m_physical_size = c_num_physical_pixels;\n\n")
 ofile.write("    m_logical_size  = c_num_logical_pixels;\n\n")
 for index, row in df.iterrows():
-    ofile.write("    m_leg_offset[%d] = %d;\n" % (index, row['start_index']))
+    ofile.write("    m_leg_offset[%d] = %d;\n" % (index, locations[row['start_index']]))
     ofile.write("    m_leg_size[%d] = %d;\n" % (index, row['end_index'] + 1 - row['start_index']))
 ofile.write("}\n\n")
 

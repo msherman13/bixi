@@ -77,6 +77,7 @@ CDome::~CDome()
 
 bool CDome::IsShapeRoutine(Routine routine)
 {
+    return false;
     switch(routine)
     {
         case RoutineCyclePalleteShapes:

@@ -23,6 +23,12 @@ CRoutineRings::CRoutineRings(CPixelArray* pixels) :
     m_midpoint.y = (float)(rand() % (int)(c_max_midpoint_y * 100)) / 100.0;
 }
 
+CRoutineRings::CRoutineRings(CPixelArray* pixels, CPixelArray::Coordinate midpoint) :
+    CRoutineRings(pixels)
+{
+    m_midpoint = midpoint;
+}
+
 CRoutineRings::~CRoutineRings()
 {
 }

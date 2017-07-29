@@ -21,7 +21,7 @@ else ifeq ($(GEOM), grid)
 CXXFLAGS += -DGEOM_GRID
 $(info GEOM = grid)
 else
-$(error GEOM must be defines as dome, periph, or grid)
+$(error GEOM must be defines as dome, legs_neck, or grid)
 endif
 
 ifeq ($(TECHNOLOGY), teensy)

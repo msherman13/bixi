@@ -23,6 +23,11 @@ class CPixelArray
 
             Coordinate() {}
 
+            Coordinate(const Coordinate& rhs) :
+                Coordinate(rhs.x, rhs.y)
+            {
+            }
+
             Coordinate(float x_in, float y_in) :
                 x(x_in),
                 y(y_in)

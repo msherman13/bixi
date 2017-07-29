@@ -1,3 +1,5 @@
+#ifdef GEOM_HEAD
+
 #pragma once
 
 #include "stdint.h"
@@ -10,7 +12,7 @@ class CPixelArray;
 class CRoutineFire : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty           = 2;
+        static constexpr size_t c_alloc_qty           = 4;
         static constexpr size_t c_num_colors          = 256;
         static constexpr int    c_x_pixels            = 1;
         static constexpr int    c_y_pixels            = 100;
@@ -45,3 +47,5 @@ class CRoutineFire : public CRoutine
             s_pool.free(reinterpret_cast<CRoutineFire*>(ptr));
         }
 };
+
+#endif // GEOM_HEAD

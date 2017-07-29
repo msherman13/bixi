@@ -16,6 +16,13 @@ ofile.write("// Auto-Generated file, do not edit manually\n\n")
 
 ofile.write("#include \"HeadMappings.h\"\n\n")
 
+locations = {}
+led_index = 0
+for index, row in mappings.iterrows():
+    for i in range(row['length']):
+        locations[row['start_index'] + i] = led_index
+        led_index += 1
+
 ofile.write("HeadMappings::Mappings::Mappings() :\n")
 ofile.write("    CPixelArrayLegs::Config()\n")
 ofile.write("{\n")
@@ -27,7 +34,7 @@ ofile.write("    m_logical_size  = " + str(sum(mappings['length'])) +";\n")
 ofile.write("\n")
 ofile.write("    // legs\n")
 for index, row in mappings.iterrows():
-    ofile.write("    m_leg_offset[%d] = %d;\n" % (row['shape_index'], row['start_index']))
+    ofile.write("    m_leg_offset[%d] = %d;\n" % (row['shape_index'], locations[row['start_index']]))
     ofile.write("    m_leg_size[%d]   = %d;\n" % (row['shape_index'], row['length']))
 ofile.write("}\n\n")
 
@@ -77,7 +84,7 @@ num_shapes = len(loc)
 for index, row in loc.reset_index().iterrows():
     length = row['length']
     for i in range(length):
-        x = -0.50 + (0.20 * float(i) / length)
+        x = -0.41 + (0.20 * float(i) / length)
         y = 0.75 - 0.75 * float(index) / num_shapes
         ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
         led_index += 1
@@ -89,7 +96,7 @@ num_shapes = len(loc)
 for index, row in loc.reset_index().iterrows():
     length = row['length']
     for i in range(length):
-        x = 0.50 - (0.20 * float(i) / length)
+        x = 0.39 - (0.20 * float(i) / length)
         y = 0.75 - 0.75 * float(index) / num_shapes
         ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
         led_index += 1

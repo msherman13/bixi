@@ -1,3 +1,5 @@
+#ifdef GEOM_HEAD
+
 #include <algorithm>
 #include <cmath>
 
@@ -78,3 +80,5 @@ void CRoutineFire::Continue()
         SetPixel(i, color);
     }
 }
+
+#endif // GEOM_HEAD
