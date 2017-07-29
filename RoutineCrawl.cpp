@@ -16,7 +16,7 @@ CRoutineCrawl::CRoutineCrawl(CPixelArray* pixels,
     CRoutine(pixels),
     m_forward(forward),
     m_period_sec(period_sec),
-    m_midpoint((float)(start_offset + width/2) / GetSize()),
+    m_start((float)(start_offset) / GetSize()),
     m_width(width),
     m_color(base_color)
 {
@@ -33,13 +33,11 @@ void CRoutineCrawl::Continue()
 
     size_t now = millis();
 
-    int mid = m_midpoint * GetSize();
-    int start = mid - m_width / 2;
-    int end = mid + m_width / 2;
+    int start = m_start * GetSize();
 
-    for(int i=start;i<end;i++)
+    for(int i=0;i<m_width;i++)
     {
-        size_t index = i < 0 ? i + GetSize() : i;
+        size_t index = (start + i) % GetSize();
         SetPixel(index, m_color);
     }
 
@@ -47,18 +45,18 @@ void CRoutineCrawl::Continue()
 
     if(m_forward == true)
     {
-        m_midpoint += move_by;
-        if(m_midpoint > 1.00)
+        m_start += move_by;
+        if(m_start > 1.00)
         {
-            m_midpoint = 0.00;
+            m_start = 0.00;
         }
     }
     else
     {
-        m_midpoint -= move_by;
-        if(m_midpoint < 0.00)
+        m_start -= move_by;
+        if(m_start < 0.00)
         {
-            m_midpoint = 1.00;
+            m_start = 1.00;
         }
     }
 

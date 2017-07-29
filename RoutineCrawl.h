@@ -8,7 +8,7 @@
 class CRoutineCrawl : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty = 2;
+        static constexpr size_t c_alloc_qty = 16;
 
     public:
         CRoutineCrawl(CPixelArray* pixels,
@@ -27,7 +27,7 @@ class CRoutineCrawl : public CRoutine
         bool     m_forward    = true;
         size_t   m_period_sec = 0;
         size_t   m_last_run   = 0;
-        float    m_midpoint   = 0.0;
+        float    m_start      = 0.0;
         size_t   m_width      = 0;
         CRGB     m_color;
 

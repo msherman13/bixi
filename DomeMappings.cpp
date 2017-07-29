@@ -10342,4 +10342,34 @@ size_t DomeMappings::ShapeEndLeg(size_t shape_index)
     }
 }
 
+size_t DomeMappings::ShapeIsHex(size_t shape_index)
+{   
+    for(size_t i=0;i<c_num_double_hex;i++)
+    {
+        if(shape_index == c_inner_hex_index[i])
+        {
+            return true;
+        }
+
+        if(shape_index == c_outer_hex_index[i])
+        {
+            return true;
+        }
+
+    }
+    return false;
+
+}   
+
+size_t DomeMappings::ShapeIsOnLeft(size_t shape_index)
+{   
+    if(shape_index < 9 || shape_index == 18 || shape_index == 20) 
+    {
+        return true;
+    }
+
+    return false;
+}   
+
+
 #endif // GEOM_DOME

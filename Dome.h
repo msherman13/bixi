@@ -12,8 +12,10 @@ class CDome : public CPixelArrayLegs
 {
     public:
         static constexpr size_t c_transition_time_ms  = 20 * 1000;
-        static constexpr size_t c_min_routine_time_ms = 3 * 60 * 1000;
-        static constexpr size_t c_max_routine_time_ms = 5 * 60 * 1000;
+        static constexpr size_t c_min_routine_time_ms = 30 * 1000;
+        static constexpr size_t c_max_routine_time_ms = 31 * 1000;
+        //static constexpr size_t c_min_routine_time_ms = 3 * 60 * 1000;
+        //static constexpr size_t c_max_routine_time_ms = 5 * 60 * 1000;
 
     public:
         CDome();
@@ -31,6 +33,7 @@ class CDome : public CPixelArrayLegs
             RoutineCyclePallete,
             RoutineCyclePalleteDimensional,
             RoutineCyclePalleteShapes,
+            RoutineSolidQty,
 
             // complex
             RoutineSpin,
@@ -38,13 +41,15 @@ class CDome : public CPixelArrayLegs
             RoutineRain,
             RoutineRings,
             RoutineRubics,
+            RoutineGlareShapes,
+            RoutineCrawlHex,
+            RoutineComplexQty,
 
-            RoutineQty,
             RoutineNone,
             RoutineTest,
         };
-        static constexpr size_t c_solid_routine_qty = 4;
-        static constexpr size_t c_complex_routine_qty = 4;
+        static constexpr size_t c_solid_routine_qty = RoutineSolidQty;
+        static constexpr size_t c_complex_routine_qty = RoutineComplexQty - RoutineSolidQty;
         bool IsShapeRoutine(Routine routine);
 
     private:
@@ -55,10 +60,7 @@ class CDome : public CPixelArrayLegs
         void    TransitionOut();
 
     private:
-        CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes]        = {};
-        CPixelArrayLegs* m_inner_hex[DomeMappings::c_num_double_hex] = {};
-        CPixelArrayLegs* m_outer_hex[DomeMappings::c_num_double_hex] = {};
-        CPixelArrayLegs* m_non_hex[DomeMappings::c_num_non_hex]      = {};
+        CPixelArrayLegs* m_shapes[DomeMappings::c_num_shapes] = {};
 
     private:
         static CMemoryPool<CDome, 1> s_pool;

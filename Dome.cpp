@@ -10,6 +10,7 @@
 #include "RoutineRings.h"
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
+#include "RoutineCrawl.h"
 #include "RoutineTest.h"
 #include "RoutineRubics.h"
 #include "RoutineIdle.h"
@@ -34,30 +35,6 @@ CDome::CDome() :
         m_shapes[i] = new CPixelArrayLegs(name, this, len, offset, num_legs, leg_offset);
     }
 
-    // initialize hexagon containers
-    for(size_t i=0;i<DomeMappings::c_num_double_hex;i++)
-    {
-        m_inner_hex[i] = m_shapes[DomeMappings::c_inner_hex_index[i]];
-        m_outer_hex[i] = m_shapes[DomeMappings::c_outer_hex_index[i]];
-    }
-
-    // non hex
-    size_t index = 0;
-    for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
-    {
-        bool is_hex = false;
-        for(size_t j=0;j<DomeMappings::c_num_double_hex;j++)
-        {
-            is_hex |= i == DomeMappings::c_inner_hex_index[j];
-            is_hex |= i == DomeMappings::c_outer_hex_index[j];
-        }
-
-        if(is_hex == false)
-        {
-            m_non_hex[index++] = m_shapes[i];
-        }
-    }
-
     // start at black, immediately transition out
     SetRoutine(new CRoutineSolid(this, CRGB::Black));
     m_dome_routine = RoutineSolid;
@@ -77,10 +54,10 @@ CDome::~CDome()
 
 bool CDome::IsShapeRoutine(Routine routine)
 {
-    return false;
     switch(routine)
     {
-        case RoutineCyclePalleteShapes:
+        case RoutineGlareShapes:
+        case RoutineCrawlHex:
             return true;
 
         default:
@@ -212,6 +189,41 @@ void CDome::AdvanceRoutine()
 
         case RoutineTest:
             TransitionTo(new CRoutineTest(this), c_transition_time_ms);
+            break;
+
+        case RoutineGlareShapes:
+            for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+            {
+                CRGB color(ColorPallete::s_colors[i % ColorPallete::Qty]);
+                m_shapes[i]->TransitionTo(new CRoutineGlare(m_shapes[i],
+                                                            color,
+                                                            2,
+                                                            true,
+                                                            5), c_transition_time_ms);
+            }
+            break;
+
+        case RoutineCrawlHex:
+            {
+                CRGB rain_color(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
+                CRGB crawl_color(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
+                for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+                {
+                    if(DomeMappings::ShapeIsHex(i))
+                    {
+                        m_shapes[i]->TransitionTo(new CRoutineCrawl(m_shapes[i],
+                                                                    crawl_color,
+                                                                    m_shapes[i]->GetSize() / 4,
+                                                                    i == 6 || i == 7 || i == 15 || i == 16 ? m_shapes[i]->GetSize()/2 : 0,
+                                                                    true,
+                                                                    5), c_transition_time_ms);
+                    }
+                    else
+                    {
+                        m_shapes[i]->TransitionTo(new CRoutineRain(m_shapes[i], rain_color), c_transition_time_ms);
+                    }
+                }
+            }
             break;
 
         default:
