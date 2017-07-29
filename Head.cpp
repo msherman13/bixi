@@ -43,7 +43,6 @@ CHead::CHead() :
     num_legs = HeadMappings::ShapeNumLegs(NoseLeft) +
                HeadMappings::ShapeNumLegs(NoseRight) +
                HeadMappings::ShapeNumLegs(NoseTop);
-    printf("MILES_DEBUG: offset = %u, leg_offset = %u, num_legs = %u\n", offset, leg_offset, num_legs);
     m_nose = new CPixelArrayLegs("HeadNose", this, len, offset, num_legs, leg_offset);
 
     len = HeadMappings::ShapeSize(NoseLeft);
