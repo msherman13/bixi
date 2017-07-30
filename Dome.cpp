@@ -7,6 +7,7 @@
 #include "RoutineGlare.h"
 #include "RoutineBalls.h"
 #include "RoutineRain.h"
+#include "RoutineSparkle.h"
 #include "RoutineRings.h"
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
@@ -205,7 +206,6 @@ void CDome::AdvanceRoutine()
 
         case RoutineCrawlHex:
             {
-                CRGB rain_color(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
                 CRGB crawl_color(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
                 for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
                 {
@@ -220,14 +220,16 @@ void CDome::AdvanceRoutine()
                     }
                     else
                     {
-                        m_shapes[i]->TransitionTo(new CRoutineRain(m_shapes[i], rain_color), c_transition_time_ms);
+                        m_shapes[i]->TransitionTo(new CRoutineSparkle(m_shapes[i], CRGB::White), c_transition_time_ms);
                     }
                 }
             }
             break;
 
         default:
-            CLogging::log("CDome::AdvanceRoutine: ERROR invalid routine, exiting");
+            char logstr[256];
+            sprintf(logstr, "CDome::AdvanceRoutine: ERROR invalid routine (%d), exiting", m_dome_routine);
+            CLogging::log(logstr);
             exit(-1);
             break;
     }

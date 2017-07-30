@@ -38,7 +38,10 @@ void CRoutineCrawl::Continue()
     for(int i=0;i<m_width;i++)
     {
         size_t index = (start + i) % GetSize();
-        SetPixel(index, m_color);
+        if(i % 3 == 0)
+        {
+            SetPixel(index, m_color);
+        }
     }
 
     float move_by = (float)(now - m_last_run) / (m_period_sec * 1000);

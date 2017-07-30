@@ -12,10 +12,8 @@ class CDome : public CPixelArrayLegs
 {
     public:
         static constexpr size_t c_transition_time_ms  = 20 * 1000;
-        static constexpr size_t c_min_routine_time_ms = 30 * 1000;
-        static constexpr size_t c_max_routine_time_ms = 31 * 1000;
-        //static constexpr size_t c_min_routine_time_ms = 3 * 60 * 1000;
-        //static constexpr size_t c_max_routine_time_ms = 5 * 60 * 1000;
+        static constexpr size_t c_min_routine_time_ms = 3 * 60 * 1000;
+        static constexpr size_t c_max_routine_time_ms = 5 * 60 * 1000;
 
     public:
         CDome();
@@ -33,7 +31,6 @@ class CDome : public CPixelArrayLegs
             RoutineCyclePallete,
             RoutineCyclePalleteDimensional,
             RoutineCyclePalleteShapes,
-            RoutineSolidQty,
 
             // complex
             RoutineSpin,
@@ -43,13 +40,13 @@ class CDome : public CPixelArrayLegs
             RoutineRubics,
             RoutineGlareShapes,
             RoutineCrawlHex,
-            RoutineComplexQty,
 
+            RoutineQty,
             RoutineNone,
             RoutineTest,
         };
-        static constexpr size_t c_solid_routine_qty = RoutineSolidQty;
-        static constexpr size_t c_complex_routine_qty = RoutineComplexQty - RoutineSolidQty;
+        static constexpr size_t c_solid_routine_qty = 4;
+        static constexpr size_t c_complex_routine_qty = RoutineQty - c_solid_routine_qty;
         bool IsShapeRoutine(Routine routine);
 
     private:
