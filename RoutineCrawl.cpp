@@ -18,7 +18,7 @@ CRoutineCrawl::CRoutineCrawl(CPixelArray* pixels,
     m_period_sec(period_sec),
     m_start((float)(start_offset) / GetSize()),
     m_width(width),
-    m_color(base_color)
+    m_color(rgb2hsv_approximate(base_color))
 {
     m_last_run = millis();
 }
@@ -40,7 +40,9 @@ void CRoutineCrawl::Continue()
         size_t index = (start + i) % GetSize();
         if(i % 3 == 0)
         {
-            SetPixel(index, m_color);
+            CHSV color = m_color;
+            color.v = ((float)i / m_width) * 255;
+            SetPixel(index, color);
         }
     }
 

@@ -29,7 +29,7 @@ class CRoutineCrawl : public CRoutine
         size_t   m_last_run   = 0;
         float    m_start      = 0.0;
         size_t   m_width      = 0;
-        CRGB     m_color;
+        CHSV     m_color;
 
     private:
         static CMemoryPool<CRoutineCrawl, c_alloc_qty> s_pool;

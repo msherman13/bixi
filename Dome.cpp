@@ -216,7 +216,7 @@ void CDome::AdvanceRoutine()
                                                                     m_shapes[i]->GetSize() / 4,
                                                                     i == 6 || i == 7 || i == 15 || i == 16 ? m_shapes[i]->GetSize()/2 : 0,
                                                                     true,
-                                                                    5), c_transition_time_ms);
+                                                                    10), c_transition_time_ms);
                     }
                     else
                     {
