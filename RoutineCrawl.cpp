@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 
 #include "RoutineCrawl.h"
 #include "PixelArray.h"
@@ -13,7 +14,7 @@ CRoutineCrawl::CRoutineCrawl(CPixelArray* pixels,
                              size_t       start_offset,
                              bool         forward,
                              size_t       period_sec) :
-    CRoutine(pixels),
+    CRoutineSparkle(pixels, CRGB::White),
     m_forward(forward),
     m_period_sec(period_sec),
     m_start((float)(start_offset) / GetSize()),
@@ -27,24 +28,9 @@ CRoutineCrawl::~CRoutineCrawl()
 {
 }
 
-void CRoutineCrawl::Continue()
+void CRoutineCrawl::Advance()
 {
-    SetAllPixels(CRGB::Black);
-
     size_t now = millis();
-
-    int start = m_start * GetSize();
-
-    for(int i=0;i<m_width;i++)
-    {
-        size_t index = (start + i) % GetSize();
-        if(i % 3 == 0)
-        {
-            CHSV color = m_color;
-            color.v = ((float)i / m_width) * 255;
-            SetPixel(index, color);
-        }
-    }
 
     float move_by = (float)(now - m_last_run) / (m_period_sec * 1000);
 
@@ -66,4 +52,50 @@ void CRoutineCrawl::Continue()
     }
 
     m_last_run = now;
+}
+
+CRGB CRoutineCrawl::CalculateColor(size_t index, bool& in_range)
+{
+    int start = m_start * GetSize();
+    int relative_index = index - start;
+    if(relative_index < 0)
+    {
+        relative_index += GetSize();
+    }
+    if(relative_index >= m_width)
+    {
+        in_range = false;
+        return CRGB::Black;
+    }
+
+    in_range = true;
+
+    if(relative_index % 3 == 0)
+    {
+        CHSV color = m_color;
+        color.v = ((float)relative_index / m_width) * 255;
+        return color;
+    }
+
+    return CRGB::Black;
+}
+
+void CRoutineCrawl::Continue()
+{
+    CRoutineSparkle::Continue();
+
+    for(int i=0;i<GetSize();i++)
+    {
+        bool in_range;
+        CRGB color = CalculateColor(i, in_range);
+
+        if(in_range == false)
+        {
+            continue;
+        }
+
+        SetPixel(i, color);
+    }
+
+    Advance();
 }

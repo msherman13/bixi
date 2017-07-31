@@ -2,10 +2,10 @@
 
 #include "stdint.h"
 
-#include "Routine.h"
+#include "RoutineSparkle.h"
 #include "FastLED.h"
 
-class CRoutineCrawl : public CRoutine
+class CRoutineCrawl : public CRoutineSparkle
 {
     public:
         static constexpr size_t c_alloc_qty = 16;
@@ -22,14 +22,16 @@ class CRoutineCrawl : public CRoutine
     public:
         virtual void        Continue() override;
         virtual const char* GetName()  override { return "Crawl"; }
+        void                Advance();
+        CRGB                CalculateColor(size_t index, bool& in_range);
 
     private:
-        bool     m_forward    = true;
-        size_t   m_period_sec = 0;
-        size_t   m_last_run   = 0;
-        float    m_start      = 0.0;
-        size_t   m_width      = 0;
-        CHSV     m_color;
+        bool      m_forward    = true;
+        size_t    m_period_sec = 0;
+        size_t    m_last_run   = 0;
+        float     m_start      = 0.0;
+        size_t    m_width      = 0;
+        CHSV      m_color;
 
     private:
         static CMemoryPool<CRoutineCrawl, c_alloc_qty> s_pool;
