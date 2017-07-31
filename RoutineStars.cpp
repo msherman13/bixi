@@ -23,10 +23,11 @@ void CRoutineStars::Advance()
 {
     size_t now = millis();
 
-    if(now - m_streak_start > m_streak_duration + c_attack)// && rand() % 1000 == 0)
+    if(now - m_streak_start > m_streak_duration + c_attack && now > m_next_streak_start)
     {
         m_streak_start    = now;
-        m_streak_duration = c_attack + ((rand() % 5) + 1) * 1000;
+        m_streak_duration = c_attack + ((rand() % 3) + 1) * 1000;
+        m_next_streak_start = now + m_streak_duration + 1000 * (rand() % 5);
         m_width           = std::min<size_t>(GetSize() / 5, (rand() % 40) + 10);
         m_start           = (float)(rand() % GetSize()) / GetSize();
         m_forward         = rand() % 2 == 0;
@@ -34,7 +35,7 @@ void CRoutineStars::Advance()
     }
     else
     {
-        float max     = 10.0 / GetSize();
+        float max     = 5.0 / GetSize();
         float move_by = max * powf((float)(m_streak_duration + c_attack - (now - m_streak_start)) / (m_streak_duration + c_attack), 8);
 
         if(m_forward == true)
@@ -66,7 +67,7 @@ CRGB CRoutineStars::CalculateColor(size_t index, bool& in_range)
     {
         relative_index += GetSize();
     }
-    if(relative_index >= m_width)
+    if((size_t)relative_index >= m_width)
     {
         in_range = false;
         return CRGB::Black;
@@ -74,24 +75,26 @@ CRGB CRoutineStars::CalculateColor(size_t index, bool& in_range)
 
     in_range = true;
 
+    size_t now = millis();
     CHSV color = m_color;
     color.v = ((float)relative_index / m_width) * 255;
     if(m_forward == false)
     {
         color.v = 255 - color.v;
     }
-    if((float)millis() - m_streak_start < c_attack)
+
+    if((float)now - m_streak_start < c_attack)
     {
-        color.v *= ((float)millis() - m_streak_start) / c_attack;
+        color.v *= ((float)now - m_streak_start) / c_attack;
     }
-    else if(millis() > m_streak_start + m_streak_duration + c_attack)
+    else if(now - m_streak_start > m_streak_duration + c_attack)
     {
         in_range = false;
         return CRGB::Black;
     }
     else
     {
-        color.v *= 1.0 - ((float)millis() - m_streak_start - c_attack) / m_streak_duration;
+        color.v *= std::max<float>(0.0, powf(1.0 - (float)(now - m_streak_start) / (m_streak_duration + c_attack), 2));
     }
     return color;
 }

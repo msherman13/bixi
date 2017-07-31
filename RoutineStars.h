@@ -10,7 +10,6 @@ class CRoutineStars : public CRoutineSparkle
     public:
         static constexpr size_t c_alloc_qty  = 8;
         static constexpr size_t c_attack     = 200;
-        static constexpr size_t c_period_sec = 10;
 
     public:
         CRoutineStars(CPixelArray* pixels);
@@ -26,6 +25,7 @@ class CRoutineStars : public CRoutineSparkle
         size_t    m_last_run   = 0;
         size_t    m_streak_start = 0;
         size_t    m_streak_duration = 0;
+        size_t    m_next_streak_start = 0;
         float     m_start      = 0.0;
         size_t    m_width      = 0;
         bool      m_forward    = false;

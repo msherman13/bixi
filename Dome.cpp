@@ -97,7 +97,6 @@ void CDome::Continue()
 
 CDome::Routine CDome::GetNextRoutine()
 {
-    return RoutineStars;
     Routine ret = m_dome_routine;
 
     while(ret == m_dome_routine)
