@@ -12,6 +12,7 @@
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
 #include "RoutineCrawl.h"
+#include "RoutineStars.h"
 #include "RoutineTest.h"
 #include "RoutineRubics.h"
 #include "RoutineIdle.h"
@@ -96,6 +97,7 @@ void CDome::Continue()
 
 CDome::Routine CDome::GetNextRoutine()
 {
+    return RoutineStars;
     Routine ret = m_dome_routine;
 
     while(ret == m_dome_routine)
@@ -224,6 +226,10 @@ void CDome::AdvanceRoutine()
                     }
                 }
             }
+            break;
+
+        case RoutineStars:
+            TransitionTo(new CRoutineStars(this), c_transition_time_ms);
             break;
 
         default:
