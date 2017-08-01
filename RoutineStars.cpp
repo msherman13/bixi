@@ -12,7 +12,6 @@ CMemoryPool<CRoutineStars, CRoutineStars::c_alloc_qty> CRoutineStars::s_pool;
 CRoutineStars::CRoutineStars(CPixelArray* pixels) :
     CRoutineSparkle(pixels, CRGB::White)
 {
-    m_last_run = millis();
 }
 
 CRoutineStars::~CRoutineStars()
@@ -55,8 +54,6 @@ void CRoutineStars::Advance()
             }
         }
     }
-
-    m_last_run = now;
 }
 
 CRGB CRoutineStars::CalculateColor(size_t index, bool& in_range)

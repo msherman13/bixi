@@ -12,10 +12,10 @@ namespace ColorPallete
         Blue        = 0x33669A,
         DarkPink    = 0x996699,
 #else
-        Mint        = 0x003F1C,
-        Purple      = 0x29004C,
-        Blue        = 0x003871,
-        DarkPink    = 0x990099,
+        Mint        = 0x00B43C,
+        Purple      = 0x760096,
+        Blue        = 0x0A00B4,
+        DarkPink    = 0xC30032,
 #endif
 
         Qty         = 4,

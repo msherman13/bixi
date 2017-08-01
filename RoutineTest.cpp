@@ -2,6 +2,7 @@
 
 #include "RoutineTest.h"
 #include "PixelArray.h"
+#include "ColorPallete.h"
 
 CMemoryPool<CRoutineTest, CRoutineTest::c_alloc_qty> CRoutineTest::s_pool;
 

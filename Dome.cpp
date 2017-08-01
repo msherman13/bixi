@@ -13,6 +13,7 @@
 #include "RoutineSolid.h"
 #include "RoutineCrawl.h"
 #include "RoutineStars.h"
+#include "RoutineAttack.h"
 #include "RoutineTest.h"
 #include "RoutineRubics.h"
 #include "RoutineIdle.h"
@@ -61,6 +62,7 @@ bool CDome::IsShapeRoutine(Routine routine)
         case RoutineGlareShapes:
         case RoutineCrawlHex:
         case RoutineStars:
+        case RoutineAttack:
             return true;
 
         default:
@@ -236,6 +238,15 @@ void CDome::AdvanceRoutine()
                 for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
                 {
                     m_shapes[i]->TransitionTo(new CRoutineStars(m_shapes[i]), c_transition_time_ms);
+                }
+            }
+            break;
+
+        case RoutineAttack:
+            {
+                for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+                {
+                    m_shapes[i]->TransitionTo(new CRoutineAttack(m_shapes[i]), c_transition_time_ms);
                 }
             }
             break;

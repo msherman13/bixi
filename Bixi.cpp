@@ -52,7 +52,11 @@ CBixi::CBixi()
     //LEDS.setBrightness(255);
     //LEDS.setCorrection(CRGB(255, 0, 0));
 
+#ifdef SIM
     GammaCorrection::Init(1.00);
+#else
+    GammaCorrection::Init(1.50);
+#endif
 
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());

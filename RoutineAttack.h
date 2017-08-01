@@ -2,36 +2,35 @@
 
 #include "stdint.h"
 
-#include "RoutineSparkle.h"
+#include "Routine.h"
 #include "FastLED.h"
 
-class CRoutineStars : public CRoutineSparkle
+class CDome;
+
+class CRoutineAttack : public CRoutine
 {
     public:
         static constexpr size_t c_alloc_qty  = 24;
-        static constexpr size_t c_attack     = 200;
+        static constexpr size_t c_attack     = 1;
 
     public:
-        CRoutineStars(CPixelArray* pixels);
-        ~CRoutineStars();
+        CRoutineAttack(CPixelArray* pixels);
+        ~CRoutineAttack();
 
     public:
         virtual void        Continue() override;
-        virtual const char* GetName()  override { return "Stars"; }
+        virtual const char* GetName()  override { return "Attack"; }
         void                Advance();
-        CRGB                CalculateColor(size_t index, bool& in_range);
+        CRGB                CalculateColor();
 
     private:
         size_t    m_streak_start = 0;
         size_t    m_streak_duration = 0;
         size_t    m_next_streak_start = 0;
-        float     m_start      = 0.0;
-        size_t    m_width      = 0;
-        bool      m_forward    = false;
         CHSV      m_color;
 
     private:
-        static CMemoryPool<CRoutineStars, c_alloc_qty> s_pool;
+        static CMemoryPool<CRoutineAttack, c_alloc_qty> s_pool;
 
     public:
         void* operator new(size_t)
@@ -41,6 +40,6 @@ class CRoutineStars : public CRoutineSparkle
 
         void operator delete(void* ptr)
         {
-            s_pool.free(reinterpret_cast<CRoutineStars*>(ptr));
+            s_pool.free(reinterpret_cast<CRoutineAttack*>(ptr));
         }
 };
