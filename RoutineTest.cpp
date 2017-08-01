@@ -10,6 +10,13 @@ CRoutineTest::CRoutineTest(CPixelArray* pixels) :
     CRoutine(pixels),
     m_last_run(millis())
 {
+    int random = rand() % 3;
+    switch(random)
+    {
+        case 0: m_color = CRGB::Red;
+        case 1: m_color = CRGB::Blue;
+        case 2: m_color = CRGB::Green;
+    }
 }
 
 CRoutineTest::~CRoutineTest()
@@ -35,7 +42,7 @@ void CRoutineTest::Continue()
         }
         else
         {
-            SetPixel(i, CRGB::White);
+            SetPixel(i, m_color);
         }
     }
 

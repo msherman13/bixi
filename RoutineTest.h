@@ -6,7 +6,7 @@
 class CRoutineTest : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty   = 1;
+        static constexpr size_t c_alloc_qty   = 24;
 
     public:
         CRoutineTest(CPixelArray* pixels);
@@ -20,6 +20,7 @@ class CRoutineTest : public CRoutine
         size_t m_index    = 0;
         size_t m_last_run = 0;
         bool   m_forward  = true;
+        CRGB   m_color;
 
     private:
         static CMemoryPool<CRoutineTest, c_alloc_qty> s_pool;
