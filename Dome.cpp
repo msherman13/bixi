@@ -39,7 +39,7 @@ CDome::CDome() :
 
     // start at black, immediately transition out
     SetRoutine(new CRoutineSolid(this, CRGB::Black));
-    m_dome_routine = RoutineSolid;
+    m_dome_routine = RoutineNone;
     for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
     {
         m_shapes[i]->SetRoutine(new CRoutineIdle(m_shapes[i]));
@@ -104,6 +104,9 @@ CDome::Routine CDome::GetNextRoutine()
     {
         switch(m_dome_routine)
         {
+            case RoutineNone:
+                return RoutineStars;
+
             case RoutineBalls:
                 return RoutineSolid;
 
