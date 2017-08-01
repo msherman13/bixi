@@ -8,7 +8,7 @@
 class CRoutineStars : public CRoutineSparkle
 {
     public:
-        static constexpr size_t c_alloc_qty  = 8;
+        static constexpr size_t c_alloc_qty  = 32;
         static constexpr size_t c_attack     = 200;
 
     public:

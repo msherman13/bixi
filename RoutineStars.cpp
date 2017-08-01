@@ -27,7 +27,7 @@ void CRoutineStars::Advance()
     {
         m_streak_start    = now;
         m_streak_duration = c_attack + ((rand() % 3) + 1) * 1000;
-        m_next_streak_start = now + m_streak_duration + 1000 * (rand() % 5);
+        m_next_streak_start = now + m_streak_duration + (rand() % 20000);
         m_width           = std::min<size_t>(GetSize() / 5, (rand() % 40) + 10);
         m_start           = (float)(rand() % GetSize()) / GetSize();
         m_forward         = rand() % 2 == 0;

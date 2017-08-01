@@ -60,6 +60,7 @@ bool CDome::IsShapeRoutine(Routine routine)
     {
         case RoutineGlareShapes:
         case RoutineCrawlHex:
+        case RoutineStars:
             return true;
 
         default:
@@ -228,7 +229,12 @@ void CDome::AdvanceRoutine()
             break;
 
         case RoutineStars:
-            TransitionTo(new CRoutineStars(this), c_transition_time_ms);
+            {
+                for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+                {
+                    m_shapes[i]->TransitionTo(new CRoutineStars(m_shapes[i]), c_transition_time_ms);
+                }
+            }
             break;
 
         default:

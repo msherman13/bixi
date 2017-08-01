@@ -12,7 +12,7 @@ CRoutineSparkle::CRoutineSparkle(CPixelArray* pixels, CRGB rgb) :
 {
     m_last_run = millis();
     m_num_lit = c_max_num_lit;
-    m_num_lit = std::min<size_t>(GetSize() / 5, m_num_lit);
+    m_num_lit = std::min<size_t>(GetSize() / 10, m_num_lit);
 
     for(size_t i=0;i<m_num_lit;i++)
     {
