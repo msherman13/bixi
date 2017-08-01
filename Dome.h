@@ -48,6 +48,7 @@ class CDome : public CPixelArrayLegs
         };
         static constexpr size_t c_solid_routine_qty = 4;
         static constexpr size_t c_complex_routine_qty = RoutineQty - c_solid_routine_qty;
+        static constexpr Routine c_initial_routine = RoutineGlareShapes;
         bool IsShapeRoutine(Routine routine);
 
     private:

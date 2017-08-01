@@ -105,7 +105,7 @@ CDome::Routine CDome::GetNextRoutine()
         switch(m_dome_routine)
         {
             case RoutineNone:
-                return RoutineStars;
+                return c_initial_routine;
 
             case RoutineBalls:
                 return RoutineSolid;
