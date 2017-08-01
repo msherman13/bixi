@@ -10,7 +10,7 @@ class CRoutineSparkle : public CRoutine
     public:
         static constexpr size_t  c_alloc_qty   = 32;
         static constexpr size_t  c_release_ms  = 2000;
-        static constexpr size_t  c_max_num_lit = 100;
+        static constexpr size_t  c_max_num_lit = 32;
 
     public:
         CRoutineSparkle(CPixelArray* pixels, CRGB rgb);
