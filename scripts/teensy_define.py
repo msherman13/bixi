@@ -13,7 +13,7 @@ ofile = open("/tmp/tmp.txt", 'w')
 
 for line in lines:
     if "teensy36.build.flags.defs" in line:
-        ofile.write(line.rstrip('\n') + " " + sys.argv[3].replace(',', ' '))
+        ofile.write("teensy36.build.flags.defs=-D__MK66FX1M0__ -DTEENSYDUINO=136 " + sys.argv[3].replace(',', ' '))
         ofile.write("\n")
     else:
         ofile.write(line)
