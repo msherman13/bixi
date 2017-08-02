@@ -21,7 +21,10 @@ class CDome : public CPixelArrayLegs
 
     public:
         virtual void   Continue()      override;
-        virtual size_t GetNumStrands() const final { return DomeMappings::c_num_strands; }
+        virtual size_t PixelsPerStrand() const final
+        {
+            return DomeMappings::c_num_physical_pixels / DomeMappings::c_num_strands;
+        }
 
     public:
         enum Routine

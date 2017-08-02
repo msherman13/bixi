@@ -104,12 +104,12 @@ class CPixelArray
         size_t         GetSize() const                               { return m_length; }
         CRGB*          GetRaw(size_t index=0)                        { return &m_pixels[index]; }
         size_t         GetRawSize() const                            { return m_raw_length; }
-        virtual size_t GetNumStrands() const                         { return 1; }
         Coordinate     GetCoordinate(size_t index) const             { return m_config->GetCoordinate(IndexOffset(index)); }
         size_t         GetLocation(size_t index) const               { return m_config->GetLocation(IndexOffset(index)); }
         bool           ApplyGamma(size_t index) const                { return m_config->ApplyGamma(IndexOffset(index)); }
         size_t         IndexOffset(size_t index) const               { return index + m_offset; }
         const char*    GetName() const                               { return m_name; }
+        virtual size_t PixelsPerStrand() const                       { return 1; }
 
     public:
         void        SetSize(size_t len)                           { m_length = len; }

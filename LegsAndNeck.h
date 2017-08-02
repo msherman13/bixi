@@ -20,8 +20,8 @@ class CLegsAndNeck : public CPixelArrayLegs
         ~CLegsAndNeck();
 
     public:
-        virtual void   Continue()      override;
-        virtual size_t GetNumStrands() const final { return LegsAndNeckMappings::c_num_strands; }
+        virtual void   Continue()        override;
+        virtual size_t PixelsPerStrand() const final { return LegsAndNeckMappings::c_pixels_per_strand; }
 
     public:
         enum Routine
