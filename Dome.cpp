@@ -14,6 +14,7 @@
 #include "RoutineCrawl.h"
 #include "RoutineStars.h"
 #include "RoutineAttack.h"
+#include "RoutineTurn.h"
 #include "RoutineTest.h"
 #include "RoutineRubics.h"
 #include "RoutineIdle.h"
@@ -63,6 +64,9 @@ bool CDome::IsShapeRoutine(Routine routine)
         case RoutineCrawlHex:
         case RoutineStars:
         case RoutineAttack:
+        case RoutineTurn:
+        case RoutineSparkle:
+        case RoutineSparkleColors:
         case RoutineTest:
             return true;
 
@@ -251,6 +255,42 @@ void CDome::AdvanceRoutine()
                 for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
                 {
                     m_shapes[i]->TransitionTo(new CRoutineAttack(m_shapes[i]), c_transition_time_ms);
+                }
+            }
+            break;
+
+        case RoutineTurn:
+            {
+                for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+                {
+                    CRGB color = ColorPallete::s_colors[rand() % ColorPallete::Qty];
+                    if(DomeMappings::ShapeIsHex(i))
+                    {
+                        m_shapes[i]->TransitionTo(new CRoutineTurn(m_shapes[i], color, 2), c_transition_time_ms);
+                    }
+                    else
+                    {
+                        m_shapes[i]->TransitionTo(new CRoutineSparkle(m_shapes[i], color), c_transition_time_ms);
+                    }
+                }
+            }
+            break;
+
+        case RoutineSparkle:
+            {
+                for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+                {
+                    m_shapes[i]->TransitionTo(new CRoutineSparkle(m_shapes[i], CRGB::White), c_transition_time_ms);
+                }
+            }
+            break;
+
+        case RoutineSparkleColors:
+            {
+                for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
+                {
+                    CRGB color = ColorPallete::s_colors[rand() % ColorPallete::Qty];
+                    m_shapes[i]->TransitionTo(new CRoutineSparkle(m_shapes[i], color), c_transition_time_ms);
                 }
             }
             break;

@@ -26,7 +26,7 @@ void CRoutineAttack::Advance()
     {
         m_streak_start    = now;
         m_streak_duration = c_attack + ((rand() % 3) + 3) * 1000;
-        m_next_streak_start = now + m_streak_duration + (rand() % 5000);
+        m_next_streak_start = now + m_streak_duration + (rand() % 3000);
         m_color           = rgb2hsv_approximate(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
     }
 }
