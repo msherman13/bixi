@@ -31,6 +31,24 @@ void CRoutineRubics::Continue()
         CPixelArray::Coordinate coord = GetCoordinate(i);
 
         size_t color_index;
+
+        if(m_swipe_direction == Left || m_swipe_direction == Right)
+        {
+            if(fabs(coord.x - m_midpoint.x) < c_border_width / 2)
+            {
+                SetPixel(i, CRGB::Black);
+                continue;
+            }
+        }
+        else
+        {
+            if(fabs(coord.y - m_midpoint.y) < c_border_width / 2)
+            {
+                SetPixel(i, CRGB::Black);
+                continue;
+            }
+        }
+
         if(coord.x <= m_midpoint.x && coord.y <= m_midpoint.y)
         {
             color_index = 0;
@@ -48,7 +66,7 @@ void CRoutineRubics::Continue()
             color_index = 3;
         }
 
-        SetPixel(i, ColorPallete::s_colors[color_index]);
+        SetPixel(i, ColorPallete::s_colors[color_index % ColorPallete::Qty]);
     }
 
     m_last_run = millis();

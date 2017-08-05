@@ -11,6 +11,7 @@ class CRoutineRubics : public CRoutine
         static constexpr size_t c_swipe_duration_ms = 800;
         static constexpr float  c_swipe_distance_per_ms = 2.0 / c_swipe_duration_ms;
         static constexpr size_t c_time_between_swipes_ms = c_swipe_duration_ms + 3 * 1000;
+        static constexpr float  c_border_width = 0.05;
 
     public:
         CRoutineRubics(CPixelArray* pixels);
