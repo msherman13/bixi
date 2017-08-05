@@ -48,7 +48,15 @@ CBixi::CBixi()
     m_show = new CPixelArray(*m_geometry);
 
     // Parallel Output
-    LEDS.addLeds<OCTOWS2813>(m_show->GetRaw(), m_show->GetRawSize() / m_geometry->GetNumStrands());
+    if(m_geometry->PixelsPerStrand() * 8 != m_geometry->GetRawSize())
+    {
+        char logstr[256];
+        sprintf(logstr, "CBixi::CBixi: ERROR geometry raw size (%u) != FastLED size (%u)",
+                m_geometry->PixelsPerStrand() * 8, m_geometry->GetRawSize());
+        CLogging::log(logstr);
+        exit(-1);
+    }
+    LEDS.addLeds<OCTOWS2813>(m_show->GetRaw(), m_geometry->PixelsPerStrand());
     //LEDS.setBrightness(255);
     //LEDS.setCorrection(CRGB(255, 0, 0));
 
@@ -58,9 +66,13 @@ CBixi::CBixi()
     GammaCorrection::Init(1.50);
 #endif
 
+    m_geometry->SetAllPixels(CRGB::Black);
+    Show(m_geometry);
+
     char logstr[256];
     sprintf(logstr, "CBixi::CBixi: Initial allocations complete, %u byte remaining", FreeRam());
     CLogging::log(logstr);
+
 }
 
 CBixi::~CBixi()

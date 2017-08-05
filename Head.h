@@ -19,7 +19,7 @@ class CHead : public CPixelArrayLegs
 
     public:
         virtual void   Continue()      override;
-        virtual size_t GetNumStrands() const final { return HeadMappings::c_num_strands; }
+        virtual size_t PixelsPerStrand() const final { return HeadMappings::c_strand_length; }
 
     public:
         CPixelArrayLegs* GetNoseLeft()  { return m_nose_left; }

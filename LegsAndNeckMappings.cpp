@@ -7,10 +7,10 @@
 LegsAndNeckMappings::Mappings::Mappings() :
     CPixelArrayLegs::Config()
 {
-    static_assert(4500 == c_num_physical_pixels, "Mismatch in c_num_physical_pixels");
+    static_assert(6000 == c_num_physical_pixels, "Mismatch in c_num_physical_pixels");
     static_assert(3840 == c_num_logical_pixels, "Mismatch in c_num_logical_pixels");
     m_num_legs      = 24;
-    m_physical_size = 4500;
+    m_physical_size = 6000;
     m_logical_size  = 3840;
 
     // legs
