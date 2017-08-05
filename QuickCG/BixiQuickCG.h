@@ -5,8 +5,8 @@ class CPixelArray;
 class CBixiQuickCG : public CBixi
 {
     public:
-        static constexpr size_t c_pixels_x = 1024;
-        static constexpr size_t c_pixels_y = 1024;
+        static constexpr size_t c_pixels_x = 720;
+        static constexpr size_t c_pixels_y = 720;
         static constexpr size_t c_pixel_width = 3;
 
     public:
