@@ -24,7 +24,7 @@ namespace DomeMappings
     size_t ShapeEndIndex(size_t shape_index);
     size_t ShapeStartLeg(size_t shape_index);
     size_t ShapeEndLeg(size_t shape_index);
-    size_t ShapeIsHex(size_t shape_index);
+    size_t ShapeIsHex(size_t shape_index, bool& inner);
     size_t ShapeIsOnLeft(size_t shape_index);
 
     struct Mappings : public CPixelArrayLegs::Config

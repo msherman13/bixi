@@ -49,7 +49,6 @@ void CRoutineTurn::Continue()
 
     for(size_t i=0;i<m_num_lit;i++)
     {
-
         CPixelArray* leg = GetPixelLegs()->GetLeg(m_legs_lit[i]);
         leg->SetAllPixels(m_color);
     }

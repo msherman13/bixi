@@ -224,7 +224,8 @@ void CDome::AdvanceRoutine()
                 CRGB crawl_color(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
                 for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
                 {
-                    if(DomeMappings::ShapeIsHex(i))
+                    bool inner = false;
+                    if(DomeMappings::ShapeIsHex(i, inner))
                     {
                         m_shapes[i]->TransitionTo(new CRoutineCrawl(m_shapes[i],
                                                                     crawl_color,
@@ -264,13 +265,14 @@ void CDome::AdvanceRoutine()
                 for(size_t i=0;i<DomeMappings::c_num_shapes;i++)
                 {
                     CRGB color = ColorPallete::s_colors[rand() % ColorPallete::Qty];
-                    if(DomeMappings::ShapeIsHex(i))
+                    bool inner = false;
+                    if(DomeMappings::ShapeIsHex(i, inner))
                     {
                         m_shapes[i]->TransitionTo(new CRoutineTurn(m_shapes[i], color, 2), c_transition_time_ms);
                     }
                     else
                     {
-                        m_shapes[i]->TransitionTo(new CRoutineSparkle(m_shapes[i], color), c_transition_time_ms);
+                        m_shapes[i]->TransitionTo(new CRoutineSparkle(m_shapes[i], CRGB::White), c_transition_time_ms);
                     }
                 }
             }

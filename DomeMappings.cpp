@@ -10342,17 +10342,19 @@ size_t DomeMappings::ShapeEndLeg(size_t shape_index)
     }
 }
 
-size_t DomeMappings::ShapeIsHex(size_t shape_index)
+size_t DomeMappings::ShapeIsHex(size_t shape_index, bool& inner)
 {   
     for(size_t i=0;i<c_num_double_hex;i++)
     {
         if(shape_index == c_inner_hex_index[i])
         {
+            inner = true;
             return true;
         }
 
         if(shape_index == c_outer_hex_index[i])
         {
+            inner = false;
             return true;
         }
 
