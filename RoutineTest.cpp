@@ -42,7 +42,7 @@ void CRoutineTest::Continue()
         }
         else
         {
-            SetPixel(i, m_color);
+            SetPixel(i, CRGB::White);
         }
     }
 

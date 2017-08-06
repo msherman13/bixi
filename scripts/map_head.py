@@ -113,38 +113,55 @@ for index, row in loc.reset_index().iterrows():
         ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
         led_index += 1
 
-# side left
-ofile.write("       // side left\n")
-length = mappings[(mappings['strand_index'] == 5)].iloc[0]['length']
-for i in range(length):
-    x = -0.50
-    y = 0.0 - (float(i) / length) * 0.75
-    ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
-    led_index += 1
-
 # flame left
 ofile.write("       // flame left\n")
-length = mappings[(mappings['strand_index'] == 5)].iloc[1]['length']
+length = mappings[(mappings['strand_index'] == 5)].iloc[0]['length']
 for i in range(length):
     x = -0.30
     y = 0.0 - (float(i) / length) * 0.75
     ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
     led_index += 1
 
-# side right
+# side left
 ofile.write("       // side left\n")
-length = mappings[(mappings['strand_index'] == 6)].iloc[0]['length']
+length = mappings[(mappings['strand_index'] == 5)].iloc[1]['length']
 for i in range(length):
-    x = 0.50
+    x = -0.50
+    y = 0.0 - (float(i) / length) * 0.75
+    ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
+    led_index += 1
+# side left
+ofile.write("       // horn left\n")
+length = mappings[(mappings['strand_index'] == 5)].iloc[2]['length']
+for i in range(length):
+    x = -0.40
     y = 0.0 - (float(i) / length) * 0.75
     ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
     led_index += 1
 
 # flame right
 ofile.write("       // flame left\n")
-length = mappings[(mappings['strand_index'] == 6)].iloc[1]['length']
+length = mappings[(mappings['strand_index'] == 6)].iloc[0]['length']
 for i in range(length):
     x = 0.30
+    y = 0.0 - (float(i) / length) * 0.75
+    ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
+    led_index += 1
+
+# side right
+ofile.write("       // side left\n")
+length = mappings[(mappings['strand_index'] == 6)].iloc[1]['length']
+for i in range(length):
+    x = 0.50
+    y = 0.0 - (float(i) / length) * 0.75
+    ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
+    led_index += 1
+
+# horn right
+ofile.write("       // horn left\n")
+length = mappings[(mappings['strand_index'] == 6)].iloc[2]['length']
+for i in range(length):
+    x = 0.40
     y = 0.0 - (float(i) / length) * 0.75
     ofile.write("        case %d: return CPixelArray::Coordinate(%f, %f);\n" % (led_index, x, y))
     led_index += 1
@@ -180,14 +197,18 @@ ofile.write("        case 3: return %d;\n" % (start_index)) # nose right
 start_index += sum(mappings[mappings['strand_index'] == 3]['length'])
 ofile.write("        case 4: return %d;\n" % (start_index)) # nose top
 start_index += sum(mappings[mappings['strand_index'] == 4]['length'])
-ofile.write("        case 5: return %d;\n" % (start_index)) # side left
+ofile.write("        case 5: return %d;\n" % (start_index)) # flame left
 start_index += mappings[mappings['strand_index'] == 5].iloc[0]['length']
-ofile.write("        case 6: return %d;\n" % (start_index)) # flame left
+ofile.write("        case 6: return %d;\n" % (start_index)) # side left
 start_index += mappings[mappings['strand_index'] == 5].iloc[1]['length']
-ofile.write("        case 7: return %d;\n" % (start_index)) # side right
-start_index += mappings[mappings['strand_index'] == 6].iloc[0]['length']
+ofile.write("        case 7: return %d;\n" % (start_index)) # horn left
+start_index += mappings[mappings['strand_index'] == 5].iloc[2]['length']
 ofile.write("        case 8: return %d;\n" % (start_index)) # flame right
+start_index += mappings[mappings['strand_index'] == 6].iloc[0]['length']
+ofile.write("        case 9: return %d;\n" % (start_index)) # side right
 start_index += mappings[mappings['strand_index'] == 6].iloc[1]['length']
+ofile.write("        case 10: return %d;\n" % (start_index)) # horn right
+start_index += mappings[mappings['strand_index'] == 6].iloc[2]['length']
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -201,10 +222,12 @@ ofile.write("        case 1: return %d;\n" % (mappings[mappings['strand_index'] 
 ofile.write("        case 2: return %d;\n" % (sum(mappings[mappings['strand_index'] == 2]['length']))) # nose left
 ofile.write("        case 3: return %d;\n" % (sum(mappings[mappings['strand_index'] == 3]['length']))) # nose right
 ofile.write("        case 4: return %d;\n" % (sum(mappings[mappings['strand_index'] == 4]['length']))) # nose top
-ofile.write("        case 5: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[0]['length'])) # side left
-ofile.write("        case 6: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[1]['length'])) # flame left
-ofile.write("        case 7: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[0]['length'])) # side right
-ofile.write("        case 8: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[1]['length'])) # flame right
+ofile.write("        case 5: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[0]['length'])) # flame left
+ofile.write("        case 6: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[1]['length'])) # side left
+ofile.write("        case 7: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[2]['length'])) # horn left
+ofile.write("        case 8: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[0]['length'])) # flame right
+ofile.write("        case 9: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[1]['length'])) # side right
+ofile.write("        case 10: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[2]['length'])) # horn right
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -220,8 +243,10 @@ ofile.write("        case 3: return %d;\n" % (len(mappings[mappings['strand_inde
 ofile.write("        case 4: return %d;\n" % (len(mappings[mappings['strand_index'] == 4]))) # nose top
 ofile.write("        case 5: return 1;\n") # side left
 ofile.write("        case 6: return 1;\n") # flame left
-ofile.write("        case 7: return 1;\n") # side right
+ofile.write("        case 7: return 1;\n") # horn left
 ofile.write("        case 8: return 1;\n") # flame right
+ofile.write("        case 9: return 1;\n") # side right
+ofile.write("        case 10: return 1;\n") # horn right
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")

@@ -12,7 +12,7 @@ class CPixelArray;
 class CRoutineFire : public CRoutine
 {
     public:
-        static constexpr size_t c_alloc_qty           = 4;
+        static constexpr size_t c_alloc_qty           = 8;
         static constexpr size_t c_num_colors          = 256;
         static constexpr int    c_x_pixels            = 1;
         static constexpr int    c_y_pixels            = 100;

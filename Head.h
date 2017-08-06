@@ -33,10 +33,12 @@ class CHead : public CPixelArrayLegs
         CPixelArrayLegs* m_nose_left = nullptr;
         CPixelArrayLegs* m_nose_right = nullptr;
         CPixelArrayLegs* m_nose_top = nullptr;
-        CPixelArrayLegs* m_side_left = nullptr;
-        CPixelArrayLegs* m_side_right = nullptr;
         CPixelArrayLegs* m_flame_left = nullptr;
         CPixelArrayLegs* m_flame_right = nullptr;
+        CPixelArrayLegs* m_side_left = nullptr;
+        CPixelArrayLegs* m_side_right = nullptr;
+        CPixelArrayLegs* m_horn_left = nullptr;
+        CPixelArrayLegs* m_horn_right = nullptr;
 
     private:
         enum Shape
@@ -46,10 +48,12 @@ class CHead : public CPixelArrayLegs
             NoseLeft,
             NoseRight,
             NoseTop,
-            SideLeft,
             FlameLeft,
-            SideRight,
+            SideLeft,
+            HornLeft,
             FlameRight,
+            SideRight,
+            HornRight,
 
             ShapeQty,
             ShapeNull,

@@ -14,6 +14,7 @@
 #include "RoutineCyclePallete.h"
 #include "RoutineFire.h"
 #include "RoutineTraverseNose.h"
+#include "RoutineTest.h"
 
 CMemoryPool<CHead, 1>  CHead::s_pool;
 HeadMappings::Mappings CHead::s_mappings;
@@ -62,22 +63,22 @@ CHead::CHead() :
     m_nose_top = new CPixelArrayLegs("HeadNoseTop", this, len, offset, num_legs, leg_offset);
     leg_offset += num_legs;
 
+    len = HeadMappings::ShapeSize(FlameLeft);
+    offset = HeadMappings::ShapeStartIndex(FlameLeft);
+    num_legs = HeadMappings::ShapeNumLegs(FlameLeft);
+    m_flame_left = new CPixelArrayLegs("HeadFlameLeft", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
     len = HeadMappings::ShapeSize(SideLeft);
     offset = HeadMappings::ShapeStartIndex(SideLeft);
     num_legs = HeadMappings::ShapeNumLegs(SideLeft);
     m_side_left = new CPixelArrayLegs("HeadSideLeft", this, len, offset, num_legs, leg_offset);
     leg_offset += num_legs;
 
-    len = HeadMappings::ShapeSize(SideRight);
-    offset = HeadMappings::ShapeStartIndex(SideRight);
-    num_legs = HeadMappings::ShapeNumLegs(SideRight);
-    m_side_right = new CPixelArrayLegs("HeadSideRight", this, len, offset, num_legs, leg_offset);
-    leg_offset += num_legs;
-
-    len = HeadMappings::ShapeSize(FlameLeft);
-    offset = HeadMappings::ShapeStartIndex(FlameLeft);
-    num_legs = HeadMappings::ShapeNumLegs(FlameLeft);
-    m_flame_left = new CPixelArrayLegs("HeadFlameLeft", this, len, offset, num_legs, leg_offset);
+    len = HeadMappings::ShapeSize(HornLeft);
+    offset = HeadMappings::ShapeStartIndex(HornLeft);
+    num_legs = HeadMappings::ShapeNumLegs(HornLeft);
+    m_horn_left = new CPixelArrayLegs("HeadHornLeft", this, len, offset, num_legs, leg_offset);
     leg_offset += num_legs;
 
     len = HeadMappings::ShapeSize(FlameRight);
@@ -86,24 +87,35 @@ CHead::CHead() :
     m_flame_right = new CPixelArrayLegs("HeadFlameRight", this, len, offset, num_legs, leg_offset);
     leg_offset += num_legs;
 
+    len = HeadMappings::ShapeSize(SideRight);
+    offset = HeadMappings::ShapeStartIndex(SideRight);
+    num_legs = HeadMappings::ShapeNumLegs(SideRight);
+    m_side_right = new CPixelArrayLegs("HeadSideRight", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
+    len = HeadMappings::ShapeSize(HornRight);
+    offset = HeadMappings::ShapeStartIndex(HornRight);
+    num_legs = HeadMappings::ShapeNumLegs(HornRight);
+    m_horn_right = new CPixelArrayLegs("HeadHornRight", this, len, offset, num_legs, leg_offset);
+    leg_offset += num_legs;
+
     m_mouth_left->SetRoutine(new CRoutineSolid(m_mouth_left, CRGB::Black));
     m_mouth_right->SetRoutine(new CRoutineSolid(m_mouth_right, CRGB::Black));
+    m_side_left->SetRoutine(new CRoutineSolid(m_side_left, CRGB::Black));
+    m_side_right->SetRoutine(new CRoutineSolid(m_side_right, CRGB::Black));
     m_nose->SetRoutine(new CRoutineSolid(m_nose, CRGB::Black));
-//    m_nose_left->SetRoutine(new CRoutineSolid(m_nose_left, CRGB::Black));
-//    m_nose_right->SetRoutine(new CRoutineSolid(m_nose_right, CRGB::Black));
-//    m_nose_top->SetRoutine(new CRoutineSolid(m_nose_top, CRGB::Black));
 
-    m_side_left->SetRoutine(new CRoutineFire(m_side_left));
-    m_side_right->SetRoutine(new CRoutineFire(m_side_right));
     m_flame_left->SetRoutine(new CRoutineFire(m_flame_left));
     m_flame_right->SetRoutine(new CRoutineFire(m_flame_right));
+    m_horn_left->SetRoutine(new CRoutineFire(m_horn_left));
+    m_horn_right->SetRoutine(new CRoutineFire(m_horn_right));
 
-    m_mouth_left->TransitionTo(new CRoutineCyclePallete(m_mouth_left, true, 15), c_transition_time_ms);
-    m_mouth_right->TransitionTo(new CRoutineCyclePallete(m_mouth_right, true, 15), c_transition_time_ms);
     m_nose->TransitionTo(new CRoutineTraverseNose(this, m_nose), c_transition_time_ms);
-//    m_nose_left->TransitionTo(new CRoutineRings(m_nose_left, CPixelArray::Coordinate(-0.4, 1.0)), c_transition_time_ms);
-//    m_nose_right->TransitionTo(new CRoutineRings(m_nose_right, CPixelArray::Coordinate(0.4, 1.0)), c_transition_time_ms);
-//    m_nose_top->TransitionTo(new CRoutineRings(m_nose_top, CPixelArray::Coordinate(0.0, 1.0)), c_transition_time_ms);
+    //m_mouth_left->TransitionTo(new CRoutineCyclePallete(m_mouth_left, true, 15), c_transition_time_ms);
+    m_mouth_left->TransitionTo(new CRoutineTest(m_mouth_left), 10);
+    m_mouth_right->TransitionTo(new CRoutineCyclePallete(m_mouth_right, true, 15), c_transition_time_ms);
+    m_side_left->TransitionTo(new CRoutineCyclePallete(m_side_left, true, 15), c_transition_time_ms);
+    m_side_right->TransitionTo(new CRoutineCyclePallete(m_side_right, true, 15), c_transition_time_ms);
 }
 
 CHead::~CHead()
@@ -112,9 +124,6 @@ CHead::~CHead()
 
 void CHead::Continue()
 {
-    static uint32_t first_run = millis();
-    static uint32_t last_run = millis();
-
     m_mouth_left->Continue();
     m_mouth_right->Continue();
     m_nose->Continue();
@@ -125,5 +134,7 @@ void CHead::Continue()
     m_side_right->Continue();
     m_flame_left->Continue();
     m_flame_right->Continue();
+    m_horn_left->Continue();
+    m_horn_right->Continue();
 }
 #endif // GEOM_HEAD
