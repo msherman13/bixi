@@ -20,7 +20,7 @@ CRoutineExpand::~CRoutineExpand()
 
 CDome* CRoutineExpand::GetDome()
 {
-    return dynamic_cast<CDome*>(GetPixels());
+    return reinterpret_cast<CDome*>(GetPixels());
 }
 
 void CRoutineExpand::Advance()

@@ -29,7 +29,7 @@ CRoutineTurn::~CRoutineTurn()
 
 CPixelArrayLegs* CRoutineTurn::GetPixelLegs()
 {
-    return dynamic_cast<CPixelArrayLegs*>(GetPixels());
+    return reinterpret_cast<CPixelArrayLegs*>(GetPixels());
 }
 
 void CRoutineTurn::Continue()
