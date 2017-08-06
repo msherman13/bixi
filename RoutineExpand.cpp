@@ -1,3 +1,5 @@
+#ifdef GEOM_DOME
+
 #include <algorithm>
 #include <cmath>
 
@@ -49,21 +51,24 @@ float CRoutineExpand::CalculateBrightness()
 {
     size_t now = millis();
 
-    float brightness;
+    float brightness = 1.0;
+    float time_ms = now - m_last_run;
     if(m_shape_group == All)
     {
-        brightness = powf((float)(now - m_last_run) / (c_group_ms / 2), c_q);
-        brightness = std::min<float>(brightness, 1.0);
-    }
-    else
-    {
-        float time_ms = now - m_last_run;
         if(time_ms < c_group_ms / 2)
         {
             brightness = powf((float)(now - m_last_run) / (c_group_ms / 2), c_q);
             brightness = std::min<float>(brightness, 1.0);
         }
-        else
+    }
+    else
+    {
+        if(time_ms < c_group_ms / 2)
+        {
+            brightness = powf((float)(now - m_last_run) / (c_group_ms / 2), c_q);
+            brightness = std::min<float>(brightness, 1.0);
+        }
+        else if(time_ms < c_group_ms)
         {
             brightness = 1.0 - powf((float)(now - m_last_run - c_group_ms / 2) / (c_group_ms / 2), c_q);
             brightness = std::max<float>(brightness, 0.0);
@@ -120,3 +125,5 @@ void CRoutineExpand::Continue()
         }
     }
 }
+
+#endif // GEOM_DOME

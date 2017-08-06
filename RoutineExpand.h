@@ -1,3 +1,5 @@
+#ifdef GEOM_DOME
+
 #pragma once
 
 #include <cmath>
@@ -58,3 +60,5 @@ class CRoutineExpand : public CRoutine
             s_pool.free(reinterpret_cast<CRoutineExpand*>(ptr));
         }   
 };
+
+#endif // GEOM_DOME

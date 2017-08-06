@@ -5,7 +5,6 @@
 #include "ColorPallete.h"
 #include "FastLED.h"
 #include "RoutineGlare.h"
-#include "RoutineBalls.h"
 #include "RoutineRain.h"
 #include "RoutineSparkle.h"
 #include "RoutineRings.h"
@@ -114,10 +113,7 @@ CDome::Routine CDome::GetNextRoutine()
         {
             case RoutineNone:
                 return c_initial_routine;
-
-            case RoutineBalls:
-                return RoutineSolid;
-
+/*
             case RoutineCyclePallete:
             case RoutineCyclePalleteDimensional:
             case RoutineCyclePalleteShapes:
@@ -128,6 +124,9 @@ CDome::Routine CDome::GetNextRoutine()
             default:
                 ret = static_cast<Routine>(rand() % c_solid_routine_qty);
                 break;
+*/
+            default:
+                ret = static_cast<Routine>(rand() % RoutineQty);
         }
     }
 
@@ -184,10 +183,6 @@ void CDome::AdvanceRoutine()
 
         case RoutineRubics:
             TransitionTo(new CRoutineRubics(this), c_transition_time_ms);
-            break;
-
-        case RoutineBalls:
-            TransitionTo(new CRoutineBalls(this, 6), c_transition_time_ms);
             break;
 
         case RoutineRain:
