@@ -46,7 +46,6 @@ class CDome : public CPixelArrayLegs
             RoutineTurn,
             RoutineSparkle,
             RoutineSparkleColors,
-            RoutineExpand,
 
             RoutineQty,
             RoutineNone,

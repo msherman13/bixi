@@ -8,7 +8,6 @@
 #include "RoutineRain.h"
 #include "RoutineSparkle.h"
 #include "RoutineRings.h"
-#include "RoutineExpand.h"
 #include "RoutineSpin.h"
 #include "RoutineSolid.h"
 #include "RoutineCrawl.h"
@@ -191,10 +190,6 @@ void CDome::AdvanceRoutine()
                 TransitionTo(new CRoutineRain(this, rgb), c_transition_time_ms);
             }
             break;
-
-        case RoutineExpand:
-        //    TransitionTo(new CRoutineExpand(this), c_transition_time_ms);
-        //    break;
 
         case RoutineRings:
             TransitionTo(new CRoutineRings(this), c_transition_time_ms);
