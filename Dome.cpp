@@ -112,7 +112,7 @@ CDome::Routine CDome::GetNextRoutine()
         {
             case RoutineNone:
                 return c_initial_routine;
-/*
+
             case RoutineCyclePallete:
             case RoutineCyclePalleteDimensional:
             case RoutineCyclePalleteShapes:
@@ -123,9 +123,6 @@ CDome::Routine CDome::GetNextRoutine()
             default:
                 ret = static_cast<Routine>(rand() % c_solid_routine_qty);
                 break;
-*/
-            default:
-                ret = static_cast<Routine>(rand() % RoutineQty);
         }
     }
 
