@@ -192,12 +192,12 @@ void CDome::AdvanceRoutine()
             }
             break;
 
+        case RoutineExpand:
+        //    TransitionTo(new CRoutineExpand(this), c_transition_time_ms);
+        //    break;
+
         case RoutineRings:
             TransitionTo(new CRoutineRings(this), c_transition_time_ms);
-            break;
-
-        case RoutineExpand:
-            TransitionTo(new CRoutineExpand(this), c_transition_time_ms);
             break;
 
         case RoutineTest:
