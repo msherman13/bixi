@@ -16,7 +16,7 @@ namespace LegsAndNeckMappings
     constexpr size_t c_num_neck_shapes      = c_num_necks * c_shapes_per_neck;
     constexpr size_t c_pixels_per_strand    = 750;
     constexpr size_t c_num_physical_pixels  = c_pixels_per_strand * 8;
-    constexpr size_t c_num_logical_pixels   = 3840;
+    constexpr size_t c_num_logical_pixels   = 3600;
     constexpr size_t c_num_shapes           = c_shapes_per_leg * c_num_legs +
                                               c_shapes_per_neck * c_num_necks;
 
