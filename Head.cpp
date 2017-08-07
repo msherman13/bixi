@@ -109,10 +109,8 @@ CHead::CHead() :
     m_horn_left->SetRoutine(new CRoutineFire(m_horn_left));
     m_horn_right->SetRoutine(new CRoutineFire(m_horn_right));
 
-    m_nose->TransitionTo(new CRoutineTest(m_nose), 10);
-    //m_nose->TransitionTo(new CRoutineTraverseNose(this, m_nose), c_transition_time_ms);
-    //m_mouth_left->TransitionTo(new CRoutineCyclePallete(m_mouth_left, true, 15), c_transition_time_ms);
-    m_mouth_left->TransitionTo(new CRoutineTest(m_mouth_left), 10);
+    m_nose->TransitionTo(new CRoutineTraverseNose(this, m_nose), c_transition_time_ms);
+    m_mouth_left->TransitionTo(new CRoutineCyclePallete(m_mouth_left, true, 15), c_transition_time_ms);
     m_mouth_right->TransitionTo(new CRoutineCyclePallete(m_mouth_right, true, 15), c_transition_time_ms);
     m_side_left->TransitionTo(new CRoutineCyclePallete(m_side_left, true, 15), c_transition_time_ms);
     m_side_right->TransitionTo(new CRoutineCyclePallete(m_side_right, true, 15), c_transition_time_ms);
