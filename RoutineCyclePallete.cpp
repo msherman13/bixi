@@ -15,6 +15,7 @@ CRoutineCyclePallete::CRoutineCyclePallete(CPixelArray* pixels,
                                            size_t       period_sec,
                                            bool         dimensional) :
     CRoutine(pixels),
+    m_base_color(rand() % ColorPallete::Qty),
     m_forward(forward),
     m_period_sec(period_sec),
     m_dimensional(dimensional)
@@ -68,13 +69,15 @@ void CRoutineCyclePallete::Continue()
         for(size_t color_index=0;color_index<ColorPallete::Qty;color_index++)
         {
             float color_loc = (float)color_index / ColorPallete::Qty + m_midpoint;
+            size_t raw_index = ((color_index % 2) + m_base_color) % ColorPallete::Qty;
+            CRGB  blend     = ColorPallete::s_colors[raw_index];
 
             float distance = fabs(this_index - color_loc);
             float weight   = fabs(1.0 - distance);
             weight = fabs(weight - 0.50) * 2;
             weight *= weight;
             weight *= weight;
-            color = CPixelArray::Blend(color, ColorPallete::s_colors[color_index], weight);
+            color = CPixelArray::Blend(color, blend, weight);
         }
 
         SetPixel(i, color);

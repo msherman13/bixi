@@ -22,6 +22,7 @@ class CRoutineCyclePallete : public CRoutine
         virtual const char* GetName()  override { return "CyclePallete"; }
 
     private:
+        size_t m_base_color  = 0;
         size_t m_last_run    = 0;
         bool   m_forward     = true;
         size_t m_period_sec  = 0;
