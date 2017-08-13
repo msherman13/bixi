@@ -30,6 +30,7 @@ class CDome : public CPixelArrayLegs
         enum Routine
         {
             // solid
+            RoutineSolid,
             RoutineCyclePallete,
             RoutineCyclePalleteDimensional,
             RoutineCyclePalleteShapes,
@@ -49,10 +50,9 @@ class CDome : public CPixelArrayLegs
 
             RoutineQty,
             RoutineNone,
-            RoutineSolid,
             RoutineTest,
         };
-        static constexpr size_t c_solid_routine_qty = 3;
+        static constexpr size_t c_solid_routine_qty = 4;
         static constexpr size_t c_complex_routine_qty = RoutineQty - c_solid_routine_qty;
         static constexpr Routine c_initial_routine = RoutineSparkleColors;
         bool IsShapeRoutine(Routine routine);
