@@ -4,7 +4,9 @@
 
 #include "RoutineTraverseNose.h"
 #include "RoutineCyclePallete.h"
+#include "RoutineSolid.h"
 #include "PixelArray.h"
+#include "ColorPallete.h"
 
 CMemoryPool<CRoutineTraverseNose, CRoutineTraverseNose::c_alloc_qty> CRoutineTraverseNose::s_pool;
 
@@ -13,7 +15,6 @@ CRoutineTraverseNose::CRoutineTraverseNose(CHead* head, CPixelArrayLegs* nose) :
     m_head(head),
     m_next_run(GetNextRunRand())
 {
-    m_cycle = new CRoutineCyclePallete(nose, true, 60, false);
 }
 
 CRoutineTraverseNose::~CRoutineTraverseNose()
@@ -22,7 +23,22 @@ CRoutineTraverseNose::~CRoutineTraverseNose()
 
 void CRoutineTraverseNose::Continue()
 {
-    m_cycle->Continue();
+    //m_cycle->Continue();
+    for(size_t i=0;i<m_head->GetNoseLeft()->GetSize();i++)
+    {
+        size_t index = i + m_head->GetNoseLeft()->GetOffset() - GetPixels()->GetOffset();
+        SetPixel(index, ColorPallete::Mint);
+    }
+    for(size_t i=0;i<m_head->GetNoseRight()->GetSize();i++)
+    {
+        size_t index = i + m_head->GetNoseRight()->GetOffset() - GetPixels()->GetOffset();
+        SetPixel(index, ColorPallete::Mint);
+    }
+    for(size_t i=0;i<m_head->GetNoseTop()->GetSize();i++)
+    {
+        size_t index = i + m_head->GetNoseTop()->GetOffset() - GetPixels()->GetOffset();
+        SetPixel(index, ColorPallete::DarkPink);
+    }
 
     size_t now = millis();
 
@@ -34,7 +50,6 @@ void CRoutineTraverseNose::Continue()
     }
     else if(m_in_run == false && now >= m_next_run)
     {
-        m_top = !m_top;
         m_in_run = true;
         m_curr_shape_off = 0;
         m_last_step_ms = now;
@@ -57,31 +72,19 @@ void CRoutineTraverseNose::Continue()
             return;
         }
 
-        CPixelArrayLegs* shapes[2] = {};
-        if(m_top == true)
-        {
-            shapes[0] = m_head->GetNoseTop();
-            shapes[1] = nullptr;
-        }
-        else
-        {
-            shapes[0] = m_head->GetNoseLeft();
-            shapes[1] = m_head->GetNoseRight();
-        }
+        CPixelArrayLegs* shapes[3] = {};
+        shapes[0] = m_head->GetNoseLeft();
+        shapes[1] = m_head->GetNoseRight();
+        shapes[2] = m_head->GetNoseTop();
 
-        for(size_t i=0;i<2;i++)
+        for(size_t i=0;i<3;i++)
         {
-            if(shapes[i] == nullptr)
-            {
-                continue;
-            }
-
             CPixelArray* shape = shapes[i]->GetLeg(m_curr_shape_off);
-
-            CPixelArray* buff = GetPixels();
-            SetPixels(shape);
-            SetAllPixels(CRGB::Black);
-            SetPixels(buff);
+            for(size_t i=0;i<shape->GetSize();i++)
+            {
+                size_t index = i + shape->GetOffset() - GetPixels()->GetOffset();
+                SetPixel(index, CRGB::Black);
+            }
         }
     }
 }

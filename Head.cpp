@@ -125,9 +125,6 @@ void CHead::Continue()
     m_mouth_left->Continue();
     m_mouth_right->Continue();
     m_nose->Continue();
-    m_nose_left->Continue();
-    m_nose_right->Continue();
-    m_nose_top->Continue();
     m_side_left->Continue();
     m_side_right->Continue();
     m_flame_left->Continue();
