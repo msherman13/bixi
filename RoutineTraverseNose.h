@@ -24,14 +24,14 @@ class CRoutineTraverseNose : public CRoutine
 
     private:
         size_t GetNextRunRand();
+        CRGB   GetColor(size_t shape_index);
 
     private:
         CHead* m_head = nullptr;
         size_t m_next_run  = 0;
         bool   m_in_run    = false;
         bool   m_run_done  = false;
-        bool   m_top       = true;
-        size_t m_curr_shape_off = 0;
+        int    m_curr_shape_off = -1;
         size_t m_last_step_ms = 0;
         CRoutine* m_cycle = nullptr;
 
