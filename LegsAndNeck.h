@@ -28,7 +28,6 @@ class CLegsAndNeck : public CPixelArrayLegs
         {
             RoutineSolid,
             RoutineTraverse,
-            RoutineSparkle,
 
             RoutineQty,
             RoutineNone,

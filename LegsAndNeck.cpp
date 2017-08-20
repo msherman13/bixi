@@ -93,13 +93,6 @@ void CLegsAndNeck::AdvanceRoutine()
             }
             break;
 
-        case RoutineSparkle:
-            {
-                CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
-                TransitionTo(new CRoutineSparkle(this, rgb), c_transition_time_ms);
-            }
-            break;
-
         case RoutineTraverse:
             {
                 CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
