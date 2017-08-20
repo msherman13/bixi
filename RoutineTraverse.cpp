@@ -35,7 +35,7 @@ void CRoutineTraverse::Continue()
     else if(m_in_run == false && now >= m_next_run)
     {
         m_in_run = true;
-        m_curr_shape_off = 0;
+        m_curr_shape_off = -1;
         m_last_step_ms = now;
         m_run_done = false;
         size_t unit = rand() % (LegsAndNeckMappings::c_num_legs + LegsAndNeckMappings::c_num_necks);
@@ -60,21 +60,47 @@ void CRoutineTraverse::Continue()
 
     if(m_in_run == true)
     {
+        if(m_curr_shape_off < 0)
+        {
+            for(size_t i=0;i<LegsAndNeckMappings::c_shapes_per_neck;i++)
+            {
+                if(m_shapes_in_run[i] != nullptr)
+                {
+                    m_shapes_in_run[i]->SetAllPixels(CRGB::Black);
+                }
+            }
+        }
+
         if(now - m_last_step_ms >= c_traversal_time_ms)
         {
             m_last_step_ms = now;
             m_curr_shape_off++;
         }
+
+        if(m_curr_shape_off < 0)
+        {
+            return;
+        }
+
         CPixelArray* shape = m_shapes_in_run[m_curr_shape_off];
+
         if(shape == nullptr)
         {
             m_run_done = true;
             return;
         }
 
+        for(size_t i=0;i<LegsAndNeckMappings::c_shapes_per_neck;i++)
+        {
+            if(m_shapes_in_run[i] != nullptr)
+            {
+                m_shapes_in_run[i]->SetAllPixels(CRGB::Black);
+            }
+        }
+
         CPixelArray* buff = GetPixels();
         SetPixels(shape);
-        SetAllPixels(CRGB::Black);
+        SetAllPixels(m_color);
         SetPixels(buff);
     }
 }

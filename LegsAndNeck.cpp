@@ -13,6 +13,7 @@
 #include "RoutineIdle.h"
 #include "RoutineCyclePallete.h"
 #include "RoutineTraverse.h"
+#include "RoutineSparkle.h"
 #include "RoutineTest.h"
 
 CMemoryPool<CLegsAndNeck, 1>  CLegsAndNeck::s_pool;
@@ -92,8 +93,11 @@ void CLegsAndNeck::AdvanceRoutine()
             }
             break;
 
-        case RoutineCyclePallete:
-            TransitionTo(new CRoutineCyclePallete(this, true, 15), c_transition_time_ms);
+        case RoutineSparkle:
+            {
+                CRGB rgb(ColorPallete::s_colors[rand() % ColorPallete::Qty]);
+                TransitionTo(new CRoutineSparkle(this, rgb), c_transition_time_ms);
+            }
             break;
 
         case RoutineTraverse:

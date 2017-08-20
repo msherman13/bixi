@@ -27,8 +27,8 @@ class CLegsAndNeck : public CPixelArrayLegs
         enum Routine
         {
             RoutineSolid,
-            RoutineCyclePallete,
             RoutineTraverse,
+            RoutineSparkle,
 
             RoutineQty,
             RoutineNone,

@@ -12,7 +12,7 @@ class CRoutineTraverse : public CRoutine
         static constexpr size_t c_alloc_qty         = 8;
         static constexpr size_t c_min_delay_time_ms = 10 * 1000;
         static constexpr size_t c_max_delay_time_ms = 20 * 1000;
-        static constexpr size_t c_traversal_time_ms = 500;
+        static constexpr size_t c_traversal_time_ms = 400;
 
     public:
         CRoutineTraverse(CLegsAndNeck* pixels, CRGB rgb);
@@ -31,7 +31,7 @@ class CRoutineTraverse : public CRoutine
         bool   m_in_run    = false;
         bool   m_run_done  = false;
         CPixelArray* m_shapes_in_run[LegsAndNeckMappings::c_num_neck_shapes+1] = {};
-        size_t m_curr_shape_off = 0;
+        int    m_curr_shape_off = -1;
         size_t m_last_step_ms = 0;
 
     private:
