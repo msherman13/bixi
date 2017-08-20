@@ -10,7 +10,7 @@ namespace HeadMappings
     constexpr size_t c_num_strands          = 7;
     constexpr size_t c_strand_length        = 750;
     constexpr size_t c_num_physical_pixels  = c_strand_length * 8;
-    constexpr size_t c_num_logical_pixels   = 3963;
+    constexpr size_t c_num_logical_pixels   = 3583;
 
     struct Mappings : public CPixelArrayLegs::Config
     {

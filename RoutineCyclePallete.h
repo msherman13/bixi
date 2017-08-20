@@ -14,7 +14,8 @@ class CRoutineCyclePallete : public CRoutine
         CRoutineCyclePallete(CPixelArray* pixels,
                              bool         forward,
                              size_t       period_sec,
-                             bool         dimensional=false);
+                             bool         dimensional=false,
+                             size_t       num_colors=2);
         ~CRoutineCyclePallete();
 
     public:
@@ -28,6 +29,7 @@ class CRoutineCyclePallete : public CRoutine
         size_t m_period_sec  = 0;
         float  m_midpoint    = 0.0;
         bool   m_dimensional = false;
+        size_t m_num_colors  = 0;
 
     private:
         static CMemoryPool<CRoutineCyclePallete, c_alloc_qty> s_pool;

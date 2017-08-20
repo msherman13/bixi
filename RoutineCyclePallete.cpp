@@ -13,14 +13,24 @@ CMemoryPool<CRoutineCyclePallete, CRoutineCyclePallete::c_alloc_qty> CRoutineCyc
 CRoutineCyclePallete::CRoutineCyclePallete(CPixelArray* pixels,
                                            bool         forward,
                                            size_t       period_sec,
-                                           bool         dimensional) :
+                                           bool         dimensional,
+                                           size_t       num_colors) :
     CRoutine(pixels),
     m_base_color(rand() % ColorPallete::Qty),
     m_forward(forward),
     m_period_sec(period_sec),
-    m_dimensional(dimensional)
+    m_dimensional(dimensional),
+    m_num_colors(num_colors)
 {
     m_last_run = millis();
+
+    if(m_num_colors > ColorPallete::Qty)
+    {
+        char logstr[256];
+        sprintf(logstr, "CRoutineCyclePallete::CRoutineCyclePallete: num_colors [%u] "
+                "is > max value of [%u]. Exiting...", m_num_colors, ColorPallete::Qty);
+        CLogging::log(logstr);
+    }
 }
 
 CRoutineCyclePallete::~CRoutineCyclePallete()
@@ -69,7 +79,7 @@ void CRoutineCyclePallete::Continue()
         for(size_t color_index=0;color_index<ColorPallete::Qty;color_index++)
         {
             float color_loc = (float)color_index / ColorPallete::Qty + m_midpoint;
-            size_t raw_index = ((color_index % 2) + m_base_color) % ColorPallete::Qty;
+            size_t raw_index = ((color_index % m_num_colors) + m_base_color) % ColorPallete::Qty;
             CRGB  blend     = ColorPallete::s_colors[raw_index];
 
             float distance = fabs(this_index - color_loc);

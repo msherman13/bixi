@@ -21,43 +21,35 @@ class CHead : public CPixelArrayLegs
         virtual void   Continue()      override;
         virtual size_t PixelsPerStrand() const final { return HeadMappings::c_strand_length; }
 
-    public:
-        CPixelArrayLegs* GetNoseLeft()  { return m_nose_left; }
-        CPixelArrayLegs* GetNoseRight() { return m_nose_right; }
-        CPixelArrayLegs* GetNoseTop()   { return m_nose_top; }
-
-    private:
-        CPixelArrayLegs* m_nose = nullptr;
-        CPixelArrayLegs* m_mouth_left = nullptr;
-        CPixelArrayLegs* m_mouth_right = nullptr;
-        CPixelArrayLegs* m_nose_left = nullptr;
-        CPixelArrayLegs* m_nose_right = nullptr;
-        CPixelArrayLegs* m_nose_top = nullptr;
-        CPixelArrayLegs* m_flame_left = nullptr;
-        CPixelArrayLegs* m_flame_right = nullptr;
-        CPixelArrayLegs* m_side_left = nullptr;
-        CPixelArrayLegs* m_side_right = nullptr;
-        CPixelArrayLegs* m_horn_left = nullptr;
-        CPixelArrayLegs* m_horn_right = nullptr;
-
     private:
         enum Shape
         {
             MouthLeft,
             MouthRight,
             NoseLeft,
+            CheekLeft,
             NoseRight,
+            CheekRight,
             NoseTop,
             FlameLeft,
-            SideLeft,
-            HornLeft,
+            EyeLeft,
+            BrowLeft,
             FlameRight,
-            SideRight,
-            HornRight,
+            EyeRight,
+            BrowRight,
 
             ShapeQty,
             ShapeNull,
         };
+        const char* sShape(Shape shape);
+
+    private:
+        CPixelArrayLegs* m_shapes[ShapeQty] = {};
+
+    public:
+        CPixelArrayLegs* GetNoseLeft()  { return m_shapes[NoseLeft];  }
+        CPixelArrayLegs* GetNoseRight() { return m_shapes[NoseRight]; }
+        CPixelArrayLegs* GetNoseTop()   { return m_shapes[NoseTop];   }
 
     private:
         static CMemoryPool<CHead, 1> s_pool;

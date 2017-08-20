@@ -15,7 +15,7 @@ class CRoutineTraverseNose : public CRoutine
         static constexpr size_t c_traversal_time_ms = 100;
 
     public:
-        CRoutineTraverseNose(CHead* head, CPixelArrayLegs* nose);
+        CRoutineTraverseNose(CHead* head);
         ~CRoutineTraverseNose();
 
     public:

@@ -10,8 +10,8 @@
 
 CMemoryPool<CRoutineTraverseNose, CRoutineTraverseNose::c_alloc_qty> CRoutineTraverseNose::s_pool;
 
-CRoutineTraverseNose::CRoutineTraverseNose(CHead* head, CPixelArrayLegs* nose) :
-    CRoutine(nose),
+CRoutineTraverseNose::CRoutineTraverseNose(CHead* head) :
+    CRoutine(head),
     m_head(head),
     m_next_run(GetNextRunRand())
 {
@@ -26,18 +26,18 @@ void CRoutineTraverseNose::Continue()
     //m_cycle->Continue();
     for(size_t i=0;i<m_head->GetNoseLeft()->GetSize();i++)
     {
-        size_t index = i + m_head->GetNoseLeft()->GetOffset() - GetPixels()->GetOffset();
+        size_t index = i + m_head->GetNoseLeft()->GetOffset();
         SetPixel(index, ColorPallete::Mint);
     }
     for(size_t i=0;i<m_head->GetNoseRight()->GetSize();i++)
     {
-        size_t index = i + m_head->GetNoseRight()->GetOffset() - GetPixels()->GetOffset();
+        size_t index = i + m_head->GetNoseRight()->GetOffset();
         SetPixel(index, ColorPallete::Mint);
     }
     for(size_t i=0;i<m_head->GetNoseTop()->GetSize();i++)
     {
-        size_t index = i + m_head->GetNoseTop()->GetOffset() - GetPixels()->GetOffset();
-        SetPixel(index, ColorPallete::DarkPink);
+        size_t index = i + m_head->GetNoseTop()->GetOffset();
+        SetPixel(index, ColorPallete::Blue);
     }
 
     size_t now = millis();
@@ -79,10 +79,15 @@ void CRoutineTraverseNose::Continue()
 
         for(size_t i=0;i<3;i++)
         {
+            if(m_curr_shape_off >= shapes[i]->NumLegs())
+            {
+                continue;
+            }
+
             CPixelArray* shape = shapes[i]->GetLeg(m_curr_shape_off);
             for(size_t i=0;i<shape->GetSize();i++)
             {
-                size_t index = i + shape->GetOffset() - GetPixels()->GetOffset();
+                size_t index = i + shape->GetOffset();
                 SetPixel(index, CRGB::Black);
             }
         }

@@ -187,27 +187,31 @@ ofile.write("{\n")
 ofile.write("    switch(index)\n")
 ofile.write("    {\n")
 start_index = 0
-ofile.write("        case 0: return %d;\n" % (start_index)) # mouth left
+ofile.write("        case 0: return %d; // mouth left\n" % (start_index))
 start_index += sum(mappings[mappings['strand_index'] == 0]['length'])
-ofile.write("        case 1: return %d;\n" % (start_index)) # mouth right
+ofile.write("        case 1: return %d; // mouth right\n" % (start_index))
 start_index += sum(mappings[mappings['strand_index'] == 1]['length'])
-ofile.write("        case 2: return %d;\n" % (start_index)) # nose left
-start_index += sum(mappings[mappings['strand_index'] == 2]['length'])
-ofile.write("        case 3: return %d;\n" % (start_index)) # nose right
-start_index += sum(mappings[mappings['strand_index'] == 3]['length'])
-ofile.write("        case 4: return %d;\n" % (start_index)) # nose top
+ofile.write("        case 2: return %d; // nose left\n" % (start_index))
+start_index += sum(mappings[(mappings['strand_index'] == 2) & (mappings['length'] < 150)]['length'])
+ofile.write("        case 3: return %d; // cheek left\n" % (start_index))
+start_index += sum(mappings[(mappings['strand_index'] == 2) & (mappings['length'] >= 150)]['length'])
+ofile.write("        case 4: return %d; // nose right\n" % (start_index))
+start_index += sum(mappings[(mappings['strand_index'] == 3) & (mappings['length'] < 150)]['length'])
+ofile.write("        case 5: return %d; // cheek right\n" % (start_index))
+start_index += sum(mappings[(mappings['strand_index'] == 3) & (mappings['length'] >= 150)]['length'])
+ofile.write("        case 6: return %d; // nose top\n" % (start_index))
 start_index += sum(mappings[mappings['strand_index'] == 4]['length'])
-ofile.write("        case 5: return %d;\n" % (start_index)) # flame left
+ofile.write("        case 7: return %d; // flame left\n" % (start_index))
 start_index += mappings[mappings['strand_index'] == 5].iloc[0]['length']
-ofile.write("        case 6: return %d;\n" % (start_index)) # side left
+ofile.write("        case 8: return %d; // eye left\n" % (start_index))
 start_index += mappings[mappings['strand_index'] == 5].iloc[1]['length']
-ofile.write("        case 7: return %d;\n" % (start_index)) # horn left
+ofile.write("        case 9: return %d; // brow left\n" % (start_index))
 start_index += mappings[mappings['strand_index'] == 5].iloc[2]['length']
-ofile.write("        case 8: return %d;\n" % (start_index)) # flame right
+ofile.write("        case 10: return %d; // flame right\n" % (start_index))
 start_index += mappings[mappings['strand_index'] == 6].iloc[0]['length']
-ofile.write("        case 9: return %d;\n" % (start_index)) # side right
+ofile.write("        case 11: return %d; // eye right\n" % (start_index))
 start_index += mappings[mappings['strand_index'] == 6].iloc[1]['length']
-ofile.write("        case 10: return %d;\n" % (start_index)) # horn right
+ofile.write("        case 12: return %d; // brow right\n" % (start_index))
 start_index += mappings[mappings['strand_index'] == 6].iloc[2]['length']
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
@@ -217,17 +221,19 @@ ofile.write("size_t HeadMappings::ShapeSize(size_t index)\n")
 ofile.write("{\n")
 ofile.write("    switch(index)\n")
 ofile.write("    {\n")
-ofile.write("        case 0: return %d;\n" % (mappings[mappings['strand_index'] == 0].iloc[0]['length'])) # mouth left
-ofile.write("        case 1: return %d;\n" % (mappings[mappings['strand_index'] == 1].iloc[0]['length'])) # mouth right
-ofile.write("        case 2: return %d;\n" % (sum(mappings[mappings['strand_index'] == 2]['length']))) # nose left
-ofile.write("        case 3: return %d;\n" % (sum(mappings[mappings['strand_index'] == 3]['length']))) # nose right
-ofile.write("        case 4: return %d;\n" % (sum(mappings[mappings['strand_index'] == 4]['length']))) # nose top
-ofile.write("        case 5: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[0]['length'])) # flame left
-ofile.write("        case 6: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[1]['length'])) # side left
-ofile.write("        case 7: return %d;\n" % (mappings[mappings['strand_index'] == 5].iloc[2]['length'])) # horn left
-ofile.write("        case 8: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[0]['length'])) # flame right
-ofile.write("        case 9: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[1]['length'])) # side right
-ofile.write("        case 10: return %d;\n" % (mappings[mappings['strand_index'] == 6].iloc[2]['length'])) # horn right
+ofile.write("        case 0: return %d; // mouth left\n" % (mappings[mappings['strand_index'] == 0].iloc[0]['length']))
+ofile.write("        case 1: return %d; // mouth right\n" % (mappings[mappings['strand_index'] == 1].iloc[0]['length']))
+ofile.write("        case 2: return %d; // nose left\n" % (sum(mappings[(mappings['strand_index'] == 2) & (mappings['length'] < 150)]['length'])))
+ofile.write("        case 3: return %d; // cheek left\n" % (sum(mappings[(mappings['strand_index'] == 2) & (mappings['length'] >= 150)]['length'])))
+ofile.write("        case 4: return %d; // nose right\n" % (sum(mappings[(mappings['strand_index'] == 3) & (mappings['length'] < 150)]['length'])))
+ofile.write("        case 5: return %d; // cheek right\n" % (sum(mappings[(mappings['strand_index'] == 3) & (mappings['length'] >= 150)]['length'])))
+ofile.write("        case 6: return %d; // nose top\n" % (sum(mappings[mappings['strand_index'] == 4]['length'])))
+ofile.write("        case 7: return %d; // flame left\n" % (mappings[mappings['strand_index'] == 5].iloc[0]['length']))
+ofile.write("        case 8: return %d; // eye left\n" % (mappings[mappings['strand_index'] == 5].iloc[1]['length']))
+ofile.write("        case 9: return %d; // brow left\n" % (mappings[mappings['strand_index'] == 5].iloc[2]['length']))
+ofile.write("        case 10: return %d; // flame right\n" % (mappings[mappings['strand_index'] == 6].iloc[0]['length']))
+ofile.write("        case 11: return %d; // eye right\n" % (mappings[mappings['strand_index'] == 6].iloc[1]['length']))
+ofile.write("        case 12: return %d; // brow right\n" % (mappings[mappings['strand_index'] == 6].iloc[2]['length']))
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
@@ -236,17 +242,19 @@ ofile.write("size_t HeadMappings::ShapeNumLegs(size_t index)\n")
 ofile.write("{\n")
 ofile.write("    switch(index)\n")
 ofile.write("    {\n")
-ofile.write("        case 0: return 1;\n") # mouth left
-ofile.write("        case 1: return 1;\n") # mouth right
-ofile.write("        case 2: return %d;\n" % (len(mappings[mappings['strand_index'] == 2]))) # nose left
-ofile.write("        case 3: return %d;\n" % (len(mappings[mappings['strand_index'] == 3]))) # nose right
-ofile.write("        case 4: return %d;\n" % (len(mappings[mappings['strand_index'] == 4]))) # nose top
-ofile.write("        case 5: return 1;\n") # side left
-ofile.write("        case 6: return 1;\n") # flame left
-ofile.write("        case 7: return 1;\n") # horn left
-ofile.write("        case 8: return 1;\n") # flame right
-ofile.write("        case 9: return 1;\n") # side right
-ofile.write("        case 10: return 1;\n") # horn right
+ofile.write("        case 0: return 1; // mouth left\n")
+ofile.write("        case 1: return 1; // mouth right\n")
+ofile.write("        case 2: return %d; // nose left\n" % (len(mappings[mappings['strand_index'] == 2]) - 1))
+ofile.write("        case 3: return 1; // cheek left\n")
+ofile.write("        case 4: return %d; // nose right\n" % (len(mappings[mappings['strand_index'] == 3]) - 1))
+ofile.write("        case 5: return 1; // cheek righ\n")
+ofile.write("        case 6: return %d; // nose top\n" % (len(mappings[mappings['strand_index'] == 4])))
+ofile.write("        case 7: return 1; // flame left\n")
+ofile.write("        case 8: return 1; // eye left\n")
+ofile.write("        case 9: return 1; // brow left\n")
+ofile.write("        case 10: return 1; // flame right\n")
+ofile.write("        case 11: return 1; // eye right\n")
+ofile.write("        case 12: return 1; // brow right\n")
 ofile.write("        default: return 0;\n")
 ofile.write("    }\n")
 ofile.write("}\n\n")
